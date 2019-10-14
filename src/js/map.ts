@@ -2,7 +2,7 @@ import { context } from './index';
 
 export let floor = {
   width: 800,
-  height: 10,
+  height: 30,
   x: 0,
   y: 400
 };
@@ -10,15 +10,15 @@ export let floor = {
 /**
  * Заполняем буфер тайлами
  */
-export function drawFloor (): void {
+export function drawMap (): void {
+  /**
+   * Рисуем небо
+   */
+  context.fillStyle = '#8ed0ff';
+  context.fillRect(0, 0, context.canvas.width, floor.y);
   /**
    * Рисуем пол
    */
-  context.fillStyle = '#fff';
+  context.fillStyle = '#009900';
   context.fillRect(floor.x, floor.y, context.canvas.width, floor.height);
-
-  /**
-   * Рисуем буфер в канву
-   */
-  // context.drawImage(context.canvas, 0, 0, context.canvas.width, context.canvas.height, 0, 0, context.canvas.width, context.canvas.height);
 }

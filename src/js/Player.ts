@@ -1,10 +1,12 @@
 import { context, size, labels } from './index';
 import { floor } from './map';
 import { controller } from './controller';
+import { Animator } from './Animator';
 
 // класс игрока
 
 export class Player {
+  animation: Animator;
   width: number;
   height: number;
   x: number;
@@ -18,6 +20,8 @@ export class Player {
   controller: any;
   score: number;
   texture: any;
+  animations: Array<Animator>;
+  frameSet: any;
 
 	/**
 	 * @param width ширина игрока
@@ -40,7 +44,15 @@ export class Player {
     this.controller = controller;
     this.texture = new Image();
     this.texture.src = '/images/dog.png';
+
+    // @ts-ignore
+    this.animation = new Animator();
   }
+
+  spriteSheet = {
+    frame_sets: [[0, 1], [2]],
+    image: new Image()
+  };
 
   get bottom (): number { return this.y + this.height; }
   get left (): number { return this.x; }
@@ -57,8 +69,10 @@ export class Player {
     return true;
   }
 
+  /**
+   * Решаем коллизию с полом
+   */
   resolveFloorCollision (): void {
-    console.log('resolve');
     this.y = floor.y - this.height;
     this.x = 50;
     this.yVelocity = 0;
@@ -67,29 +81,20 @@ export class Player {
 
   draw (): void {
     context.fillStyle = '#ff0000';
-    context.fillRect(this.x, this.y, this.width, this.height);
-    // context.drawImage(this.texture, this.x, this.y, this.width, this.height);
+    // context.fillRect(this.x, this.y, this.width, this.height);
+    // context.drawImage(this.texture, this.x, this.y, this.width * 3, this.height, 0, 0, this.width, this.height);
 
-    /**
-     * ЛКМ
-     */
-    if (this.controller.mouse === true) {
-      this.x = this.controller.pointerX - (this.width / 2);
-      this.y = this.controller.pointerY - (this.height);
-    }
+    this.animation.change(this.spriteSheet.frame_sets[0], 15);
+    this.spriteSheet.image.src = '/images/dog.png';
 
-    /**
-     * ПКМ
-     */
-    if (this.controller.reset === true) {
-      this.x = 50;
-      this.y = 50;
-    }
+    // console.log(this.animation.frameIndex)
+
+    context.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
 
     /**
      * Прыжок
      */
-    if (this.controller.up && !this.jumping) {
+    if ((this.controller.up || this.controller.mouse === true || this.controller.jump === true) && !this.jumping) {
       this.yVelocity = -13;
       this.jumping = true;
       labels[0].increment();
@@ -98,7 +103,14 @@ export class Player {
     /**
      * Жмем вниз
      */
-    // if (this.controller.down) { }
+    // if (this.controller.down || this.controller.mouse === true) { }
+    /**
+     * ПКМ
+     */
+    // if (this.controller.reset === true) {
+    //   this.x = 50;
+    //   this.y = 50;
+    // }
 
     /**
      * Гравитация
@@ -121,6 +133,8 @@ export class Player {
     // трение / торможение
     this.xVelocity *= .9;
     this.xVelocity *= .9;
+
+    this.animation.update();
 
   }
 }

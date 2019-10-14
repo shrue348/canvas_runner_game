@@ -1,3 +1,6 @@
+/**
+ * Барьеры
+ */
 import { context } from './index';
 
 export class Barrier {

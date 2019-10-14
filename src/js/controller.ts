@@ -18,7 +18,7 @@ export let controller: any = {
   rihghtMousePressed: false,
 
   buttons: [
-    new Button('jump', .5 * size, 11.5 * size, 1.5 * size, 1.5 * size, 'rgba(0, 144, 240, 1)')
+    new Button('jump', 50, 450, 100, 100, 'rgba(0, 144, 240, 1)')
   ],
 
   testButtons: (targetTouches: Array<any>) => {

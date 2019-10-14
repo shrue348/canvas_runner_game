@@ -6,8 +6,9 @@ import { Button } from './Button';
 import { Label } from './Label';
 import { Player } from './Player';
 import { Barrier } from './Barrier';
+import { drawMap } from './map';
+
 import { randomInt } from './helper';
-import { drawFloor } from './map';
 
 export let size = 30; // размер клетки для кнопок
 
@@ -72,6 +73,8 @@ let gameLoop = (): void => {
   context.fillStyle = '#1f2529';
   context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
+  drawMap();
+
 	/**
 	 * Отрисовка
 	 * игрока
@@ -82,10 +85,9 @@ let gameLoop = (): void => {
 	 */
   players.forEach(item => item.draw());
 
-  drawFloor();
   // barriers.forEach(item => item.draw());
-  // labels.forEach(item => item.draw());
-  // controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
+  labels.forEach(item => item.draw());
+  controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
 
   window.requestAnimationFrame(gameLoop);
 };
