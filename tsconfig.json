@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "module": "es6",
+    "target": "es5",
+    "jsx": "preserve",
+    "allowJs": false
+  },
+  "exclude": [
+    "node_modules",
+    "vendor"
+  ]
+}
+
+// {
+//   "compilerOptions": {
+//     "target": "es5",
+//     "module": "esnext",
+//     "strict": true,
+//     "jsx": "preserve",
+//     "importHelpers": true,
+//     "noImplicitThis": true,
+//     "moduleResolution": "node",
+//     "experimentalDecorators": true,
+//     "esModuleInterop": true,
+//     "allowSyntheticDefaultImports": true,
+//     "sourceMap": true,
+//     "baseUrl": ".",
+//     "noUnusedLocals": true,
+//     "noUnusedParameters": true,
+//     "lib": [
+//       "esnext",
+//       "dom",
+//       "dom.iterable",
+//       "scripthost"
+//     ]
+//   },
+//   "src": {},
+//   "exclude": [
+//     "node_modules",
+//     "vendor"
+//   ]
+// }

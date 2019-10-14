@@ -1,0 +1,12 @@
+{
+    "extends": "tslint-config-standard",
+    "rules": {
+        //использовать одинарные кавычки для строковых констант
+        "quotemark": [true, "single"],
+        //обязательное использование точки с запятой (как в C# или Java)
+        "semicolon": [true],
+        //другие правила...
+        "one-variable-per-declaration": false,
+        "indent": [ "error", "tab" ]
+    }
+}
