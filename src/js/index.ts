@@ -59,6 +59,11 @@ let score = new Label(
 labels.push(score);
 
 /**
+ * Создаем кнопки
+ */
+
+
+/**
  * Такт игры
  */
 let gameLoop = (): void => {
