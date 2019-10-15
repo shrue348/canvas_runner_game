@@ -1,4 +1,4 @@
-import { display, size, labels } from './index';
+import { display, tileSize, labels } from './index';
 import { floor } from './map';
 import { controller } from './controller';
 import { Animator } from './Animator';
@@ -35,7 +35,7 @@ export class Player {
     this.xVelocity = 0;
     this.yVelocity = 0;
     this.jumping = true;
-    this.isRun = false;
+    this.isRun = true; // TODO: додлать анимацию
     this.isDead = false;
     this.controller = controller;
     this.texture = new Image();
@@ -75,13 +75,12 @@ export class Player {
   }
 
   draw (): void {
-
-     /**
+    /**
      * Двигаемся влево
      */
     if (this.controller.left) {
       this.xVelocity -= 1.9;
-      //display.message.innerHTML += "left ";
+      // display.message.innerHTML += "left ";
 
     }
 
@@ -90,7 +89,7 @@ export class Player {
      */
     if (this.controller.right) {
       this.xVelocity += 2.9;
-      //display.message.innerHTML += "right ";
+      // display.message.innerHTML += "right ";
 
     }
 
@@ -98,12 +97,12 @@ export class Player {
      * Прыжок
      */
     if ((this.controller.up || this.controller.mouse === true || this.controller.jump === true) && !this.jumping) {
-      this.yVelocity = -17;
+      this.yVelocity = -21;
       this.jumping = true;
       this.isRun = true;
 
       labels[0].increment();
-      display.message.innerHTML += "jump ";
+      display.message.innerHTML += 'jump ';
 
     }
 
@@ -111,7 +110,7 @@ export class Player {
      * Гравитация
      */
     if (this.yVelocity < 20) this.yVelocity += 1.194;
-    
+
     /**
      * Ускорение
      */
@@ -137,37 +136,35 @@ export class Player {
     }
 
     // телеметрия
-    let tileX = Math.floor((this.x + this.width * 0.5) / size);
-    let tileY = Math.floor((this.y + this.height) / size);
-    //display.message.innerHTML = '<br>xVelocity: ' + this.xVelocity + '<br>yVelocity: ' + this.yVelocity + '<br>X' + this.x + '<br>isRun: ' + this.isRun;
+    let tileX = Math.floor((this.x + this.width * 0.5) / tileSize);
+    let tileY = Math.floor((this.y + this.height) / tileSize);
+    // display.message.innerHTML = '<br>xVelocity: ' + this.xVelocity + '<br>yVelocity: ' + this.yVelocity + '<br>X' + this.x + '<br>isRun: ' + this.isRun;
 
     // трение / торможение
     this.xVelocity *= .55;
-    if (Math.abs(this.xVelocity) < .001) this.xVelocity = 0
+    if (Math.abs(this.xVelocity) < .001) this.xVelocity = 0;
     this.xVelocity *= .9;
-
 
     /**
      * Анимашки
      */
     if (!this.isRun) {
       this.animation.change(this.spriteSheet.frame_sets[1], 15);
-    }
-    else {
-      if (this.jumping) // в прыжке замирает
+    } else {
+      if (this.jumping) { // в прыжке замирает
         this.animation.change(this.spriteSheet.frame_sets[1], 5);
-      else if (this.xVelocity == 0) // стоя замирает
-        this.animation.change(this.spriteSheet.frame_sets[1], 5);      
-      else if (this.isDead) // конец игры
-        this.animation.change(this.spriteSheet.frame_sets[1], 5);
-      else //бежит
+      } else if (this.xVelocity === 0) { // стоя замирает
         this.animation.change(this.spriteSheet.frame_sets[0], 5);
+      } else if (this.isDead) { // конец игры
+        this.animation.change(this.spriteSheet.frame_sets[1], 5);
+      } else { // бежит
+        this.animation.change(this.spriteSheet.frame_sets[0], 5);
+      }
     }
 
     this.spriteSheet.image.src = '/images/dog.png';
 
     display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
     this.animation.update();
-
   }
 }

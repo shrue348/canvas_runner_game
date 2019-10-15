@@ -1,4 +1,4 @@
-import { display, size } from './index';
+import { display, tileSize } from './index';
 import { Button } from './Button';
 
 interface Controller {
@@ -22,10 +22,11 @@ export let controller: any = {
   rihghtMousePressed: false,
 
   buttons: [
-    new Button('jump', 300, 650, 280, 110, 'rgba(0, 144, 240, 1)'),
+    new Button('back', 0, 640, 640, 256, '#1f2529'),
+    new Button('jump', 352, 672, 256, 128, 'rgba(0, 144, 240, 1)'),
 
-    new Button('left', 20, 650, 110, 110, 'rgba(0, 144, 240, 1)'),
-    new Button('right', 150, 650, 110, 110, 'rgba(0, 144, 240, 1)'),
+    new Button('left', 32, 672, 128, 128, 'rgba(0, 144, 240, 1)'),
+    new Button('right', 192, 672, 128, 128, 'rgba(0, 144, 240, 1)')
   ],
 
   testButtons: (targetTouches: Array<EventTarget>) => {

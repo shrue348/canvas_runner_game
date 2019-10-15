@@ -20,8 +20,6 @@ export class Button {
   }
 
   containsPoint (x: number, y: number): boolean {
-    console.log(x, y, this.x)
-
     if (x < this.x || x > this.x + this.width || y < this.y || y > this.y + this.width) {
       return false;
     }

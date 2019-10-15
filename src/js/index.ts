@@ -6,20 +6,19 @@ import { Button } from './Button';
 import { Label } from './Label';
 import { Player } from './Player';
 import { Barrier } from './Barrier';
-import { drawMap } from './map';
+import { Map } from './map';
 
 import { randomInt } from './helper';
 
-export let size = 30; // размер клетки для кнопок
-
+export let tileSize = 64; // размер клетки для кнопок
 
 /**
  * Объявляем буфер размером в контекст
  * его будем рисовать в канву
  */
 export let buffer = document.createElement('canvas').getContext('2d');
-buffer.canvas.width = 800
-buffer.canvas.height = 600
+buffer.canvas.width = 800;
+buffer.canvas.height = 600;
 
 /**
  * Объявляем контекст игры
@@ -27,25 +26,27 @@ buffer.canvas.height = 600
 let context = document.querySelector('canvas').getContext('2d');
 
 interface IDisplay {
-	buffer: any,
-	output: any,
-	message: HTMLElement,
-	buffer_output_ratio: number,
-	boundingRectangle: any,
-	clear: () => void,
-	render: () => void,
-	resize: (event?: any) => void,
+  buffer: any;
+  output: any;
+  message: HTMLElement;
+  message2: HTMLElement;
+  buffer_output_ratio: number;
+  boundingRectangle: any;
+  clear: () => void;
+  render: () => void;
+  resize: (event?: any) => void;
 
 }
 
 export let display: IDisplay = {
-	buffer: document.createElement("canvas").getContext("2d"),
-	output: document.querySelector("canvas").getContext("2d"),
-	message: document.querySelector("p"),
-	buffer_output_ratio: 1,
-	boundingRectangle: undefined,
-	clear: (color?: string) => {
-    display.buffer.fillStyle = color || "#1f2529";
+  buffer: document.createElement('canvas').getContext('2d'),
+  output: document.querySelector('canvas').getContext('2d'),
+  message: document.querySelector('p'),
+  message2: document.querySelector('p.p'),
+  buffer_output_ratio: 1,
+  boundingRectangle: undefined,
+  clear: (color?: string) => {
+    display.buffer.fillStyle = color || '#1f2529';
     display.buffer.fillRect(0, 0, display.buffer.canvas.width, display.buffer.canvas.height);
   },
   render: () => {
@@ -63,11 +64,10 @@ export let display: IDisplay = {
     display.boundingRectangle = display.output.canvas.getBoundingClientRect();
     display.buffer_output_ratio = display.buffer.canvas.width / display.output.canvas.width;
   }
-}
+};
 
-display.buffer.canvas.width = 600
-display.buffer.canvas.height = 780
-
+display.buffer.canvas.width = 640;
+display.buffer.canvas.height = 832;
 
 /**
  * Создаем игрока
@@ -101,9 +101,10 @@ let score = new Label(
 labels.push(score);
 
 /**
- * Создаем кнопки
+ * Создаем карту
  */
 
+let map = new Map();
 
 /**
  * Такт игры
@@ -113,7 +114,7 @@ let gameLoop = (): void => {
 	 * Обнуляем карту
 	 */
   display.clear();
-  drawMap();
+  map.drawMap();
 
 	/**
 	 * Отрисовка
@@ -126,29 +127,17 @@ let gameLoop = (): void => {
   players.forEach(item => item.draw());
 
   // barriers.forEach(item => item.draw());
-  labels.forEach(item => item.draw());
   controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
+  labels.forEach(item => item.draw());
 
-	display.render();
+  display.render();
   window.requestAnimationFrame(gameLoop);
 };
-
-let resize = (): void => {
-	var client_height = document.documentElement.clientHeight;
-
-	context.canvas.width = document.documentElement.clientWidth - 32;
-
-	if (context.canvas.width > client_height) {
-		context.canvas.width = client_height;
-	}
-
-	context.canvas.height = Math.floor(context.canvas.width * 0.75);
-}
 
 /**
  * Слушатели событий
  */
-window.addEventListener("resize", display.resize);
+window.addEventListener('resize', display.resize);
 window.addEventListener('mousedown', controller.keyListener);
 window.addEventListener('mouseup', controller.keyListener);
 window.addEventListener('keydown', controller.keyListener);
@@ -179,4 +168,3 @@ window.requestAnimationFrame = (() => {
  */
 display.resize();
 gameLoop();
-

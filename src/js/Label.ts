@@ -1,4 +1,4 @@
-import { buffer } from './index';
+import { display } from './index';
 
 export class Label {
   name: string;
@@ -40,8 +40,8 @@ export class Label {
   }
 
   draw (): void {
-    buffer.font = `${this.textSize}px ${this.font}`;
-    buffer.fillStyle = this.color;
-    buffer.fillText(this.text, this.positionX, this.positionY);
+    display.buffer.font = `${this.textSize}px ${this.font}`;
+    display.buffer.fillStyle = this.color;
+    display.buffer.fillText(this.text, this.positionX, this.positionY);
   }
 }
