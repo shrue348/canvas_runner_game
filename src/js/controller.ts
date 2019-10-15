@@ -4,6 +4,8 @@ import { Button } from './Button';
 interface Controller {
   up: boolean;
   down: boolean;
+  left: boolean;
+  right: boolean;
   space: boolean;
   leftMousePressed: boolean;
   rihghtMousePressed: boolean;
@@ -13,15 +15,19 @@ interface Controller {
 export let controller: any = {
   up: false,
   down: false,
+  left: false,
+  right: false,
   space: false,
   leftMousePressed: false,
   rihghtMousePressed: false,
 
   buttons: [
-    new Button('jump', 50, 450, 100, 100, 'rgba(0, 144, 240, 1)')
+    new Button('jump', 500, 450, 280, 130, 'rgba(0, 144, 240, 1)'),
+    new Button('left', 20, 450, 130, 130, 'rgba(0, 144, 240, 1)'),
+    new Button('right', 170, 450, 130, 130, 'rgba(0, 144, 240, 1)'),
   ],
 
-  testButtons: (targetTouches: Array<any>) => {
+  testButtons: (targetTouches: Array<EventTarget>) => {
     let button: any,
       i: number,
       k: number,
@@ -75,6 +81,12 @@ export let controller: any = {
      * Ловим клавиши
      */
     switch (e.keyCode) {
+      case 37:
+        controller.left = keyState;
+        break;
+      case 39:
+        controller.right = keyState;
+        break;
       case 38:
         controller.up = keyState;
         break;
@@ -92,9 +104,6 @@ export let controller: any = {
     switch (e.type) {
       case 'mousedown':
         controller.mouse = true;
-        controller.pointerX = e.clientX - rectangle.left;
-        controller.pointerY = e.clientY - rectangle.top;
-
         break;
       case 'mouseup':
         controller.mouse = false;

@@ -16,9 +16,16 @@ export function drawMap (): void {
    */
   context.fillStyle = '#8ed0ff';
   context.fillRect(0, 0, context.canvas.width, floor.y);
+
   /**
    * Рисуем пол
    */
   context.fillStyle = '#009900';
-  context.fillRect(floor.x, floor.y, context.canvas.width, floor.height);
+  context.fillRect(floor.x, floor.y, context.canvas.width, floor.height); 
+
+  /**
+   * Рисуем перспективу пола
+   */
+  context.fillStyle = '#009900';
+  context.fillRect(floor.x, floor.y - 15, context.canvas.width, 15);
 }

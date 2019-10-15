@@ -31,7 +31,6 @@ buffer.canvas.height = context.canvas.height;
  * Создаем игрока
  */
 let players: Array<Player> = [];
-
 for (let i = 0; i < 1; i++) {
   let player = new Player(0 /* очков =) */);
 
@@ -45,10 +44,6 @@ let barriers: Array<Barrier> = [];
 
 /**
  * Создаем очки
- */
-
-/**
- * Создаем кнопки
  */
 export let labels: Array<Label> = [];
 let score = new Label(

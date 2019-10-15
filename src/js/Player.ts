@@ -17,21 +17,14 @@ export class Player {
   xVelocity: number;
   yVelocity: number;
   jumping: boolean;
+  isRun: boolean; // игра началась
+  isDead: boolean; // игра закончилась
   controller: any;
   score: number;
   texture: any;
   animations: Array<Animator>;
   frameSet: any;
 
-	/**
-	 * @param width ширина игрока
-	 * @param height высота игрока равна ширине
-	 * @param x координата по горизонтали
-	 * @param y коорддината по вертикали
-	 * @param speed скорость
-	 * @param xVelocity иннерция
-	 * @param yVelocity гравитация
-	 */
   constructor (core: number) {
     this.width = 76;
     this.height = 53;
@@ -39,8 +32,11 @@ export class Player {
     this.y = 100;
     this.oldY = this.y;
     this.speed = 1;
+    this.xVelocity = 0;
     this.yVelocity = 0;
     this.jumping = true;
+    this.isRun = false;
+    this.isDead = false;
     this.controller = controller;
     this.texture = new Image();
     this.texture.src = '/images/dog.png';
@@ -50,7 +46,7 @@ export class Player {
   }
 
   spriteSheet = {
-    frame_sets: [[0, 1], [2]],
+    frame_sets: [[0, 1], [2, 2, 2]],
     image: new Image()
   };
 
@@ -74,48 +70,46 @@ export class Player {
    */
   resolveFloorCollision (): void {
     this.y = floor.y - this.height;
-    this.x = 50;
     this.yVelocity = 0;
     this.jumping = false;
   }
 
   draw (): void {
-    context.fillStyle = '#ff0000';
-    // context.fillRect(this.x, this.y, this.width, this.height);
-    // context.drawImage(this.texture, this.x, this.y, this.width * 3, this.height, 0, 0, this.width, this.height);
 
-    this.animation.change(this.spriteSheet.frame_sets[0], 15);
-    this.spriteSheet.image.src = '/images/dog.png';
+     /**
+     * Двигаемся влево
+     */
+    if (this.controller.left) {
+      this.xVelocity -= 1.9;
+    }
 
-    // console.log(this.animation.frameIndex)
-
-    context.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
+    /**
+     * Двигаемся вправо
+     */
+    if (this.controller.right) {
+      this.xVelocity += 2.9;
+    }
 
     /**
      * Прыжок
      */
     if ((this.controller.up || this.controller.mouse === true || this.controller.jump === true) && !this.jumping) {
-      this.yVelocity = -13;
+      this.yVelocity = -17;
       this.jumping = true;
+      this.isRun = true;
+
       labels[0].increment();
     }
 
     /**
-     * Жмем вниз
-     */
-    // if (this.controller.down || this.controller.mouse === true) { }
-    /**
-     * ПКМ
-     */
-    // if (this.controller.reset === true) {
-    //   this.x = 50;
-    //   this.y = 50;
-    // }
-
-    /**
      * Гравитация
      */
-    if (this.yVelocity < 20) this.yVelocity += .8;
+    if (this.yVelocity < 20) this.yVelocity += 1.194;
+    
+    /**
+     * Ускорение
+     */
+    if (this.isRun) this.x += this.xVelocity;
     this.y += this.yVelocity;
 
     /**
@@ -125,15 +119,48 @@ export class Player {
       this.resolveFloorCollision();
     }
 
+    /**
+     * Коллизии с краем экрана
+     */
+    if (this.x < 0) {
+      this.xVelocity = 0;
+      this.x = 0.001;
+    } else if (this.x + this.width > context.canvas.width) {
+      this.xVelocity = 0;
+      this.x = context.canvas.width - this.width - 0.001;
+    }
+
     // телеметрия
     let tileX = Math.floor((this.x + this.width * 0.5) / size);
     let tileY = Math.floor((this.y + this.height) / size);
-    // document.querySelector('p').innerHTML = '<br>tileX: ' + tileX + '<br>tileY: ' + tileY + '<br>map index: ' + tileY + ' * ' + widthMiltipler + ' + ' + tileX + ' = ' + String(valueAtIndex) + '<br>tile value: ' + map[tileY * widthMiltipler + tileX];
+     document.querySelector('p').innerHTML = '<br>xVelocity: ' + this.xVelocity + '<br>yVelocity: ' + this.yVelocity + '<br>X' + this.x + '<br>isRun: ' + this.isRun;
 
     // трение / торможение
-    this.xVelocity *= .9;
+    this.xVelocity *= .55;
+    if (Math.abs(this.xVelocity) < .001) this.xVelocity = 0
     this.xVelocity *= .9;
 
+
+    /**
+     * Анимашки
+     */
+    if (!this.isRun) {
+      this.animation.change(this.spriteSheet.frame_sets[1], 15);
+    }
+    else {
+      if (this.jumping) // в прыжке замирает
+        this.animation.change(this.spriteSheet.frame_sets[1], 5);
+      else if (this.xVelocity == 0) // стоя замирает
+        this.animation.change(this.spriteSheet.frame_sets[1], 5);      
+      else if (this.isDead) // конец игры
+        this.animation.change(this.spriteSheet.frame_sets[1], 5);
+      else //бежит
+        this.animation.change(this.spriteSheet.frame_sets[0], 5);
+    }
+
+    this.spriteSheet.image.src = '/images/dog.png';
+
+    context.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
     this.animation.update();
 
   }
