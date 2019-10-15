@@ -1,7 +1,7 @@
 /**
  * Барьеры
  */
-import { context } from './index';
+import { display } from './index';
 
 export class Barrier {
   width: number;
@@ -22,10 +22,10 @@ export class Barrier {
     this.x = this.x + this.speed;
     this.y = this.y + this.speed;
 
-    context.fillStyle = 'grey';
-    context.fillRect(this.x, this.y, this.width, this.height);
+    display.buffer.fillStyle = 'grey';
+    display.buffer.fillRect(this.x, this.y, this.width, this.height);
 
-    if (this.x > context.canvas.width) this.x = -this.width;
-    if (this.y > context.canvas.height) this.y = -this.height;
+    if (this.x > display.buffer.canvas.width) this.x = -this.width;
+    if (this.y > display.buffer.canvas.height) this.y = -this.height;
   }
 }

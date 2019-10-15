@@ -1,4 +1,4 @@
-import { context, size, labels } from './index';
+import { display, size, labels } from './index';
 import { floor } from './map';
 import { controller } from './controller';
 import { Animator } from './Animator';
@@ -81,6 +81,8 @@ export class Player {
      */
     if (this.controller.left) {
       this.xVelocity -= 1.9;
+      //display.message.innerHTML += "left ";
+
     }
 
     /**
@@ -88,6 +90,8 @@ export class Player {
      */
     if (this.controller.right) {
       this.xVelocity += 2.9;
+      //display.message.innerHTML += "right ";
+
     }
 
     /**
@@ -99,6 +103,8 @@ export class Player {
       this.isRun = true;
 
       labels[0].increment();
+      display.message.innerHTML += "jump ";
+
     }
 
     /**
@@ -125,15 +131,15 @@ export class Player {
     if (this.x < 0) {
       this.xVelocity = 0;
       this.x = 0.001;
-    } else if (this.x + this.width > context.canvas.width) {
+    } else if (this.x + this.width > display.buffer.canvas.width) {
       this.xVelocity = 0;
-      this.x = context.canvas.width - this.width - 0.001;
+      this.x = display.buffer.canvas.width - this.width - 0.001;
     }
 
     // телеметрия
     let tileX = Math.floor((this.x + this.width * 0.5) / size);
     let tileY = Math.floor((this.y + this.height) / size);
-     document.querySelector('p').innerHTML = '<br>xVelocity: ' + this.xVelocity + '<br>yVelocity: ' + this.yVelocity + '<br>X' + this.x + '<br>isRun: ' + this.isRun;
+    //display.message.innerHTML = '<br>xVelocity: ' + this.xVelocity + '<br>yVelocity: ' + this.yVelocity + '<br>X' + this.x + '<br>isRun: ' + this.isRun;
 
     // трение / торможение
     this.xVelocity *= .55;
@@ -160,7 +166,7 @@ export class Player {
 
     this.spriteSheet.image.src = '/images/dog.png';
 
-    context.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
+    display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
     this.animation.update();
 
   }

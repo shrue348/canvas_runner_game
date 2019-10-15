@@ -1,4 +1,4 @@
-import { context, size } from './index';
+import { display, size } from './index';
 import { Button } from './Button';
 
 interface Controller {
@@ -22,19 +22,17 @@ export let controller: any = {
   rihghtMousePressed: false,
 
   buttons: [
-    new Button('jump', 500, 450, 280, 130, 'rgba(0, 144, 240, 1)'),
-    new Button('left', 20, 450, 130, 130, 'rgba(0, 144, 240, 1)'),
-    new Button('right', 170, 450, 130, 130, 'rgba(0, 144, 240, 1)'),
+    new Button('jump', 300, 650, 280, 110, 'rgba(0, 144, 240, 1)'),
+
+    new Button('left', 20, 650, 110, 110, 'rgba(0, 144, 240, 1)'),
+    new Button('right', 150, 650, 110, 110, 'rgba(0, 144, 240, 1)'),
   ],
 
   testButtons: (targetTouches: Array<EventTarget>) => {
     let button: any,
       i: number,
       k: number,
-      touch: any,
-      boundingRectangle: any;
-
-    boundingRectangle	= context.canvas.getBoundingClientRect();
+      touch: any;
 
     for (i = controller.buttons.length - 1; i > -1; --i) {
       button = controller.buttons[i];
@@ -44,8 +42,8 @@ export let controller: any = {
       for (k = targetTouches.length - 1; k > -1; --k) {
         touch = targetTouches[k];
 
-        if (button.containsPoint(touch.clientX - boundingRectangle.left, touch.clientY - boundingRectangle.top)) {
-          document.querySelector('p').innerHTML = 'touches:' + targetTouches.length + '<br>- ';
+        if (button.containsPoint((touch.clientX - display.boundingRectangle.left) * display.buffer_output_ratio, (touch.clientY - display.boundingRectangle.top) * display.buffer_output_ratio)) {
+          display.message.innerHTML = 'touches:' + targetTouches.length + '<br>- ';
           button.active = true;
           controller[button.name] = true;
           break;
@@ -53,9 +51,9 @@ export let controller: any = {
       }
     }
 
-    document.querySelector('p').innerHTML = 'touches: ' + targetTouches.length + '<br>- ';
+    display.message.innerHTML = 'touches: ' + targetTouches.length + '<br>- ';
 
-    if (controller.buttons[0].active) document.querySelector('p').innerHTML += 'jump ';
+    if (controller.buttons[0].active) display.message.innerHTML += 'jump ';
   },
 
   touchEnd: (event: TouchEvent) => {
@@ -75,7 +73,7 @@ export let controller: any = {
 
   keyListener: (e: any): void => {
     let keyState = (e.type === 'keydown') ? true : false;
-    let rectangle = context.canvas.getBoundingClientRect();
+    let rectangle = display.buffer.canvas.getBoundingClientRect();
 
     /**
      * Ловим клавиши

@@ -1,4 +1,4 @@
-import { context } from './index';
+import { display } from './index';
 
 export class Assets {
 

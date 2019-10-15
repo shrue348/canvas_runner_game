@@ -12,20 +12,62 @@ import { randomInt } from './helper';
 
 export let size = 30; // размер клетки для кнопок
 
-/**
- * Объявляем контекст игры
- */
-export let context = document.querySelector('canvas').getContext('2d', { alpha: false });
-context.canvas.width = 800;
-context.canvas.height = 600;
 
 /**
  * Объявляем буфер размером в контекст
  * его будем рисовать в канву
  */
 export let buffer = document.createElement('canvas').getContext('2d');
-buffer.canvas.width = context.canvas.width;
-buffer.canvas.height = context.canvas.height;
+buffer.canvas.width = 800
+buffer.canvas.height = 600
+
+/**
+ * Объявляем контекст игры
+ */
+let context = document.querySelector('canvas').getContext('2d');
+
+interface IDisplay {
+	buffer: any,
+	output: any,
+	message: HTMLElement,
+	buffer_output_ratio: number,
+	boundingRectangle: any,
+	clear: () => void,
+	render: () => void,
+	resize: (event?: any) => void,
+
+}
+
+export let display: IDisplay = {
+	buffer: document.createElement("canvas").getContext("2d"),
+	output: document.querySelector("canvas").getContext("2d"),
+	message: document.querySelector("p"),
+	buffer_output_ratio: 1,
+	boundingRectangle: undefined,
+	clear: (color?: string) => {
+    display.buffer.fillStyle = color || "#1f2529";
+    display.buffer.fillRect(0, 0, display.buffer.canvas.width, display.buffer.canvas.height);
+  },
+  render: () => {
+    display.output.drawImage(display.buffer.canvas, 0, 0, display.buffer.canvas.width, display.buffer.canvas.height, 0, 0, display.output.canvas.width, display.output.canvas.height);
+  },
+  resize: (event) => {
+    display.output.canvas.width = Math.floor(document.documentElement.clientWidth - 32);
+
+    if (display.output.canvas.width > document.documentElement.clientHeight) {
+      display.output.canvas.width = Math.floor(document.documentElement.clientHeight);
+    }
+
+    // display.output.canvas.height = Math.floor(display.output.canvas.width * 0.6875);
+    display.output.canvas.height = Math.floor(display.output.canvas.width * 1.3);
+    display.boundingRectangle = display.output.canvas.getBoundingClientRect();
+    display.buffer_output_ratio = display.buffer.canvas.width / display.output.canvas.width;
+  }
+}
+
+display.buffer.canvas.width = 600
+display.buffer.canvas.height = 780
+
 
 /**
  * Создаем игрока
@@ -70,9 +112,7 @@ let gameLoop = (): void => {
 	/**
 	 * Обнуляем карту
 	 */
-  context.fillStyle = '#1f2529';
-  context.fillRect(0, 0, context.canvas.width, context.canvas.height);
-
+  display.clear();
   drawMap();
 
 	/**
@@ -89,17 +129,30 @@ let gameLoop = (): void => {
   labels.forEach(item => item.draw());
   controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
 
+	display.render();
   window.requestAnimationFrame(gameLoop);
 };
+
+let resize = (): void => {
+	var client_height = document.documentElement.clientHeight;
+
+	context.canvas.width = document.documentElement.clientWidth - 32;
+
+	if (context.canvas.width > client_height) {
+		context.canvas.width = client_height;
+	}
+
+	context.canvas.height = Math.floor(context.canvas.width * 0.75);
+}
 
 /**
  * Слушатели событий
  */
+window.addEventListener("resize", display.resize);
 window.addEventListener('mousedown', controller.keyListener);
 window.addEventListener('mouseup', controller.keyListener);
 window.addEventListener('keydown', controller.keyListener);
 window.addEventListener('keyup', controller.keyListener);
-
 document.querySelector('canvas').addEventListener('touchend', controller.touchEnd, { passive: false });
 document.querySelector('canvas').addEventListener('touchmove', controller.touchMove, { passive: false });
 document.querySelector('canvas').addEventListener('touchstart', controller.touchStart, { passive: false });
@@ -124,4 +177,6 @@ window.requestAnimationFrame = (() => {
 /**
  * Старт
  */
-window.requestAnimationFrame(gameLoop);
+display.resize();
+gameLoop();
+

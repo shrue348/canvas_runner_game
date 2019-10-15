@@ -1,4 +1,4 @@
-import { context } from './index';
+import { display } from './index';
 
 export class Button {
   name: string;
@@ -20,6 +20,8 @@ export class Button {
   }
 
   containsPoint (x: number, y: number): boolean {
+    console.log(x, y, this.x)
+
     if (x < this.x || x > this.x + this.width || y < this.y || y > this.y + this.width) {
       return false;
     }
@@ -27,7 +29,7 @@ export class Button {
   }
 
   draw (): void {
-    context.fillStyle = this.color;
-    context.fillRect(this.x, this.y, this.width, this.height);
+    display.buffer.fillStyle = this.color;
+    display.buffer.fillRect(this.x, this.y, this.width, this.height);
   }
 }

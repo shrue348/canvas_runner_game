@@ -1,8 +1,6 @@
 /**
  * Аниматор спрайтов
  */
-import { context } from './index';
-
 export class Animator {
   count: number;
   delay: number;
