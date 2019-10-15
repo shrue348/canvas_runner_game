@@ -9,7 +9,6 @@ export class Label {
   positionX: number;
   positionY: number;
   clickable: boolean;
-  callback: any;
 
   constructor (name: string, text: string, textSize: number, font: string, color: string, positionX: number, positionY: number, clickable: boolean) {
     this.text = text ? text : 'NULL';

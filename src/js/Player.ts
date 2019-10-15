@@ -101,9 +101,6 @@ export class Player {
       this.jumping = true;
       this.isRun = true;
 
-      labels[0].increment();
-      display.message.innerHTML += 'jump ';
-
     }
 
     /**
@@ -164,6 +161,7 @@ export class Player {
 
     this.spriteSheet.image.src = '/images/dog.png';
 
+    labels[0].increment();
     display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
     this.animation.update();
   }

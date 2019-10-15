@@ -95,7 +95,7 @@ let score = new Label(
 	'sans-serif',
 	'white',
 	30,
-	30,
+	50,
 	false
 );
 labels.push(score);
