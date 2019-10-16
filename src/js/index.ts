@@ -8,29 +8,32 @@ import { Player } from './Player';
 import { Barrier } from './Barrier';
 import { Map } from './map';
 import { Snow } from './Snow';
+import { AssetManager } from './Assets';
 
 import { randomInt } from './helper';
 
-// import '../images/0.png';
-// import '../images/1.png';
-// import '../images/2.png';
-// import '../images/3.png';
-// import '../images/4.png';
-// import '../images/5.png';
-// import '../images/6.png';
-// import '../images/7.png';
-// import '../images/8.png';
-// import '../images/9.png';
-// import '../images/10.png';
-// import '../images/11.png';
-// import '../images/12.png';
-// import '../images/13.png';
-// import '../images/14.png';
-// import '../images/15.png';
-// import '../images/16.png';
-// import '../images/17.png';
-// import '../images/BG.png';
+import '../images/dog.png';
+import '../images/0.png';
+import '../images/1.png';
+import '../images/2.png';
+import '../images/3.png';
+import '../images/4.png';
+import '../images/5.png';
+import '../images/6.png';
+import '../images/7.png';
+import '../images/8.png';
+import '../images/9.png';
+import '../images/10.png';
+import '../images/11.png';
+import '../images/12.png';
+import '../images/13.png';
+import '../images/14.png';
+import '../images/15.png';
+import '../images/16.png';
+import '../images/17.png';
+import '../images/BG.png';
 
+// import '../audio/back.mp3';
 
 /**
  * Размер тайла
@@ -38,18 +41,26 @@ import { randomInt } from './helper';
 export const tileSize = 64;
 
 /**
+ * Аудио
+ */
+export let soundBack = new Audio('../audio/back.mp3');
+soundBack.addEventListener('canplay', e => setTimeout(() => {
+  // soundBack.play();
+}, 2000));
+
+/**
  * Настройки экрана и буфера для него
  */
 interface IDisplay {
-  buffer:              any;
-  output:              any;
-  message:             HTMLElement;
-  message2:            HTMLElement;
+  buffer: any;
+  output: any;
+  message: HTMLElement;
+  message2: HTMLElement;
   buffer_output_ratio: number;
-  boundingRectangle:   any;
-  clear:               () => void;
-  render:              () => void;
-  resize:              (event?: any) => void;
+  boundingRectangle: any;
+  clear: () => void;
+  render: () => void;
+  resize: (event?: any) => void;
 }
 
 export let display: IDisplay = {
@@ -67,14 +78,14 @@ export let display: IDisplay = {
     display.output.drawImage(display.buffer.canvas, 0, 0, display.buffer.canvas.width, display.buffer.canvas.height, 0, 0, display.output.canvas.width, display.output.canvas.height);
   },
   resize: (event) => {
-    display.output.canvas.width  = Math.floor(document.documentElement.clientWidth - 32);
+    display.output.canvas.width = Math.floor(document.documentElement.clientWidth - 32);
     display.output.canvas.height = Math.floor(display.output.canvas.width * 1.3);
-    display.boundingRectangle    = display.output.canvas.getBoundingClientRect();
-    display.buffer_output_ratio  = display.buffer.canvas.width / display.output.canvas.width;
+    display.boundingRectangle = display.output.canvas.getBoundingClientRect();
+    display.buffer_output_ratio = display.buffer.canvas.width / display.output.canvas.width;
   }
 };
 
-display.buffer.canvas.width  = 640;
+display.buffer.canvas.width = 640;
 display.buffer.canvas.height = 832;
 
 /**
@@ -115,7 +126,6 @@ labels.push(score);
 /**
  * Создаем карту
  */
-
 let map = new Map();
 
 /**
@@ -139,7 +149,6 @@ let gameLoop = (): void => {
   // barriers.forEach(item => item.draw());
   controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
   labels.forEach(item => item.draw());
-
 
   /**
    * Рендерим буфер в канву

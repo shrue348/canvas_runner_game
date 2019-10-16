@@ -1,8 +1,7 @@
 import { display, tileSize, labels } from './index';
-import { floor } from './map';
+import { floor, mapPartsArr } from './map';
 import { controller } from './controller';
 import { Animator } from './Animator';
-import { mapPartsArr } from './map'
 
 // класс игрока
 
@@ -23,8 +22,10 @@ export class Player {
   controller: any;
   score: number;
   texture: any;
+  collisionModel: any;
   collision: any;
 
+  map: any;
 
   constructor (core: number) {
     this.width = 76;
@@ -42,13 +43,25 @@ export class Player {
     this.texture = new Image();
     this.texture.src = '/images/dog.png';
 
+    this.map = mapPartsArr[0];
+
+    /**
+     * Модель коллизий персонажа
+     * считается от левого верхнего края текстуры персонажа
+     * [x, y, width, height]
+     */
+    this.collisionModel = [
+      [0, 10, 45, 43], // для пола
+      [35, 0, 25, 40], // + ниже для призов и врагов
+      [35, 10, 40, 16]
+    ];
+
     // @ts-ignore
     this.animation = new Animator();
 
     this.collision = {
       1: (object: any, row: number, column: number): void => {
         if (this.collision.topCollision(object, row)) { return; }
-        this.collision.rightCollision(object, column);
       },
       topCollision (object: any, row: number): boolean {
         if (object.yVelocity > 0) {
@@ -62,7 +75,7 @@ export class Player {
         }
         return false;
       }
-    }
+    };
   }
 
   spriteSheet = {
@@ -70,13 +83,16 @@ export class Player {
     image: new Image()
   };
 
-  get bottom (): number { return this.y + this.height; }
-  get left (): number { return this.x; }
-  get top (): number { return this.y; }
-  get right (): number { return this.x + this.width; }
+  /**
+   * Геттеры координат коллиззи с землей и платформами
+   */
+  get bottom (): number { return this.y + this.collisionModel[0][1] + this.collisionModel[0][3]; }
+  get left (): number { return this.x + this.collisionModel[0][0]; }
+  get top (): number { return this.y + this.collisionModel[0][1]; }
+  get right (): number { return this.x + this.collisionModel[0][0] + this.collisionModel[0][3]; }
 
   /**
-   * Коллизия с любым прямоугольником
+   * Коллизия героя с любым прямоугольником
    */
   testPlatformCollision (rectangle: any): boolean {
     if (this.top > rectangle.y + rectangle.height || this.right < rectangle.x || this.bottom < rectangle.y || this.left > rectangle.x + rectangle.width) {
@@ -89,9 +105,9 @@ export class Player {
    * Решаем коллизию с полом
    */
   resolveFloorCollision (): void {
-    this.y = floor.y - this.height;
-    this.yVelocity = 0;
-    this.jumping = false;
+    // this.y = floor.y - this.height;
+    // this.yVelocity = 0;
+    // this.jumping = false;
   }
 
   draw (mapItem?: any): void {
@@ -124,6 +140,8 @@ export class Player {
       this.jumping = true;
       this.isRun = true;
 
+      let soundJump = new Audio('../audio/jump.mp3');
+      soundJump.addEventListener('canplay', e => soundJump.play());
     }
 
     /**
@@ -137,13 +155,6 @@ export class Player {
      */
     if (this.isRun) this.x += this.xVelocity;
     this.y += this.yVelocity;
-
-    /**
-     *  Коллизии c полом
-     */
-    if (this.testPlatformCollision(floor)) {
-      this.resolveFloorCollision();
-    }
 
     /**
      * Коллизии с краем экрана
@@ -162,17 +173,18 @@ export class Player {
     if (this.y - this.oldY > 0) { // bottom collision
       let leftColumn = Math.floor(this.left / tileSize);
       let bottomRow = Math.floor(this.bottom / tileSize);
-      let valueAtIndex = map[bottomRow * 10 + leftColumn];
+      let valueAtIndex = this.map[bottomRow * 10 + leftColumn];
       let rightColumn = Math.floor(this.right / tileSize);
 
-      if (valueAtIndex > 0 && valueAtIndex !== undefined) {// Check the bottom left point
+      if (valueAtIndex > 0) valueAtIndex = 1;
+      if (valueAtIndex > 0 && valueAtIndex !== undefined) {
         this.collision[valueAtIndex](this, bottomRow, leftColumn);
         display.message.innerHTML = `tile 1: ${valueAtIndex}, bottomRow: ${bottomRow}, leftColumn: ${leftColumn}`;
       }
 
-      valueAtIndex = map[bottomRow * 10 + rightColumn];
-
-      if (valueAtIndex > 0) {// Check the bottom right point
+      valueAtIndex = this.map[bottomRow * 10 + rightColumn];
+      if (valueAtIndex > 0) valueAtIndex = 1;
+      if (valueAtIndex > 0) {
         this.collision[valueAtIndex](this, bottomRow, rightColumn);
         display.message.innerHTML = `tile 2: ${valueAtIndex}, bottomRow: ${bottomRow}, leftColumn: ${leftColumn}`;
       }
@@ -209,6 +221,15 @@ export class Player {
 
     labels[0].increment();
     display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
+
+    /**
+     * Рисуем модель коллизий
+     */
+    // this.collisionModel.forEach((element: any[]): void => {
+    //   display.buffer.fillStyle = '#ff0000';
+    //   display.buffer.fillRect(this.x + element[0], this.y + element[1], element[2], element[3]);
+    // });
+
     this.animation.update();
   }
 }
