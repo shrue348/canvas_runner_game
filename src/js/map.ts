@@ -126,7 +126,7 @@ export class Map {
     this.mapParts = [0, 1, 2];
     this.mapStartX = 0;
     this.mapDifficultyMultipler = 0;
-    this.speed = 0;
+    this.speed = 0.5;
     this.globalShift = 0;
     this.globalBackShift = 0;
   }
@@ -200,5 +200,7 @@ export class Map {
       // console.log('speed up!')
       // this.speed += .4;
     }
+
+    display.message2.innerHTML = 'globalShift: ' + this.globalShift;
   }
 }

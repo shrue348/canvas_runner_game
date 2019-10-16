@@ -62,8 +62,10 @@ export class Player {
     this.collision = {
       1: (object: any, row: number, column: number): void => {
         if (this.collision.topCollision(object, row)) { return; }
+        console.log(1);
       },
       topCollision (object: any, row: number): boolean {
+        // console.log(row);
         if (object.yVelocity > 0) {
           let top = row * tileSize;
           if (object.y + object.height > top && object.oldY + object.height <= top) {
@@ -110,9 +112,12 @@ export class Player {
     // this.jumping = false;
   }
 
-  draw (mapItem?: any): void {
-    let map = mapPartsArr[mapItem.mapParts[0]];
-    // console.log(map)
+  /**
+   * @param mapExample - экземпляр карты
+   */
+  draw (mapExample?: any): void {
+    let map = mapPartsArr[mapExample.mapParts[0]];
+    // console.log(mapExample.globalShift);
 
     /**
      * Двигаемся влево
@@ -120,7 +125,6 @@ export class Player {
     if (this.controller.left) {
       this.xVelocity -= 2.2;
       // display.message.innerHTML += "left ";
-
     }
 
     /**
@@ -129,7 +133,6 @@ export class Player {
     if (this.controller.right) {
       this.xVelocity += 2.9;
       // display.message.innerHTML += "right ";
-
     }
 
     /**
@@ -171,22 +174,20 @@ export class Player {
      * Коллизии с тайлами
      */
     if (this.y - this.oldY > 0) { // bottom collision
-      let leftColumn = Math.floor(this.left / tileSize);
+      let leftColumn = Math.floor((this.left + mapExample.globalShift) / tileSize);
       let bottomRow = Math.floor(this.bottom / tileSize);
-      let valueAtIndex = this.map[bottomRow * 10 + leftColumn];
-      let rightColumn = Math.floor(this.right / tileSize);
+      let valueAtIndex = map[bottomRow * 10 + leftColumn];
+      let rightColumn = Math.floor((this.right + mapExample.globalShift) / tileSize);
 
       if (valueAtIndex > 0) valueAtIndex = 1;
       if (valueAtIndex > 0 && valueAtIndex !== undefined) {
         this.collision[valueAtIndex](this, bottomRow, leftColumn);
-        display.message.innerHTML = `tile 1: ${valueAtIndex}, bottomRow: ${bottomRow}, leftColumn: ${leftColumn}`;
       }
 
-      valueAtIndex = this.map[bottomRow * 10 + rightColumn];
+      valueAtIndex = map[bottomRow * 10 + rightColumn];
       if (valueAtIndex > 0) valueAtIndex = 1;
       if (valueAtIndex > 0) {
         this.collision[valueAtIndex](this, bottomRow, rightColumn);
-        display.message.innerHTML = `tile 2: ${valueAtIndex}, bottomRow: ${bottomRow}, leftColumn: ${leftColumn}`;
       }
     }
 
@@ -197,7 +198,7 @@ export class Player {
 
     // трение / торможение
     this.xVelocity *= .55;
-    if (Math.abs(this.xVelocity) < .001) this.xVelocity = 0;
+    if (Math.abs(this.xVelocity) < .01) this.xVelocity = 0;
     this.xVelocity *= .9;
 
     /**

@@ -2,7 +2,7 @@
  * Basic usage
  *
  * var ASSET_MANAGER = new AssetManager();
- * ASSET_MANAGER.queueDownload('img/earth.png');
+ * ASSET_MANAGER.add('img/earth.png');
  * ASSET_MANAGER.downloadAll(function() {
  *    var sprite = ASSET_MANAGER.getAsset('img/earth.png');
  *    ctx.drawImage(sprite, x - sprite.width/2, y - sprite.height/2);
@@ -26,7 +26,7 @@ export class AssetManager {
     this._queue.push(path);
   }
 
-  downloadAll (callback: () => void) {
+  downloadAll (callback?: () => void) {
     if (this._queue.length === 0) callback();
 
     for (let i = 0; i < this._queue.length; i++) {
@@ -70,7 +70,7 @@ export class AssetManager {
     img.addEventListener('error', () => {
       this._errorCount++;
       if (this._isDone()) { callback(); }
-    })
+    });
 
     img.src = path;
     this._cache[path] = img;
