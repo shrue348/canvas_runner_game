@@ -7,41 +7,34 @@ import { Label } from './Label';
 import { Player } from './Player';
 import { Barrier } from './Barrier';
 import { Map } from './map';
+import { Snow } from './Snow';
 
 import { randomInt } from './helper';
 
-export let tileSize = 64; // размер клетки для кнопок
+/**
+ * Размер тайла
+ */
+export const tileSize = 64;
 
 /**
- * Объявляем буфер размером в контекст
- * его будем рисовать в канву
+ * Настройки экрана и буфера для него
  */
-export let buffer = document.createElement('canvas').getContext('2d');
-buffer.canvas.width = 800;
-buffer.canvas.height = 600;
-
-/**
- * Объявляем контекст игры
- */
-let context = document.querySelector('canvas').getContext('2d');
-
 interface IDisplay {
-  buffer: any;
-  output: any;
-  message: HTMLElement;
-  message2: HTMLElement;
+  buffer:              any;
+  output:              any;
+  message:             HTMLElement;
+  message2:            HTMLElement;
   buffer_output_ratio: number;
-  boundingRectangle: any;
-  clear: () => void;
-  render: () => void;
-  resize: (event?: any) => void;
-
+  boundingRectangle:   any;
+  clear:               () => void;
+  render:              () => void;
+  resize:              (event?: any) => void;
 }
 
 export let display: IDisplay = {
-  buffer: document.createElement('canvas').getContext('2d'),
-  output: document.querySelector('canvas').getContext('2d'),
-  message: document.querySelector('p'),
+  buffer:   document.createElement('canvas').getContext('2d'),
+  output:   document.querySelector('canvas').getContext('2d'),
+  message:  document.querySelector('p'),
   message2: document.querySelector('p.p'),
   buffer_output_ratio: 1,
   boundingRectangle: undefined,
@@ -53,31 +46,21 @@ export let display: IDisplay = {
     display.output.drawImage(display.buffer.canvas, 0, 0, display.buffer.canvas.width, display.buffer.canvas.height, 0, 0, display.output.canvas.width, display.output.canvas.height);
   },
   resize: (event) => {
-    display.output.canvas.width = Math.floor(document.documentElement.clientWidth - 32);
-
-    if (display.output.canvas.width > document.documentElement.clientHeight) {
-      display.output.canvas.width = Math.floor(document.documentElement.clientHeight);
-    }
-
-    // display.output.canvas.height = Math.floor(display.output.canvas.width * 0.6875);
+    display.output.canvas.width  = Math.floor(document.documentElement.clientWidth - 32);
     display.output.canvas.height = Math.floor(display.output.canvas.width * 1.3);
-    display.boundingRectangle = display.output.canvas.getBoundingClientRect();
-    display.buffer_output_ratio = display.buffer.canvas.width / display.output.canvas.width;
+    display.boundingRectangle    = display.output.canvas.getBoundingClientRect();
+    display.buffer_output_ratio  = display.buffer.canvas.width / display.output.canvas.width;
   }
 };
 
-display.buffer.canvas.width = 640;
+display.buffer.canvas.width  = 640;
 display.buffer.canvas.height = 832;
 
 /**
  * Создаем игрока
  */
-let players: Array<Player> = [];
-for (let i = 0; i < 1; i++) {
-  let player = new Player(0 /* очков =) */);
 
-  players.push(player);
-}
+let player = new Player(0 /* очков =) */);
 
 /**
  * Создаем барьеры
@@ -107,6 +90,11 @@ labels.push(score);
 let map = new Map();
 
 /**
+ * Создаем снег
+ */
+let snow = new Snow();
+
+/**
  * Такт игры
  */
 let gameLoop = (): void => {
@@ -114,22 +102,20 @@ let gameLoop = (): void => {
 	 * Обнуляем карту
 	 */
   display.clear();
-  map.drawMap();
 
-	/**
-	 * Отрисовка
-	 * игрока
-	 * барьеры
-	 * пол
-	 * надписи
-	 * кнопки
-	 */
-  players.forEach(item => item.draw());
+
+  map.drawMap();
+  snow.drawSnow();
+  player.draw();
 
   // barriers.forEach(item => item.draw());
   controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
   labels.forEach(item => item.draw());
 
+
+  /**
+   * Рендерим буфер в канву
+   */
   display.render();
   window.requestAnimationFrame(gameLoop);
 };
