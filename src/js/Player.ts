@@ -2,6 +2,7 @@ import { display, tileSize, labels } from './index';
 import { floor } from './map';
 import { controller } from './controller';
 import { Animator } from './Animator';
+import { mapPartsArr } from './map'
 
 // класс игрока
 
@@ -22,8 +23,8 @@ export class Player {
   controller: any;
   score: number;
   texture: any;
-  animations: Array<Animator>;
-  frameSet: any;
+  collision: any;
+
 
   constructor (core: number) {
     this.width = 76;
@@ -43,6 +44,25 @@ export class Player {
 
     // @ts-ignore
     this.animation = new Animator();
+
+    this.collision = {
+      1: (object: any, row: number, column: number): void => {
+        if (this.collision.topCollision(object, row)) { return; }
+        this.collision.rightCollision(object, column);
+      },
+      topCollision (object: any, row: number): boolean {
+        if (object.yVelocity > 0) {
+          let top = row * tileSize;
+          if (object.y + object.height > top && object.oldY + object.height <= top) {
+            object.jumping = false;
+            object.yVelocity = 0;
+            object.oldY = object.y = top - object.height - 0.01;
+            return true;
+          }
+        }
+        return false;
+      }
+    }
   }
 
   spriteSheet = {
@@ -74,12 +94,15 @@ export class Player {
     this.jumping = false;
   }
 
-  draw (): void {
+  draw (mapItem?: any): void {
+    let map = mapPartsArr[mapItem.mapParts[0]];
+    // console.log(map)
+
     /**
      * Двигаемся влево
      */
     if (this.controller.left) {
-      this.xVelocity -= 1.9;
+      this.xVelocity -= 2.2;
       // display.message.innerHTML += "left ";
 
     }
@@ -107,6 +130,7 @@ export class Player {
      * Гравитация
      */
     if (this.yVelocity < 20) this.yVelocity += 1.194;
+    this.oldY = this.y;
 
     /**
      * Ускорение
@@ -132,9 +156,31 @@ export class Player {
       this.x = display.buffer.canvas.width - this.width - 0.001;
     }
 
+    /**
+     * Коллизии с тайлами
+     */
+    if (this.y - this.oldY > 0) { // bottom collision
+      let leftColumn = Math.floor(this.left / tileSize);
+      let bottomRow = Math.floor(this.bottom / tileSize);
+      let valueAtIndex = map[bottomRow * 10 + leftColumn];
+      let rightColumn = Math.floor(this.right / tileSize);
+
+      if (valueAtIndex > 0 && valueAtIndex !== undefined) {// Check the bottom left point
+        this.collision[valueAtIndex](this, bottomRow, leftColumn);
+        display.message.innerHTML = `tile 1: ${valueAtIndex}, bottomRow: ${bottomRow}, leftColumn: ${leftColumn}`;
+      }
+
+      valueAtIndex = map[bottomRow * 10 + rightColumn];
+
+      if (valueAtIndex > 0) {// Check the bottom right point
+        this.collision[valueAtIndex](this, bottomRow, rightColumn);
+        display.message.innerHTML = `tile 2: ${valueAtIndex}, bottomRow: ${bottomRow}, leftColumn: ${leftColumn}`;
+      }
+    }
+
     // телеметрия
-    let tileX = Math.floor((this.x + this.width * 0.5) / tileSize);
-    let tileY = Math.floor((this.y + this.height) / tileSize);
+    // let tileX = Math.floor((this.x + this.width * 0.5) / tileSize);
+    // let tileY = Math.floor((this.y + this.height) / tileSize);
     // display.message.innerHTML = '<br>xVelocity: ' + this.xVelocity + '<br>yVelocity: ' + this.yVelocity + '<br>X' + this.x + '<br>isRun: ' + this.isRun;
 
     // трение / торможение

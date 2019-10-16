@@ -13,8 +13,8 @@ export class Snow {
 
     for(var i = 0; i < this.mp; i++) {
 	    this.particles.push({
-	      x: randomInt(0, display.output.canvas.width * 2),
-	      y: randomInt(0, display.output.canvas.height * 3),
+	      x: randomInt(0, display.output.canvas.width * 4),
+	      y: randomInt(0, display.output.canvas.height * 4),
 	      r: Math.random() * 4 + 1,
 	      d: Math.random() * this.mp
 	    })
@@ -40,14 +40,14 @@ export class Snow {
       p.x += Math.sin(this.angle) * 2;
       p.y += Math.cos(this.angle + p.d) + 1 + p.r / 2;
     
-      if(p.x > display.output.canvas.width + 5 || p.x < -5 || p.y > display.output.canvas.height) {
+      if(p.x > display.output.canvas.width * 4 + 5 || p.x < -5 || p.y > display.output.canvas.height * 4) {
         if(i % 3 > 0) {
-          this.particles[i] = {x: Math.random() * display.output.canvas.width, y: -10, r: p.r, d: p.d};
+          this.particles[i] = {x: Math.random() * display.output.canvas.width * 4, y: -10, r: p.r, d: p.d};
         } else {
           if(Math.sin(this.angle) > 0) {
-            this.particles[i] = {x: -5, y: Math.random() * display.output.canvas.height, r: p.r, d: p.d};
+            this.particles[i] = {x: -5, y: Math.random() * display.output.canvas.height * 4, r: p.r, d: p.d};
           } else {
-            this.particles[i] = {x: display.output.canvas.width + 5, y: Math.random() * display.output.canvas.height, r: p.r, d: p.d};
+            this.particles[i] = {x: display.output.canvas.width * 4 + 5, y: Math.random() * display.output.canvas.height * 4, r: p.r, d: p.d};
           }
         }
       }

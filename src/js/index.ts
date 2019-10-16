@@ -11,6 +11,27 @@ import { Snow } from './Snow';
 
 import { randomInt } from './helper';
 
+// import '../images/0.png';
+// import '../images/1.png';
+// import '../images/2.png';
+// import '../images/3.png';
+// import '../images/4.png';
+// import '../images/5.png';
+// import '../images/6.png';
+// import '../images/7.png';
+// import '../images/8.png';
+// import '../images/9.png';
+// import '../images/10.png';
+// import '../images/11.png';
+// import '../images/12.png';
+// import '../images/13.png';
+// import '../images/14.png';
+// import '../images/15.png';
+// import '../images/16.png';
+// import '../images/17.png';
+// import '../images/BG.png';
+
+
 /**
  * Размер тайла
  */
@@ -68,6 +89,14 @@ let player = new Player(0 /* очков =) */);
 let barriers: Array<Barrier> = [];
 
 /**
+ * Создаем врагов
+ */
+
+/**
+ * Создаем монетки
+ */
+
+/**
  * Создаем очки
  */
 export let labels: Array<Label> = [];
@@ -103,10 +132,9 @@ let gameLoop = (): void => {
 	 */
   display.clear();
 
-
   map.drawMap();
   snow.drawSnow();
-  player.draw();
+  player.draw(map);
 
   // barriers.forEach(item => item.draw());
   controller.buttons.forEach((item: { draw: () => void; }) => item.draw());

@@ -8,96 +8,96 @@ export let floor = {
   y: 574
 };
 
-let mapPartsArr = [
+export let mapPartsArr = [
   [ // 0
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 14, 16,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    2, 2, 2, 2, 3, 0, 1, 2, 2, 2
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0, 14, 16,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0, 14, 16,  0,
+     2,  2,  2,  3,  0,  0,  1,  2,  2,  2
   ],
   [ // 1
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 14, 15, 16, 0, 0, 0, 0, 0,
-    0, 14, 16, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 14, 16, 0, 0,
-    14, 16, 0, 0, 0, 0, 0, 0, 0, 0,
-    2, 2, 2, 2, 2, 2, 3, 0, 1, 2
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0, 14, 15, 16,  0,  0,  0,  0,  0,
+     0, 14, 16,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0, 14, 16,  0,  0,
+    14, 16,  0,  0,  0,  0,  0,  0,  0,  0,
+     2,  2,  2,  2,  2,  2,  3,  0,  1,  2
   ],
   [ // 2
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 14, 15, 16, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    2, 2, 2, 2, 2, 2, 3, 0, 1, 2
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0, 14, 15, 16,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     2,  2,  2,  2,  2,  2,  3,  0,  1,  2
   ],
   [ // 3
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 14, 16, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    2, 3, 0, 1, 2, 2, 3, 0, 1, 2
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0, 14, 16,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     2,  3,  0,  1,  2,  2,  3,  0,  1,  2
   ],
   [ // 4
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 14, 16, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    2, 2, 2, 2, 2, 2, 3, 0, 1, 2
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0, 14, 16,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     2,  2,  2,  2,  2,  2,  3,  0,  1,  2
   ],
   [ // 5
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 14, 15, 15, 16, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 14, 16, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 14, 16, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    2, 2, 2, 3, 0, 1, 3, 0, 1, 2
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0, 14, 15, 15, 16,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0, 14, 16,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0, 14, 16,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     2,  2,  2,  3,  0,  1,  3,  0,  1,  2
   ],
   [ // 6
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 14, 15, 16, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 14, 15, 16, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    14, 16, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    2, 3, 0, 0, 1, 2, 3, 0, 1, 2
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0, 14, 15, 16,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0, 14, 15, 16,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+    14, 16,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     2,  3,  0,  0,  1,  2,  3,  0,  1,  2
   ]
 ];
 
-let mapSize: Array<number> = [10, 10],
-  mapWidth = mapSize[0],
-  mapheight = mapSize[1];
+let screenSizeArr: Array<number> = [10, 10],
+  screenWidth = screenSizeArr[0],
+  screenHeight = screenSizeArr[1];
 
 let textures: Array<any> = [];
 
@@ -115,10 +115,9 @@ background.src = '/images/BG.png';
 textures.push(background);
 
 export class Map {
-  mapParts: Array<any>;
+  mapParts: Array<number>; // ссылки на массив частей карты (при уезжании за экран влево первый элемент убирается и добавляется рандомно новый)
   mapStartX: number; // левый край карты
-  mapDifficultyMultipler: number; // кол-во тактов до повышения сложности (скорости)
-  mapDifficultyMultiplerI: number; // текущий итератор до повышения сложности
+  mapDifficultyMultipler: number; // кол-во тактов игры
   speed: number; // скорость сдвига слева
   globalShift: number; // глобальный сдвиг мира (влево)
   globalBackShift: number; // глобальный сдвиг фона (влево)
@@ -126,9 +125,8 @@ export class Map {
   constructor () {
     this.mapParts = [0, 1, 2];
     this.mapStartX = 0;
-    this.mapDifficultyMultipler = 15;
-    this.mapDifficultyMultiplerI = 0;
-    this.speed = 3;
+    this.mapDifficultyMultipler = 0;
+    this.speed = 0;
     this.globalShift = 0;
     this.globalBackShift = 0;
   }
@@ -143,9 +141,12 @@ export class Map {
     /**
      * Рисуем фон
      */
-    display.buffer.drawImage(textures[18], this.globalBackShift, 0, 1290, tileSize * mapheight);
-    display.buffer.drawImage(textures[18], this.globalBackShift + 1290, 0, 1290, tileSize * mapheight);
+    display.buffer.drawImage(textures[18], this.globalBackShift, 0, 1290, screenHeight * tileSize);
+    display.buffer.drawImage(textures[18], this.globalBackShift + 1290, 0, 1290, screenHeight * tileSize);
 
+    /**
+     * Для каждой части карты
+     */
     for (let p = 0; p < this.mapParts.length; p++) {
       let map = mapPartsArr[this.mapParts[p]],
         mapPartShiftX = tileSize * 10 * p;
@@ -153,8 +154,8 @@ export class Map {
       /**
        * Рисуем речку
        */
-      for (let r = 0; r < mapWidth; r++) {
-        display.buffer.drawImage(textures[17], (r % mapWidth) * tileSize + mapPartShiftX + this.globalShift, 9.5 * tileSize, tileSize, tileSize);
+      for (let r = 0; r < screenWidth; r++) {
+        display.buffer.drawImage(textures[17], (r % screenWidth) * tileSize + mapPartShiftX + this.globalShift, 9.5 * tileSize, tileSize, tileSize);
       }
 
       /**
@@ -162,16 +163,13 @@ export class Map {
        */
       for (let i = 0; i < map.length; i++) {
         if (map[i] > 0) {
-          display.buffer.drawImage(textures[map[i]], (i % mapWidth) * tileSize + mapPartShiftX + this.globalShift, Math.floor(i / mapWidth) * tileSize, tileSize, tileSize);
+          display.buffer.drawImage(textures[map[i]], (i % screenWidth) * tileSize + mapPartShiftX + this.globalShift, Math.floor(i / screenWidth) * tileSize, tileSize, tileSize);
         }
       }
     }
 
     this.globalShift -= this.speed;
     this.globalBackShift -= this.speed * 1.22;
-    display.message2.innerHTML = 'globalShift' + this.globalShift;
-
-    // console.log(this.mapParts[0]);
 
     /**
      * Фон уезжает за экран
@@ -186,7 +184,7 @@ export class Map {
      * сдвигаем на 0
      * первый экран из 3х в this.mapParts удаляем и добавляем в конец раномный экран из массива mapPartsArr
      */
-    if (this.globalShift <= -640) {
+    if (this.globalShift <= -screenWidth * tileSize) {
       this.globalShift = 0;
 
       this.mapParts.shift();
@@ -196,10 +194,11 @@ export class Map {
     /**
      * Повышаем скорость
      */
-    this.mapDifficultyMultiplerI ++;
-    if (this.mapDifficultyMultiplerI > this.mapDifficultyMultipler) {
-      this.mapDifficultyMultiplerI = 0;
-      // this.speed *= 1.1;
+    this.mapDifficultyMultipler ++;
+
+    if(Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 100)) {
+      // console.log('speed up!')
+      // this.speed += .4;
     }
   }
 }
