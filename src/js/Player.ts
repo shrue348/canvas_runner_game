@@ -102,10 +102,22 @@ export class Player {
   }
 
   /**
-   * TODO: Анимация концовки игры
+   * Анимация концовки игры
    */
   draw_die ( ): void {
+    // console.log('die')
 
+    this.xVelocity = 0
+    if (!this.jumping) {
+      this.yVelocity -= 15
+      this.jumping = true
+    }
+   
+    if (this.yVelocity < 20) this.yVelocity += 1.194;
+    this.oldY = this.y;
+    this.y += this.yVelocity;
+
+    display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
   }
 
   /**
@@ -116,7 +128,6 @@ export class Player {
       display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
       return;
     }
-
 
     /**
      * Двигаемся влево
@@ -170,7 +181,7 @@ export class Player {
     }
 
     /*
-     * TODO: Коллизии с водой (смерть)
+     * Коллизии с водой (смерть)
      */
     if (this.bottom > 639) {
       this.isDead = true;
@@ -234,7 +245,7 @@ export class Player {
     // трение / торможение
     this.xVelocity *= .55;
     if (Math.abs(this.xVelocity) < .01) this.xVelocity = 0;
-    this.xVelocity *= .9;
+    //this.xVelocity *= .9;
 
     /**
      * Анимашки

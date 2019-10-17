@@ -154,7 +154,8 @@ let gameLoop = (): void => {
   map.drawMap();
   snow.drawSnow();
 
-  player.draw(map);
+  if(!player.isDead) player.draw(map);
+  else player.draw_die();
 
   // barriers.forEach(item => item.draw());
   controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
