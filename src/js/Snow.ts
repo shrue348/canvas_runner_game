@@ -1,56 +1,81 @@
 import { display } from './index';
 import { randomInt } from './helper';
 
-export class Snow {
-  mp: number; // кол-во нежинок
-  particles: Array<any>; // масисв снежинок
-  angle: number;
+class Snowflake {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  radius: number;
+  alpha: number;
 
-  constructor () {
-  	this.mp = 45,
-    this.particles = [],
-    this.angle = 0;
+  constructor() {
+    this.x = 0;
+    this.y = 0;
+    this.vx = 0;
+    this.vy = 0;
+    this.radius = 0;
+    this.alpha = 0;
 
-    for (let i = 0; i < this.mp; i++) {
-	    this.particles.push({
-	      x: randomInt(0, display.output.canvas.width * 2),
-	      y: randomInt(0, display.output.canvas.height / 2),
-	      r: Math.random() + 1,
-	      d: Math.random() * this.mp
-	    });
-	  }
+    this.reset();
   }
 
-  drawSnow = () => {
-    display.buffer.fillStyle = 'rgba(255, 255, 255, 0.75)';
-    display.buffer.beginPath();
-    for (let i = 0; i < this.mp; i++) {
-      let p = this.particles[i];
-      display.buffer.moveTo(p.x, p.y);
-      display.buffer.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+  reset() {
+    this.x = this.randBetween(0, window.innerWidth);
+    this.y = this.randBetween(0, -window.innerHeight);
+    this.vx = this.randBetween(-3, 3);
+    this.vy = this.randBetween(2, 5);
+    this.radius = this.randBetween(1, 4);
+    this.alpha = this.randBetween(0.1, 0.9);
+  }
+
+  randBetween(min: number, max: number) {
+    return min + Math.random() * (max - min);
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+
+    if (this.y + this.radius > window.innerHeight) {
+      this.reset();
     }
-    display.buffer.fill();
-    this.updateSnow();
+  }
+}
+
+export class Snow {
+  snowflakes: Array<any>;
+  width: number;
+  height: number;
+
+  constructor() {
+    this.createSnowflakes();
   }
 
-  updateSnow = () => {
-    this.angle += 0.01;
-    for (let i = 0; i < this.mp; i++) {
-      let p = this.particles[i];
-      p.x += Math.sin(this.angle) * 2;
-      p.y += Math.cos(this.angle + p.d) + 1 + p.r / 2;
+  createSnowflakes() {
+    const flakes = window.innerWidth / 4;
 
-      if (p.x > display.output.canvas.width + 5 || p.x < -5 || p.y > display.output.canvas.height) {
-        if (i % 3 > 0) {
-          this.particles[i] = { x: Math.random() * display.output.canvas.width, y: -10, r: p.r, d: p.d };
-        } else {
-          if (Math.sin(this.angle) > 0) {
-            this.particles[i] = { x: -5, y: Math.random() * display.output.canvas.height, r: p.r, d: p.d };
-          } else {
-            this.particles[i] = { x: display.output.canvas.width + 5, y: Math.random() * display.output.canvas.height, r: p.r, d: p.d };
-          }
-        }
-      }
+    this.snowflakes = [];
+
+    for (let s = 0; s < flakes; s++) {
+      this.snowflakes.push(new Snowflake());
+    }
+  }
+
+  update() {
+    display.buffer.clearRect(0, 0, this.width, this.height);
+
+    for (let flake of this.snowflakes) {
+      flake.update();
+
+      display.buffer.save();
+      display.buffer.fillStyle = "#FFF";
+      display.buffer.beginPath();
+      display.buffer.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 3);
+      display.buffer.closePath();
+      display.buffer.globalAlpha = flake.alpha;
+      display.buffer.fill();
+      display.buffer.restore();
     }
   }
 }

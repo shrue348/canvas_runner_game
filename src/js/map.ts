@@ -19,7 +19,7 @@ export let mapPartsArr = [
     0, 0, 0, 0, 0, 0, 0, 0, 14, 16,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 14, 16, 0,
-    2, 2, 2, 3, 0, 0, 1, 2, 2, 2
+    1, 2, 2, 3, 0, 0, 1, 2, 2, 2
   ],
   [ // 1
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -126,8 +126,8 @@ export class Map {
     this.mapParts = [0, 1, 2];
     this.mapStartX = 0;
     this.mapDifficultyMultipler = 0;
-    this.speed = 0.5;
-    this.globalShift = 0;
+    this.speed = 1;
+    this.globalShift = 20;
     this.globalBackShift = 0;
   }
 
@@ -157,6 +157,10 @@ export class Map {
       for (let r = 0; r < screenWidth; r++) {
         display.buffer.drawImage(textures[17], (r % screenWidth) * tileSize + mapPartShiftX + this.globalShift, 9.5 * tileSize, tileSize, tileSize);
       }
+
+      /**
+       * Добавляем елочки-снеговики
+       */
 
       /**
        * Заполняем тайлы текстурой

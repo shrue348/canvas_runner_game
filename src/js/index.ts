@@ -143,7 +143,7 @@ let gameLoop = (): void => {
   display.clear();
 
   map.drawMap();
-  snow.drawSnow();
+  snow.update();
   player.draw(map);
 
   // barriers.forEach(item => item.draw());

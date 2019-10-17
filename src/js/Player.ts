@@ -172,12 +172,14 @@ export class Player {
 
     /**
      * Коллизии с тайлами
+     * считаем для 2х тайлов - под левым и правым краем персонажа
+     * mapExample.globalShift - глобальный сдвиг карты относительно лево-верх вьюпорта
      */
     if (this.y - this.oldY > 0) { // bottom collision
-      let leftColumn = Math.floor((this.left + mapExample.globalShift) / tileSize);
+      let leftColumn = Math.floor((this.left - mapExample.globalShift) / tileSize);
       let bottomRow = Math.floor(this.bottom / tileSize);
       let valueAtIndex = map[bottomRow * 10 + leftColumn];
-      let rightColumn = Math.floor((this.right + mapExample.globalShift) / tileSize);
+      let rightColumn = Math.floor((this.right - mapExample.globalShift) / tileSize);
 
       if (valueAtIndex > 0) valueAtIndex = 1;
       if (valueAtIndex > 0 && valueAtIndex !== undefined) {
