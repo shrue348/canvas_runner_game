@@ -1,11 +1,10 @@
 import { display, tileSize } from './index';
+import { Star } from './star';
 import { randomInt } from './helper';
-
 
 let screenSizeArr: Array<number> = [10, 10],
   screenWidth = screenSizeArr[0],
   screenHeight = screenSizeArr[1];
-
 
 /**
  * Подгружаем текстуры тайлов и фона в массив textures
@@ -62,14 +61,13 @@ textureStone.src = `/images/Stone.png`;
 let textureIcebox = new Image();
 textureIcebox.src = `/images/IceBox.png`;
 
-
 /**
  * Массив экранов для карты
  */
 export let mapPartsArr = [
   [ // 0 (finish) TODO: запилить финиш
-    
-  ],  
+
+  ],
   [ // 1
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -183,7 +181,7 @@ let mapPartsEffectsArr = [
       texture: textureCrystal,
       coords: [390, 370],
       size: [97, 78]
-    },
+    }
   ],
   [ // 3
     {
@@ -207,7 +205,7 @@ let mapPartsEffectsArr = [
       texture: textureCrystal,
       coords: [500, 120],
       size: [97, 78]
-    },
+    }
   ],
   [ // 5
     {
@@ -233,10 +231,9 @@ let mapPartsEffectsArr = [
       texture: textureTrees,
       coords: [300, 170],
       size: [364, 280]
-    },
-  ],
-]
-
+    }
+  ]
+];
 
 export class Map {
   mapParts: Array<number>; // ссылки на массив частей карты (при уезжании за экран влево первый элемент убирается и добавляется рандомно новый)
@@ -250,7 +247,7 @@ export class Map {
     this.mapParts = [1, 2, 3];
     this.mapStartX = 0;
     this.mapDifficultyMultipler = 0;
-    this.speed = 3;
+    this.speed = 1;
     this.globalShift = 0;
     this.globalBackShift = 0;
   }
@@ -273,7 +270,7 @@ export class Map {
      */
     for (let p = 0; p < this.mapParts.length; p++) {
       let map = mapPartsArr[this.mapParts[p]],
-         mapEffects = mapPartsEffectsArr[this.mapParts[p]],
+        mapEffects = mapPartsEffectsArr[this.mapParts[p]],
         mapPartShiftX = tileSize * 10 * p;
 
       /**
@@ -329,11 +326,11 @@ export class Map {
     /**
      * Повышаем скорость
      */
-    
-    if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 200)) {
-      console.log('speed up!')
-      this.speed += .4;
-    }
+
+    // if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 200)) {
+    //   console.log('speed up!');
+    //   this.speed += .4;
+    // }
 
     display.message2.innerHTML = 'globalShift: ' + this.globalShift;
   }

@@ -24,7 +24,6 @@ export let controller: any = {
   buttons: [
     new Button('back', 0, 640, 640, 256, '#1f2529'),
     new Button('jump', 352, 672, 256, 128, 'rgba(0, 144, 240, 1)'),
-
     new Button('left', 32, 672, 128, 128, 'rgba(0, 144, 240, 1)'),
     new Button('right', 192, 672, 128, 128, 'rgba(0, 144, 240, 1)')
   ],

@@ -9,7 +9,7 @@ class Snowflake {
   radius: number;
   alpha: number;
 
-  constructor() {
+  constructor () {
     this.x = 0;
     this.y = 0;
     this.vx = 0;
@@ -20,7 +20,7 @@ class Snowflake {
     this.reset();
   }
 
-  reset() {
+  reset () {
     this.x = this.randBetween(0, window.innerWidth);
     this.y = this.randBetween(0, -window.innerHeight);
     this.vx = this.randBetween(-3, 3);
@@ -29,11 +29,11 @@ class Snowflake {
     this.alpha = this.randBetween(0.1, 0.9);
   }
 
-  randBetween(min: number, max: number) {
+  randBetween (min: number, max: number) {
     return min + Math.random() * (max - min);
   }
 
-  update() {
+  update () {
     this.x += this.vx;
     this.y += this.vy;
 
@@ -48,11 +48,11 @@ export class Snow {
   width: number;
   height: number;
 
-  constructor() {
+  constructor () {
     this.createSnowflakes();
   }
 
-  createSnowflakes() {
+  createSnowflakes () {
     const flakes = window.innerWidth / 4;
 
     this.snowflakes = [];
@@ -62,14 +62,14 @@ export class Snow {
     }
   }
 
-  drawSnow() {
+  drawSnow () {
     display.buffer.clearRect(0, 0, this.width, this.height);
 
     for (let flake of this.snowflakes) {
       flake.update();
 
       display.buffer.save();
-      display.buffer.fillStyle = "#FFF";
+      display.buffer.fillStyle = '#FFF';
       display.buffer.beginPath();
       display.buffer.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 3);
       display.buffer.closePath();

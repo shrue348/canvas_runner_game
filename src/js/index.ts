@@ -9,6 +9,7 @@ import { Barrier } from './Barrier';
 import { Map } from './map';
 import { Snow } from './Snow';
 import { AssetManager } from './Assets';
+import { Star } from './star';
 
 import { randomInt } from './helper';
 
@@ -39,6 +40,7 @@ import '../images/Tree_1.png';
 import '../images/Tree_2.png';
 import '../images/Stone.png';
 import '../images/IceBox.png';
+import '../images/icon-petshop.png';
 
 // import '../audio/back.mp3';
 
@@ -115,6 +117,9 @@ let barriers: Array<Barrier> = [];
 /**
  * TODO: Создаем монетки
  */
+let stars: Array<Star> = [];
+let star = new Star(9);
+stars.push(star);
 
 /**
  * Создаем очки и лейблы на кнопки
@@ -130,12 +135,13 @@ let score = new Label(
 	50,
 	false
 );
+
 labels.push(score);
-let leftBtnLabel = new Label('leftBtnLabel', '‹', 70,'sans-serif', 'white', 80, 755, false)
+let leftBtnLabel = new Label('leftBtnLabel', '‹', 70,'sans-serif', 'white', 80, 755, false);
 labels.push(leftBtnLabel);
-let rightBtnLabel = new Label('rightBtnLabel', '›', 70,'sans-serif', 'white', 245, 755, false)
+let rightBtnLabel = new Label('rightBtnLabel', '›', 70,'sans-serif', 'white', 245, 755, false);
 labels.push(rightBtnLabel);
-let jumpBtnLabel = new Label('jumpBtnLabel', 'JUMP', 40,'sans-serif', 'white', 415, 755, false)
+let jumpBtnLabel = new Label('jumpBtnLabel', 'JUMP', 40,'sans-serif', 'white', 415, 755, false);
 labels.push(jumpBtnLabel);
 
 /**
@@ -160,12 +166,14 @@ let gameLoop = (): void => {
   map.drawMap();
   snow.drawSnow();
 
-  if(!player.isDead) player.draw(map);
+  player._testStarsCollision(stars);
+  if (!player.isDead) player.draw(map);
   else player.draw_die();
 
   // barriers.forEach(item => item.draw());
   controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
   labels.forEach(item => item.draw());
+  stars.forEach(item => item.draw(map));
 
   /**
    * Рендерим буфер в канву

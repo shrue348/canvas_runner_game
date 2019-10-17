@@ -101,18 +101,23 @@ export class Player {
     return true;
   }
 
+  _testStarsCollision (stars: Array<any>): boolean {
+    console.log('collision');
+    return false;
+  }
+
   /**
    * Анимация концовки игры
    */
-  draw_die ( ): void {
+  draw_die (): void {
     // console.log('die')
 
-    this.xVelocity = 0
+    this.xVelocity = 0;
     if (!this.jumping) {
-      this.yVelocity -= 15
-      this.jumping = true
+      this.yVelocity -= 15;
+      this.jumping = true;
     }
-   
+
     if (this.yVelocity < 20) this.yVelocity += 1.194;
     this.oldY = this.y;
     this.y += this.yVelocity;
@@ -196,7 +201,6 @@ export class Player {
       }
     }
 
-
     /**
      * Коллизии с тайлами
      * считаем для 2х тайлов - под левым и правым краем персонажа
@@ -234,7 +238,7 @@ export class Player {
         this.collision[valueAtIndex](this, bottomRow, rightColumn);
       }
 
-      display.message.innerHTML = 'currentScreen: ' + leftColumn + ' ' + rightColumn + ' ' + mapIndex; 
+      display.message.innerHTML = 'currentScreen: ' + leftColumn + ' ' + rightColumn + ' ' + mapIndex;
     }
 
     // телеметрия
@@ -245,7 +249,7 @@ export class Player {
     // трение / торможение
     this.xVelocity *= .55;
     if (Math.abs(this.xVelocity) < .01) this.xVelocity = 0;
-    //this.xVelocity *= .9;
+    // this.xVelocity *= .9;
 
     /**
      * Анимашки
