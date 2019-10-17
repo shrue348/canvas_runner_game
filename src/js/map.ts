@@ -1,25 +1,74 @@
 import { display, tileSize } from './index';
 import { randomInt } from './helper';
 
-export let floor = {
-  width: 640,
-  height: 30,
-  x: 0,
-  y: 574
-};
 
+let screenSizeArr: Array<number> = [10, 10],
+  screenWidth = screenSizeArr[0],
+  screenHeight = screenSizeArr[1];
+
+
+/**
+ * Подгружаем текстуры тайлов и фона в массив textures
+ */
+let textures: Array<any> = [];
+for (let i = 0; i < 18; i++) {
+  let texture = new Image();
+  texture.src = `/images/${i}.png`;
+  textures.push(texture);
+}
+let background = new Image();
+background.src = '/images/BG.png';
+textures.push(background);
+
+/**
+ * Текстура стрелка вправо
+ */
+let textureArrow = new Image();
+textureArrow.src = `/images/Sign_2.png`;
+
+/**
+ * Текстура снеговик
+ */
+let textureSnowman = new Image();
+textureSnowman.src = `/images/SnowMan.png`;
+
+/**
+ * Текстура ледяной куб
+ */
+let textureCrystal = new Image();
+textureCrystal.src = `/images/Crystal.png`;
+
+/**
+ * Текстура елки
+ */
+let textureTrees = new Image();
+textureTrees.src = `/images/Tree_1.png`;
+
+/**
+ * Текстура елки
+ */
+let textureTree = new Image();
+textureTree.src = `/images/Tree_2.png`;
+
+/**
+ * Текстура камень
+ */
+let textureStone = new Image();
+textureStone.src = `/images/Stone.png`;
+
+/**
+ * Текстура ледяной куб
+ */
+let textureIcebox = new Image();
+textureIcebox.src = `/images/IceBox.png`;
+
+
+/**
+ * Массив экранов для карты
+ */
 export let mapPartsArr = [
-  [ // 0
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 14, 16,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 14, 16, 0,
-    2, 2, 2, 3, 0, 0, 1, 2, 2, 2
+  [ // 0 (finish) TODO: запилить финиш
+    
   ],  
   [ // 1
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -28,9 +77,9 @@ export let mapPartsArr = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 14, 16,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 14, 16, 0,
     2, 2, 2, 3, 0, 0, 1, 2, 2, 2
   ],
   [ // 2
@@ -42,7 +91,7 @@ export let mapPartsArr = [
     0, 14, 16, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 14, 16, 0, 0,
-    14, 16, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     2, 2, 2, 2, 2, 2, 3, 0, 1, 2
   ],
   [ // 3
@@ -61,13 +110,13 @@ export let mapPartsArr = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 14, 15, 16,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 14, 16, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 14, 16, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    2, 3, 0, 1, 2, 3, 0, 0, 1, 2
+    2, 3, 0, 1, 2, 2, 3, 0, 1, 2
   ],
   [ // 5
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -99,32 +148,95 @@ export let mapPartsArr = [
     0, 14, 15, 16, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 14, 15, 16, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    14, 16, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    2, 3, 0, 0, 1, 2, 3, 0, 1, 2
+    14, 16, 0, 0, 0, 14, 15, 15, 15, 16,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    2, 3, 0, 0, 1, 3, 0, 0, 0, 1
   ]
 ];
 
-let screenSizeArr: Array<number> = [10, 10],
-  screenWidth = screenSizeArr[0],
-  screenHeight = screenSizeArr[1];
-
-let textures: Array<any> = [];
-
-for (let i = 0; i < 18; i++) {
-  let texture = new Image();
-  texture.src = `/images/${i}.png`;
-  textures.push(texture);
-}
-
 /**
- * Фон индекс 18
+ * Массив эффектов для экранов в mapPartsArr
+ * texture - переменная текстуры объявлена выше
+ * coords - расположение на карте для левого верхнего угла текстуры
+ * size - размер текстуры в px
  */
-let background = new Image();
-background.src = '/images/BG.png';
-textures.push(background);
+let mapPartsEffectsArr = [
+  [ // 0 (finish)
+
+  ],
+  [ // 1
+    {
+      texture: textureArrow,
+      coords: [160, 485],
+      size: [87, 93]
+    }
+  ],
+  [ // 2
+    {
+      texture: textureSnowman,
+      coords: [100, 385],
+      size: [193, 210]
+    },
+    {
+      texture: textureCrystal,
+      coords: [390, 370],
+      size: [97, 78]
+    },
+  ],
+  [ // 3
+    {
+      texture: textureTree,
+      coords: [160, 298],
+      size: [228, 280]
+    },
+    {
+      texture: textureStone,
+      coords: [10, 498],
+      size: [124, 78]
+    }
+  ],
+  [ // 4
+    {
+      texture: textureTrees,
+      coords: [145, 298],
+      size: [364, 280]
+    },
+    {
+      texture: textureCrystal,
+      coords: [500, 120],
+      size: [97, 78]
+    },
+  ],
+  [ // 5
+    {
+      texture: textureArrow,
+      coords: [345, 485],
+      size: [87, 93]
+    },
+    {
+      texture: textureStone,
+      coords: [10, 498],
+      size: [124, 78]
+    }
+  ],
+  [ // 6
+    {
+      texture: textureIcebox,
+      coords: [360, 498],
+      size: [78, 78]
+    }
+  ],
+  [ // 7
+    {
+      texture: textureTrees,
+      coords: [300, 170],
+      size: [364, 280]
+    },
+  ],
+]
+
 
 export class Map {
   mapParts: Array<number>; // ссылки на массив частей карты (при уезжании за экран влево первый элемент убирается и добавляется рандомно новый)
@@ -139,7 +251,7 @@ export class Map {
     this.mapStartX = 0;
     this.mapDifficultyMultipler = 0;
     this.speed = 3;
-    this.globalShift = 20;
+    this.globalShift = 0;
     this.globalBackShift = 0;
   }
 
@@ -161,6 +273,7 @@ export class Map {
      */
     for (let p = 0; p < this.mapParts.length; p++) {
       let map = mapPartsArr[this.mapParts[p]],
+         mapEffects = mapPartsEffectsArr[this.mapParts[p]],
         mapPartShiftX = tileSize * 10 * p;
 
       /**
@@ -173,6 +286,12 @@ export class Map {
       /**
        * Добавляем елочки-снеговики
        */
+
+      for (let r = 0; r < mapEffects.length; r++) {
+        let effect = mapEffects[r];
+
+        display.buffer.drawImage(effect.texture, effect.coords[0] + mapPartShiftX + this.globalShift, effect.coords[1], effect.size[0], effect.size[1]);
+      }
 
       /**
        * Заполняем тайлы текстурой
@@ -211,10 +330,10 @@ export class Map {
      * Повышаем скорость
      */
     
-    if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 200)) {
-      console.log('speed up!')
-      this.speed += .4;
-    }
+    // if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 200)) {
+    //   console.log('speed up!')
+    //   this.speed += .4;
+    // }
 
     display.message2.innerHTML = 'globalShift: ' + this.globalShift;
   }

@@ -1,5 +1,5 @@
 import { display, tileSize, labels } from './index';
-import { floor, mapPartsArr } from './map';
+import { mapPartsArr } from './map';
 import { controller } from './controller';
 import { Animator } from './Animator';
 
@@ -174,7 +174,7 @@ export class Player {
      */
     if (this.bottom > 639) {
       this.isDead = true;
-      this.x = 640 - this.height;
+      this.y = 640 - this.height;
       this.xVelocity = 0;
       this.yVelocity = 0;
       this.animation.change(this.spriteSheet.frame_sets[1], 15);

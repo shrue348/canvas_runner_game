@@ -62,7 +62,7 @@ export class Snow {
     }
   }
 
-  update() {
+  drawSnow() {
     display.buffer.clearRect(0, 0, this.width, this.height);
 
     for (let flake of this.snowflakes) {

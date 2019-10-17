@@ -32,6 +32,13 @@ import '../images/15.png';
 import '../images/16.png';
 import '../images/17.png';
 import '../images/BG.png';
+import '../images/Sign_2.png';
+import '../images/SnowMan.png';
+import '../images/Crystal.png';
+import '../images/Tree_1.png';
+import '../images/Tree_2.png';
+import '../images/Stone.png';
+import '../images/IceBox.png';
 
 // import '../audio/back.mp3';
 
@@ -145,7 +152,8 @@ let gameLoop = (): void => {
   display.clear();
 
   map.drawMap();
-  snow.update();
+  snow.drawSnow();
+
   player.draw(map);
 
   // barriers.forEach(item => item.draw());
