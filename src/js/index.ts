@@ -131,11 +131,11 @@ let score = new Label(
 	false
 );
 labels.push(score);
-let leftBtnLabel = new Label('leftBtnLabel', '🢤', 70,'sans-serif', 'white', 60, 760, false)
+let leftBtnLabel = new Label('leftBtnLabel', '‹', 70,'sans-serif', 'white', 80, 755, false)
 labels.push(leftBtnLabel);
-let rightBtnLabel = new Label('rightBtnLabel', '🢥', 70,'sans-serif', 'white', 225, 760, false)
+let rightBtnLabel = new Label('rightBtnLabel', '›', 70,'sans-serif', 'white', 245, 755, false)
 labels.push(rightBtnLabel);
-let jumpBtnLabel = new Label('jumpBtnLabel', 'JUMP', 70,'sans-serif', 'white', 385, 760, false)
+let jumpBtnLabel = new Label('jumpBtnLabel', 'JUMP', 40,'sans-serif', 'white', 415, 755, false)
 labels.push(jumpBtnLabel);
 
 /**

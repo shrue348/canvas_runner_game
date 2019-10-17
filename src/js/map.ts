@@ -330,10 +330,10 @@ export class Map {
      * Повышаем скорость
      */
     
-    // if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 200)) {
-    //   console.log('speed up!')
-    //   this.speed += .4;
-    // }
+    if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 200)) {
+      console.log('speed up!')
+      this.speed += .4;
+    }
 
     display.message2.innerHTML = 'globalShift: ' + this.globalShift;
   }
