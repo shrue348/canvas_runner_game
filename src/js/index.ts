@@ -43,9 +43,11 @@ export const tileSize = 64;
 /**
  * Аудио
  */
-// export let soundBack = new Audio('../audio/back.mp3');
+// export let soundBack = new Audio();
+// soundBack.src = '../audio/back.mp3';
+// soundBack.volume = .7;
 // soundBack.addEventListener('canplay', e => setTimeout(() => {
-//   // soundBack.play();
+//   soundBack.play();
 // }, 2000));
 
 /**
@@ -100,11 +102,11 @@ let player = new Player(0 /* очков =) */);
 let barriers: Array<Barrier> = [];
 
 /**
- * Создаем врагов
+ * TODO: Создаем врагов
  */
 
 /**
- * Создаем монетки
+ * TODO: Создаем монетки
  */
 
 /**
@@ -215,7 +217,7 @@ let assets = new AssetManager();
 for (let item in assetsSources) {
   assets.add(item);
 }
-assets.downloadAll(() => console.log('download assets complete!'));
+// assets.downloadAll(() => console.log('download assets complete!'));
 
 /**
  * Старт

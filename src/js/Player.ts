@@ -51,7 +51,7 @@ export class Player {
      * [x, y, width, height]
      */
     this.collisionModel = [
-      [0, 10, 45, 43], // для пола
+      [4, 10, 38, 43], // для пола
       [35, 0, 25, 40], // + ниже для призов и врагов
       [35, 10, 40, 16]
     ];
@@ -62,10 +62,8 @@ export class Player {
     this.collision = {
       1: (object: any, row: number, column: number): void => {
         if (this.collision.topCollision(object, row)) { return; }
-        console.log(1);
       },
       topCollision (object: any, row: number): boolean {
-        // console.log(row);
         if (object.yVelocity > 0) {
           let top = row * tileSize;
           if (object.y + object.height > top && object.oldY + object.height <= top) {
@@ -104,20 +102,21 @@ export class Player {
   }
 
   /**
-   * Решаем коллизию с полом
+   * TODO: Анимация концовки игры
    */
-  resolveFloorCollision (): void {
-    // this.y = floor.y - this.height;
-    // this.yVelocity = 0;
-    // this.jumping = false;
+  draw_die ( ): void {
+
   }
 
   /**
    * @param mapExample - экземпляр карты
    */
   draw (mapExample?: any): void {
-    let map = mapPartsArr[mapExample.mapParts[0]];
-    // console.log(mapExample.globalShift);
+    if (this.isDead) {
+      display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
+      return;
+    }
+
 
     /**
      * Двигаемся влево
@@ -143,8 +142,8 @@ export class Player {
       this.jumping = true;
       this.isRun = true;
 
-      let soundJump = new Audio('../audio/jump.mp3');
-      soundJump.addEventListener('canplay', e => soundJump.play());
+      // let soundJump = new Audio('../audio/jump.mp3');
+      // soundJump.addEventListener('canplay', e => soundJump.play());
     }
 
     /**
@@ -170,27 +169,61 @@ export class Player {
       this.x = display.buffer.canvas.width - this.width - 0.001;
     }
 
+    /*
+     * TODO: Коллизии с водой (смерть)
+     */
+    if (this.bottom > 639) {
+      this.isDead = true;
+      this.x = 640 - this.height;
+      this.xVelocity = 0;
+      this.yVelocity = 0;
+      this.animation.change(this.spriteSheet.frame_sets[1], 15);
+
+      if (mapExample) {
+        mapExample.mapDifficultyMultipler = 0;
+        mapExample.speed = 0;
+      }
+    }
+
+
     /**
      * Коллизии с тайлами
      * считаем для 2х тайлов - под левым и правым краем персонажа
      * mapExample.globalShift - глобальный сдвиг карты относительно лево-верх вьюпорта
+     * mapIndex - индекс в массиве экрана - нужен чтобы знать в каком экране искать значение тайла
      */
     if (this.y - this.oldY > 0) { // bottom collision
       let leftColumn = Math.floor((this.left - mapExample.globalShift) / tileSize);
-      let bottomRow = Math.floor(this.bottom / tileSize);
-      let valueAtIndex = map[bottomRow * 10 + leftColumn];
       let rightColumn = Math.floor((this.right - mapExample.globalShift) / tileSize);
+      let bottomRow = Math.floor(this.bottom / tileSize);
+
+      let mapIndex = 0;
+      if (leftColumn >= 10) {
+        mapIndex = Math.floor(leftColumn / 10);
+        leftColumn = Math.floor(leftColumn % 10);
+      }
+
+      let map = mapPartsArr[mapExample.mapParts[mapIndex]];
+      let valueAtIndex = map[bottomRow * 10 + leftColumn];
 
       if (valueAtIndex > 0) valueAtIndex = 1;
       if (valueAtIndex > 0 && valueAtIndex !== undefined) {
         this.collision[valueAtIndex](this, bottomRow, leftColumn);
       }
 
+      if (rightColumn >= 10) {
+        mapIndex = Math.floor(rightColumn / 10);
+        rightColumn = Math.floor(rightColumn % 10);
+      }
+      map = mapPartsArr[mapExample.mapParts[mapIndex]];
       valueAtIndex = map[bottomRow * 10 + rightColumn];
+
       if (valueAtIndex > 0) valueAtIndex = 1;
       if (valueAtIndex > 0) {
         this.collision[valueAtIndex](this, bottomRow, rightColumn);
       }
+
+      display.message.innerHTML = 'currentScreen: ' + leftColumn + ' ' + rightColumn + ' ' + mapIndex; 
     }
 
     // телеметрия
@@ -234,5 +267,7 @@ export class Player {
     // });
 
     this.animation.update();
+    if (!this.isDead) mapExample.mapDifficultyMultipler ++;
+
   }
 }
