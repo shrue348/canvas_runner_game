@@ -117,7 +117,7 @@ let barriers: Array<Barrier> = [];
  */
 
 /**
- * Создаем очки
+ * Создаем очки и лейблы на кнопки
  */
 export let labels: Array<Label> = [];
 let score = new Label(
@@ -131,6 +131,12 @@ let score = new Label(
 	false
 );
 labels.push(score);
+let leftBtnLabel = new Label('leftBtnLabel', '🢤', 70,'sans-serif', 'white', 60, 760, false)
+labels.push(leftBtnLabel);
+let rightBtnLabel = new Label('rightBtnLabel', '🢥', 70,'sans-serif', 'white', 225, 760, false)
+labels.push(rightBtnLabel);
+let jumpBtnLabel = new Label('jumpBtnLabel', 'JUMP', 70,'sans-serif', 'white', 385, 760, false)
+labels.push(jumpBtnLabel);
 
 /**
  * Создаем карту
