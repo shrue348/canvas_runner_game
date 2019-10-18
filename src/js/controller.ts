@@ -13,6 +13,7 @@ interface Controller {
 }
 
 export let controller: any = {
+  reset: false,
   up: false,
   down: false,
   left: false,
@@ -43,7 +44,7 @@ export let controller: any = {
         touch = targetTouches[k];
 
         if (button.containsPoint((touch.clientX - display.boundingRectangle.left) * display.buffer_output_ratio, (touch.clientY - display.boundingRectangle.top) * display.buffer_output_ratio)) {
-          display.message.innerHTML = 'touches:' + targetTouches.length + '<br>- ';
+          //display.message.innerHTML = 'touches:' + targetTouches.length + '<br>- ';
           button.active = true;
           controller[button.name] = true;
           break;
@@ -51,9 +52,9 @@ export let controller: any = {
       }
     }
 
-    display.message.innerHTML = 'touches: ' + targetTouches.length + '<br>- ';
+    //display.message.innerHTML = 'touches: ' + targetTouches.length + '<br>- ';
 
-    if (controller.buttons[0].active) display.message.innerHTML += 'jump ';
+    // if (controller.buttons[0].active) display.message.innerHTML += 'jump ';
   },
 
   touchEnd: (event: TouchEvent) => {
@@ -79,7 +80,10 @@ export let controller: any = {
      * Ловим клавиши
      */
     switch (e.keyCode) {
-      case 37:
+      case 82: // R - reset
+        controller.reset = keyState;
+        break;      
+       case 37:
         controller.left = keyState;
         break;
       case 39:

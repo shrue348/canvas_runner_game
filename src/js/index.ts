@@ -9,7 +9,7 @@ import { Barrier } from './Barrier';
 import { Map } from './map';
 import { Snow } from './Snow';
 import { AssetManager } from './Assets';
-import { Star } from './star';
+import { Star } from './Star';
 
 import { randomInt } from './helper';
 
@@ -33,6 +33,7 @@ import '../images/15.png';
 import '../images/16.png';
 import '../images/17.png';
 import '../images/BG.png';
+import '../images/Sign_1.png';
 import '../images/Sign_2.png';
 import '../images/SnowMan.png';
 import '../images/Crystal.png';
@@ -40,6 +41,7 @@ import '../images/Tree_1.png';
 import '../images/Tree_2.png';
 import '../images/Stone.png';
 import '../images/IceBox.png';
+import '../images/Igloo.png';
 import '../images/icon-petshop.png';
 
 // import '../audio/back.mp3';
@@ -89,7 +91,7 @@ export let display: IDisplay = {
     display.output.drawImage(display.buffer.canvas, 0, 0, display.buffer.canvas.width, display.buffer.canvas.height, 0, 0, display.output.canvas.width, display.output.canvas.height);
   },
   resize: (event) => {
-    display.output.canvas.width = Math.floor(document.documentElement.clientWidth - 32);
+    display.output.canvas.width = Math.floor(document.documentElement.clientWidth);
     display.output.canvas.height = Math.floor(display.output.canvas.width * 1.3);
     display.boundingRectangle = display.output.canvas.getBoundingClientRect();
     display.buffer_output_ratio = display.buffer.canvas.width / display.output.canvas.width;
@@ -102,7 +104,6 @@ display.buffer.canvas.height = 832;
 /**
  * Создаем игрока
  */
-
 let player = new Player(0 /* очков =) */);
 
 /**
@@ -117,9 +118,11 @@ let barriers: Array<Barrier> = [];
 /**
  * TODO: Создаем монетки
  */
-let stars: Array<Star> = [];
-let star = new Star(9);
-stars.push(star);
+// let stars: Array<Star> = [];
+// let star = new Star(9);
+// stars.push(star);
+let star = new Image();
+star.src = './images/icon-petshop.png';
 
 /**
  * Создаем очки и лейблы на кнопки
@@ -128,10 +131,10 @@ export let labels: Array<Label> = [];
 let score = new Label(
 	'score',
 	'0',
-	30,
+	28,
 	'sans-serif',
 	'white',
-	30,
+	60,
 	50,
 	false
 );
@@ -166,14 +169,15 @@ let gameLoop = (): void => {
   map.drawMap();
   snow.drawSnow();
 
-  player._testStarsCollision(stars);
+  // player._testStarsCollision(stars);
   if (!player.isDead) player.draw(map);
   else player.draw_die();
 
   // barriers.forEach(item => item.draw());
   controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
   labels.forEach(item => item.draw());
-  stars.forEach(item => item.draw(map));
+  display.buffer.drawImage(star, 20, 24, 28, 28);
+  // stars.forEach(item => item.draw(map));
 
   /**
    * Рендерим буфер в канву

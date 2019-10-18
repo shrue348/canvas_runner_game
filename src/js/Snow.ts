@@ -44,7 +44,7 @@ class Snowflake {
 }
 
 export class Snow {
-  snowflakes: Array<any>;
+  snowflakes: Array<Snowflake>;
   width: number;
   height: number;
 
@@ -63,8 +63,6 @@ export class Snow {
   }
 
   drawSnow () {
-    display.buffer.clearRect(0, 0, this.width, this.height);
-
     for (let flake of this.snowflakes) {
       flake.update();
 

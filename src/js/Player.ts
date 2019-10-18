@@ -102,15 +102,30 @@ export class Player {
   }
 
   _testStarsCollision (stars: Array<any>): boolean {
-    console.log('collision');
+    // console.log('collision');
     return false;
   }
+
+
+  startNewGame = (): void => {
+    console.log('start new game');
+    this.x = 50;
+    this.y = 100;
+    this.isDead = false;
+    this.animation.change(this.spriteSheet.frame_sets[0], 5);
+  }
+
 
   /**
    * Анимация концовки игры
    */
   draw_die (): void {
-    // console.log('die')
+    /**
+     * Новая игра
+     */
+    if (this.controller.reset) {
+      this.startNewGame();
+    }
 
     this.xVelocity = 0;
     if (!this.jumping) {
@@ -129,6 +144,9 @@ export class Player {
    * @param mapExample - экземпляр карты
    */
   draw (mapExample?: any): void {
+    /**
+     * Конец игры, return из функции
+     */
     if (this.isDead) {
       display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
       return;
@@ -139,7 +157,6 @@ export class Player {
      */
     if (this.controller.left) {
       this.xVelocity -= 2.2;
-      // display.message.innerHTML += "left ";
     }
 
     /**
@@ -147,7 +164,6 @@ export class Player {
      */
     if (this.controller.right) {
       this.xVelocity += 2.9;
-      // display.message.innerHTML += "right ";
     }
 
     /**
@@ -238,7 +254,7 @@ export class Player {
         this.collision[valueAtIndex](this, bottomRow, rightColumn);
       }
 
-      display.message.innerHTML = 'currentScreen: ' + leftColumn + ' ' + rightColumn + ' ' + mapIndex;
+      // display.message.innerHTML = 'currentScreen: ' + leftColumn + ' ' + rightColumn + ' ' + mapIndex;
     }
 
     // телеметрия

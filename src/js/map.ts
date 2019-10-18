@@ -1,5 +1,5 @@
 import { display, tileSize } from './index';
-import { Star } from './star';
+import { Star } from './Star';
 import { randomInt } from './helper';
 
 let screenSizeArr: Array<number> = [10, 10],
@@ -18,6 +18,12 @@ for (let i = 0; i < 18; i++) {
 let background = new Image();
 background.src = '/images/BG.png';
 textures.push(background);
+
+/**
+ * Текстура табличка
+ */
+let textureAlert = new Image();
+textureAlert.src = `/images/Sign_1.png`;
 
 /**
  * Текстура стрелка вправо
@@ -62,11 +68,26 @@ let textureIcebox = new Image();
 textureIcebox.src = `/images/IceBox.png`;
 
 /**
+ * Текстура иглу
+ */
+let textureIgloo = new Image();
+textureIgloo.src = `/images/Igloo.png`;
+
+/**
  * Массив экранов для карты
  */
 export let mapPartsArr = [
   [ // 0 (finish) TODO: запилить финиш
-
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2
   ],
   [ // 1
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -78,7 +99,7 @@ export let mapPartsArr = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 14, 16,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    2, 2, 2, 3, 0, 0, 1, 2, 2, 2
+    2, 2, 2, 2, 2, 3, 0, 1, 2, 2
   ],
   [ // 2
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -90,7 +111,7 @@ export let mapPartsArr = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 14, 16, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    2, 2, 2, 2, 2, 2, 3, 0, 1, 2
+    3, 0, 1, 2, 2, 3, 0, 0, 1, 2
   ],
   [ // 3
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -138,14 +159,14 @@ export let mapPartsArr = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 14, 16, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    2, 2, 2, 3, 0, 1, 3, 0, 1, 2
+    2, 2, 2, 3, 0, 1, 3, 0, 0, 1
   ],
   [ // 7
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 14, 15, 16, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 14, 16, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     14, 16, 0, 0, 0, 14, 15, 15, 15, 16,
@@ -162,7 +183,16 @@ export let mapPartsArr = [
  */
 let mapPartsEffectsArr = [
   [ // 0 (finish)
-
+    {
+      texture: textureAlert,
+      coords: [220, 485],
+      size: [87, 94]
+    },
+    {
+      texture: textureIgloo,
+      coords: [340, 485],
+      size: [255, 100]
+    }
   ],
   [ // 1
     {
@@ -174,8 +204,8 @@ let mapPartsEffectsArr = [
   [ // 2
     {
       texture: textureSnowman,
-      coords: [100, 385],
-      size: [193, 210]
+      coords: [140, 475],
+      size: [96, 105]
     },
     {
       texture: textureCrystal,
@@ -186,20 +216,20 @@ let mapPartsEffectsArr = [
   [ // 3
     {
       texture: textureTree,
-      coords: [160, 298],
-      size: [228, 280]
+      coords: [190, 438],
+      size: [114, 140]
     },
     {
       texture: textureStone,
-      coords: [10, 498],
-      size: [124, 78]
+      coords: [10, 538],
+      size: [62, 39]
     }
   ],
   [ // 4
     {
       texture: textureTrees,
-      coords: [145, 298],
-      size: [364, 280]
+      coords: [205, 437],
+      size: [182, 140]
     },
     {
       texture: textureCrystal,
@@ -224,6 +254,21 @@ let mapPartsEffectsArr = [
       texture: textureIcebox,
       coords: [360, 498],
       size: [78, 78]
+    },
+    {
+      texture: textureIcebox,
+      coords: [364, 461],
+      size: [39, 39]
+    },
+    {
+      texture: textureIcebox,
+      coords: [408, 461],
+      size: [39, 39]
+    },
+    {
+      texture: textureIcebox,
+      coords: [378, 422],
+      size: [39, 39]
     }
   ],
   [ // 7
@@ -244,10 +289,10 @@ export class Map {
   globalBackShift: number; // глобальный сдвиг фона (влево)
 
   constructor () {
-    this.mapParts = [1, 2, 3];
+    this.mapParts = [1, randomInt(2, mapPartsArr.length - 1), randomInt(2, mapPartsArr.length - 1)];
     this.mapStartX = 0;
     this.mapDifficultyMultipler = 0;
-    this.speed = 1;
+    this.speed = 3;
     this.globalShift = 0;
     this.globalBackShift = 0;
   }
@@ -320,18 +365,18 @@ export class Map {
       this.globalShift = 0;
 
       this.mapParts.shift();
-      this.mapParts.push(randomInt(1, mapPartsArr.length - 1));
+      this.mapParts.push(randomInt(0, mapPartsArr.length - 1));
     }
 
     /**
      * Повышаем скорость
      */
 
-    // if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 200)) {
-    //   console.log('speed up!');
-    //   this.speed += .4;
-    // }
+    if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 150)) {
+      console.log('speed up!');
+      this.speed += .4;
+    }
 
-    display.message2.innerHTML = 'globalShift: ' + this.globalShift;
+    // display.message2.innerHTML = 'globalShift: ' + this.globalShift;
   }
 }
