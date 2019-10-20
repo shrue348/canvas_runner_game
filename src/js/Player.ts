@@ -107,8 +107,10 @@ export class Player {
     return false;
   }
 
-  _testEnemyCollision(enemy: any, mapExample: any): void {
-    if (this._testPlatformCollision(enemy)) this.die(mapExample);
+  _testEnemyCollision (enemy: any, mapExample: any): void {
+    if (!this.isDead) {
+      if (this._testPlatformCollision(enemy)) this.die(mapExample);
+    }
   }
 
   /**
@@ -124,7 +126,6 @@ export class Player {
 
   die (mapExample?: any) {
     this.isDead = true;
-    // this.y = 640 - this.height;
     this.xVelocity = 0;
     this.yVelocity = 0;
     this.animation.change(this.spriteSheet.frame_sets[1], 15);

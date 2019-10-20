@@ -10,7 +10,7 @@ let screenSizeArr: Array<number> = [10, 10],
  * Подгружаем текстуры тайлов и фона в массив textures
  */
 let textures: Array<any> = [];
-for (let i = 0; i < 18; i++) {
+for (let i = 0; i < 19; i++) {
   let texture = new Image();
   texture.src = `/images/${i}.png`;
   textures.push(texture);
@@ -93,7 +93,7 @@ export let mapPartsArr = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 18, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -118,7 +118,7 @@ export let mapPartsArr = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 18, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 14, 15, 16, 0, 0, 0, 0, 0, 0,
     14, 16, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -144,7 +144,7 @@ export let mapPartsArr = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    14, 15, 16, 0, 0, 0, 0, 0, 0, 0,
+    14, 15, 16, 0, 0, 0, 18, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     2, 2, 3, 0, 0, 1, 3, 0, 1, 2
@@ -167,7 +167,7 @@ export let mapPartsArr = [
     0, 14, 15, 16, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 14, 16, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    18, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     14, 16, 0, 0, 0, 14, 15, 15, 15, 16,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -316,8 +316,8 @@ export class Map {
     /**
      * Рисуем фон
      */
-    display.buffer.drawImage(textures[18], this.globalBackShift, 0, 1290, screenHeight * tileSize);
-    display.buffer.drawImage(textures[18], this.globalBackShift + 1290, 0, 1290, screenHeight * tileSize);
+    display.buffer.drawImage(textures[19], this.globalBackShift, 0, 1290, screenHeight * tileSize);
+    display.buffer.drawImage(textures[19], this.globalBackShift + 1290, 0, 1290, screenHeight * tileSize);
 
     /**
      * Для каждой части карты

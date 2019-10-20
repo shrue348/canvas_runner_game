@@ -12,18 +12,23 @@ export class Enemy {
   y: number;
   speed?: number;
   animation: Animator;
+  collisionModel: any;
 
   constructor (speed?: number) {
     this.width = 118;
     this.height = 68;
     this.x = display.buffer.canvas.width + 100;
-    this.y = randomInt(50, 150);
+    this.y = randomInt(50, 180);
     this.speed = speed ? speed : 1;
 
     // @ts-ignore
     this.animation = new Animator();
     this.animation.change(this.spriteSheet.frame_sets[0], 5);
     this.spriteSheet.image.src = '/images/bird.png';
+
+    this.collisionModel = [
+      [0, 25, this.width, 25]
+    ];
   }
 
   get bottom (): number { return this.y + this.height; }

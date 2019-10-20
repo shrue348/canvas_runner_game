@@ -29,6 +29,7 @@ import '../images/14.png';
 import '../images/15.png';
 import '../images/16.png';
 import '../images/17.png';
+import '../images/18.png';
 import '../images/BG.png';
 import '../images/Sign_1.png';
 import '../images/Sign_2.png';
