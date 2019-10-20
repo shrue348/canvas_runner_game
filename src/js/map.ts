@@ -297,6 +297,15 @@ export class Map {
     this.globalBackShift = 0;
   }
 
+  startNewGame = () => {
+    this.mapParts = [1, randomInt(2, mapPartsArr.length - 1), randomInt(2, mapPartsArr.length - 1)];
+    this.mapStartX = 0;
+    this.mapDifficultyMultipler = 0;
+    this.speed = 3;
+    this.globalShift = 0;
+    this.globalBackShift = 0;
+  }
+
   drawMap = (): void => {
     /**
      * Рисуем небо
@@ -372,7 +381,7 @@ export class Map {
      * Повышаем скорость
      */
 
-    if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 150)) {
+    if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 250)) {
       console.log('speed up!');
       this.speed += .4;
     }

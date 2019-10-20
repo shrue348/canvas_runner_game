@@ -15,8 +15,6 @@ export function inRad (num: number) {
   return num * Math.PI / 180;
 }
 
-
-
 /*
 if(Math.random() < 1 - Math.pow(.993, gameTime)) // - условие для усложнения игры
 this.x += (x - this.x - screenWidth * 0.5) * 0.05; // - easing движение экрана к координате

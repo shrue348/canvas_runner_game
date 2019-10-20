@@ -13,7 +13,7 @@ interface Controller {
 }
 
 export let controller: any = {
-  reset: false,
+  restart: false,
   up: false,
   down: false,
   left: false,
@@ -22,11 +22,16 @@ export let controller: any = {
   leftMousePressed: false,
   rihghtMousePressed: false,
 
+  // buttons: [
+  //   new Button('restart', 128, 672, 384, 128, '/images/restart.png', false),
+  //   new Button('jump', 352, 672, 256, 128, '/images/jump.png', true),
+  //   new Button('left', 32, 672, 128, 128, '/images/left.png', true),
+  //   new Button('right', 192, 672, 128, 128, '/images/right.png', true)
+  // ],
+
   buttons: [
-    new Button('back', 0, 640, 640, 256, '#1f2529'),
-    new Button('jump', 352, 672, 256, 128, 'rgba(0, 144, 240, 1)'),
-    new Button('left', 32, 672, 128, 128, 'rgba(0, 144, 240, 1)'),
-    new Button('right', 192, 672, 128, 128, 'rgba(0, 144, 240, 1)')
+    new Button('restart', 128, 672, 384, 128, '/images/restart.png', false),
+    new Button('jump', 196, 672, 256, 128, '/images/jump.png', true)
   ],
 
   testButtons: (targetTouches: Array<EventTarget>) => {
@@ -44,17 +49,13 @@ export let controller: any = {
         touch = targetTouches[k];
 
         if (button.containsPoint((touch.clientX - display.boundingRectangle.left) * display.buffer_output_ratio, (touch.clientY - display.boundingRectangle.top) * display.buffer_output_ratio)) {
-          //display.message.innerHTML = 'touches:' + targetTouches.length + '<br>- ';
+          // display.message.innerHTML = 'touches:' + targetTouches.length + '<br>- ';
           button.active = true;
           controller[button.name] = true;
           break;
         }
       }
     }
-
-    //display.message.innerHTML = 'touches: ' + targetTouches.length + '<br>- ';
-
-    // if (controller.buttons[0].active) display.message.innerHTML += 'jump ';
   },
 
   touchEnd: (event: TouchEvent) => {
@@ -81,9 +82,9 @@ export let controller: any = {
      */
     switch (e.keyCode) {
       case 82: // R - reset
-        controller.reset = keyState;
-        break;      
-       case 37:
+        controller.restart = keyState;
+        break;
+      case 37:
         controller.left = keyState;
         break;
       case 39:

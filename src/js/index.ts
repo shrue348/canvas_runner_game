@@ -2,16 +2,13 @@ import 'babel-polyfill';
 import './../sass/styles.scss';
 
 import { controller } from './controller';
-import { Button } from './Button';
 import { Label } from './Label';
 import { Player } from './Player';
-import { Barrier } from './Barrier';
+import { Enemy } from './Enemy';
 import { Map } from './map';
 import { Snow } from './Snow';
 import { AssetManager } from './Assets';
-import { Star } from './Star';
-
-import { randomInt } from './helper';
+import { Animator } from './Animator';
 
 import '../images/dog.png';
 import '../images/0.png';
@@ -43,6 +40,12 @@ import '../images/Stone.png';
 import '../images/IceBox.png';
 import '../images/Igloo.png';
 import '../images/icon-petshop.png';
+import '../images/bird.png';
+
+import '../images/left.png';
+import '../images/right.png';
+import '../images/jump.png';
+import '../images/restart.png';
 
 // import '../audio/back.mp3';
 
@@ -107,13 +110,9 @@ display.buffer.canvas.height = 832;
 let player = new Player(0 /* очков =) */);
 
 /**
- * Создаем барьеры
- */
-let barriers: Array<Barrier> = [];
-
-/**
  * TODO: Создаем врагов
  */
+let enemy = new Enemy(6);
 
 /**
  * TODO: Создаем монетки
@@ -121,8 +120,8 @@ let barriers: Array<Barrier> = [];
 // let stars: Array<Star> = [];
 // let star = new Star(9);
 // stars.push(star);
-let star = new Image();
-star.src = './images/icon-petshop.png';
+// let star = new Image();
+// star.src = './images/icon-petshop.png';
 
 /**
  * Создаем очки и лейблы на кнопки
@@ -138,14 +137,10 @@ let score = new Label(
 	50,
 	false
 );
-
 labels.push(score);
-let leftBtnLabel = new Label('leftBtnLabel', '‹', 70,'sans-serif', 'white', 80, 755, false);
-labels.push(leftBtnLabel);
-let rightBtnLabel = new Label('rightBtnLabel', '›', 70,'sans-serif', 'white', 245, 755, false);
-labels.push(rightBtnLabel);
-let jumpBtnLabel = new Label('jumpBtnLabel', 'JUMP', 40,'sans-serif', 'white', 415, 755, false);
-labels.push(jumpBtnLabel);
+
+let pslogo = new Image();
+pslogo.src = '../images/icon-petshop.png';
 
 /**
  * Создаем карту
@@ -158,9 +153,29 @@ let map = new Map();
 let snow = new Snow();
 
 /**
+ * Запускаем новую игру
+ * в игроке сбрасываем очки, координаты и ускорение
+ * в карте сбрасываем координаты и экраны
+ */
+let startNewGame = () => {
+  player.startNewGame();
+  map.startNewGame();
+
+  controller.buttons[0].isShow = false;
+  controller.buttons[1].isShow = true;
+  if (controller.buttons[2]) controller.buttons[2].isShow = true;
+  if (controller.buttons[3]) controller.buttons[3].isShow = true;
+
+  labels[0].text = '0';
+};
+// @ts-ignore
+window.start = startNewGame;
+
+/**
  * Такт игры
  */
 let gameLoop = (): void => {
+  if (controller.restart && player.isDead) startNewGame();
 	/**
 	 * Обнуляем карту
 	 */
@@ -169,15 +184,17 @@ let gameLoop = (): void => {
   map.drawMap();
   snow.drawSnow();
 
-  // player._testStarsCollision(stars);
   if (!player.isDead) player.draw(map);
   else player.draw_die();
+  enemy.draw();
 
-  // barriers.forEach(item => item.draw());
+  player._testEnemyCollision(enemy, map);
+
+  display.buffer.fillStyle = '#1f2529';
+  display.buffer.fillRect(0, 640, 640, 256);
   controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
   labels.forEach(item => item.draw());
-  display.buffer.drawImage(star, 20, 24, 28, 28);
-  // stars.forEach(item => item.draw(map));
+  display.buffer.drawImage(pslogo, 20, 26, 28, 28);
 
   /**
    * Рендерим буфер в канву

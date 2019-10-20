@@ -1,10 +1,10 @@
 /**
  * Basic usage
  *
- * var ASSET_MANAGER = new AssetManager();
+ * let ASSET_MANAGER = new AssetManager();
  * ASSET_MANAGER.add('img/earth.png');
  * ASSET_MANAGER.downloadAll(function() {
- *    var sprite = ASSET_MANAGER.getAsset('img/earth.png');
+ *    let sprite = ASSET_MANAGER.getAsset('img/earth.png');
  *    ctx.drawImage(sprite, x - sprite.width/2, y - sprite.height/2);
  * });
  */
@@ -89,62 +89,72 @@ export class AssetManager {
   }
 }
 
-
 /**
  * Загружалка-проверялка аудио форматов
  */
 // export class LibCanvasAudio {
-//   audio: Audio;
+//   audio: any;
+//   src: string;
 
 //   constructor (file: string) {
 //     this.audio = new Audio;
 //     this.src(file);
 //   }
-    
-//   src (file: string) {
-//       var codec = this.getSupport();
-//       if (!codec) throw 'AudioNotSupported';
-//       this.audio.src = file.replace(/\*/g, this.getSupport());
-//       this.audio.load();
-//       return this;
+
+//   loadSrc (file: string) {
+//     let codec = this.getSupport();
+//     // @ts-ignore
+//     if (!codec) throw 'AudioNotSupported';
+//     this.audio.src = file.replace(/\*/g, this.getSupport());
+//     this.audio.load();
+//     return this;
 //   }
 
 //   getSupport () {
-//       return !this.audio.canPlayType ? false :
-//           this.audio.canPlayType('audio/ogg;')  ? 'ogg' :
-//           this.audio.canPlayType('audio/mpeg;') ? 'mp3' : false;
+//     return !this.audio.canPlayType ? false :
+//       this.audio.canPlayType('audio/ogg;') ? 'ogg' :
+//         this.audio.canPlayType('audio/mpeg;') ? 'mp3' : false;
 //   }
 
-//   cloneAudio : function () {
+//   cloneAudio () {
+//     if (window.opera) { // Reported Opera bug DSK-309302
+//       let audioClone = new Audio;
+//       audioClone.src = this.audio.src;
+//     } else {
 //       audioClone = this.audio.cloneNode(true);
-//       audioClone.load();
-//       return audioClone;
-//   },
-//   gatling : function (count) {
-//       this.barrels = [];
-//       this.gatIndex =  0;
-//       while (count--) {
-//           this.barrels.push(this.cloneAudio());
-//       }
-//       return this;
-//   },
-//   getNext : function () {
-//       var elem = this.barrels[this.gatIndex];
-//       ++this.gatIndex >= this.barrels.length && (this.gatIndex = 0);
-//       return elem;
-//   },
-//   playNext : function () {
-//       var elem = this.getNext();
-//       elem.pause();
-//       elem.currentTime = 0;
-//       elem.play();
-//       return this;
+//     }
+//     audioClone.load();
+//     return audioClone;
+//   }
+
+//   gatling (count) {
+//     this.barrels = [];
+//     this.gatIndex = 0;
+//     while (count--) {
+//       this.barrels.push(this.cloneAudio());
+//     }
+//     return this;
+//   }
+
+//   getNext () {
+//     let elem = this.barrels[this.gatIndex];
+//     ++this.gatIndex >= this.barrels.length && (this.gatIndex = 0);
+//     return elem;
+//   }
+
+//   playNext () {
+//     let elem = this.getNext();
+//     elem.pause();
+//     // firefox 3.5 starting audio bug
+//     elem.currentTime = 0.025;
+//     elem.play();
+//     return this;
 //   }
 // }
 
 // usage
-// var shotSound = new LibCanvasAudio('explosion.*').gatling(6);
+// let shotSound = new LibCanvasAudio('explosion.*').gatling(6);
 
 // window.addEventListener('keydown', function (e) {
-//     (e.keyCode == keys.SPACE) && shotSound.playNext();
+//   shotSound.playNext();
 // }, false);

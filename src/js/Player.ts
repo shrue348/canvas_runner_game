@@ -39,6 +39,7 @@ export class Player {
     this.jumping = true;
     this.isRun = true; // TODO: додлать анимацию
     this.isDead = false;
+    this.score = 0;
     this.controller = controller;
     this.texture = new Image();
     this.texture.src = '/images/dog.png';
@@ -94,7 +95,7 @@ export class Player {
   /**
    * Коллизия героя с любым прямоугольником
    */
-  testPlatformCollision (rectangle: any): boolean {
+  _testPlatformCollision (rectangle: any): boolean {
     if (this.top > rectangle.y + rectangle.height || this.right < rectangle.x || this.bottom < rectangle.y || this.left > rectangle.x + rectangle.width) {
       return false;
     }
@@ -106,7 +107,13 @@ export class Player {
     return false;
   }
 
+  _testEnemyCollision(enemy: any, mapExample: any): void {
+    if (this._testPlatformCollision(enemy)) this.die(mapExample);
+  }
 
+  /**
+   * Старт новой игры
+   */
   startNewGame = (): void => {
     console.log('start new game');
     this.x = 50;
@@ -115,14 +122,28 @@ export class Player {
     this.animation.change(this.spriteSheet.frame_sets[0], 5);
   }
 
+  die (mapExample?: any) {
+    this.isDead = true;
+    // this.y = 640 - this.height;
+    this.xVelocity = 0;
+    this.yVelocity = 0;
+    this.animation.change(this.spriteSheet.frame_sets[1], 15);
+
+    this.controller.buttons[0].isShow = true;
+    this.controller.buttons[1].isShow = false;
+    if (this.controller.buttons[2]) this.controller.buttons[2].isShow = false;
+    if (this.controller.buttons[3]) this.controller.buttons[3].isShow = false;
+
+    if (mapExample) {
+      mapExample.mapDifficultyMultipler = 0;
+      mapExample.speed = 0;
+    }
+  }
 
   /**
    * Анимация концовки игры
    */
   draw_die (): void {
-    /**
-     * Новая игра
-     */
     if (this.controller.reset) {
       this.startNewGame();
     }
@@ -145,7 +166,7 @@ export class Player {
    */
   draw (mapExample?: any): void {
     /**
-     * Конец игры, return из функции
+     * если мертв return из функции
      */
     if (this.isDead) {
       display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
@@ -205,16 +226,7 @@ export class Player {
      * Коллизии с водой (смерть)
      */
     if (this.bottom > 639) {
-      this.isDead = true;
-      this.y = 640 - this.height;
-      this.xVelocity = 0;
-      this.yVelocity = 0;
-      this.animation.change(this.spriteSheet.frame_sets[1], 15);
-
-      if (mapExample) {
-        mapExample.mapDifficultyMultipler = 0;
-        mapExample.speed = 0;
-      }
+      this.die(mapExample);
     }
 
     /**
@@ -287,18 +299,19 @@ export class Player {
     this.spriteSheet.image.src = '/images/dog.png';
 
     labels[0].increment();
+
     display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
 
-    /**
-     * Рисуем модель коллизий
-     */
+    this.animation.update();
+    if (!this.isDead) mapExample.mapDifficultyMultipler ++;
+
+  /**
+   * Рисуем модель коллизий
+   */
     // this.collisionModel.forEach((element: any[]): void => {
     //   display.buffer.fillStyle = '#ff0000';
     //   display.buffer.fillRect(this.x + element[0], this.y + element[1], element[2], element[3]);
     // });
-
-    this.animation.update();
-    if (!this.isDead) mapExample.mapDifficultyMultipler ++;
 
   }
 }
