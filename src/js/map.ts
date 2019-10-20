@@ -381,8 +381,7 @@ export class Map {
      * Повышаем скорость
      */
 
-    if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 250)) {
-      console.log('speed up!');
+    if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 250) && this.speed < 9) {
       this.speed += .4;
     }
 
