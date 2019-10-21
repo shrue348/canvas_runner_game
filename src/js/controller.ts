@@ -15,7 +15,6 @@ interface Controller {
 export let controller: any = {
   restart: false,
   up: false,
-  down: false,
   left: false,
   right: false,
   space: false,
@@ -55,6 +54,22 @@ export let controller: any = {
           break;
         }
       }
+    }
+  },
+
+  testButtonsClick: (e: any) => {
+
+    for (let i = controller.buttons.length - 1; i > -1; --i) {
+      let button = controller.buttons[i];
+      button.active = false;
+      controller[button.name] = false;
+
+      let touch = e;
+
+      if (button.containsPoint((touch.clientX - display.boundingRectangle.left), (touch.clientY - display.boundingRectangle.top))) {
+        button.active = true;
+        controller[button.name] = true;
+      } 
     }
   },
 
@@ -106,10 +121,12 @@ export let controller: any = {
      */
     switch (e.type) {
       case 'mousedown':
-        controller.mouse = true;
+        // controller.mouse = true;
+        controller.testButtonsClick(e);
         break;
       case 'mouseup':
-        controller.mouse = false;
+        // controller.mouse = false;
+        controller.testButtonsClick(e);
         break;
     }
   }

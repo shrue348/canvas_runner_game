@@ -187,6 +187,7 @@ let gameLoop = (): void => {
 
   if (!player.isDead) player.draw(map);
   else player.draw_die();
+  enemy.speed = map.speed + 2;
   enemy.draw();
 
   player._testEnemyCollision(enemy, map);

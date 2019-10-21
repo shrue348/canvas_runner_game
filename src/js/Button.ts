@@ -24,6 +24,7 @@ export class Button {
 
   containsPoint (x: number, y: number): boolean {
     if (this.isShow) {
+      console.log(x, this.x, y, this.y)
       if (x < this.x || x > this.x + this.width || y < this.y || y > this.y + this.width) {
         return false;
       }

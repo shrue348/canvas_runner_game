@@ -191,7 +191,7 @@ export class Player {
     /**
      * Прыжок
      */
-    if ((this.controller.up || this.controller.mouse === true || this.controller.jump === true) && !this.jumping) {
+    if ((this.controller.up || this.controller.jump === true) && !this.jumping) {
       this.yVelocity = -21;
       this.jumping = true;
       this.isRun = true;
