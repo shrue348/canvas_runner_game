@@ -2,8 +2,8 @@ import { display, tileSize } from './index';
 import { Button } from './Button';
 
 interface Controller {
+  restart: boolean;
   up: boolean;
-  down: boolean;
   left: boolean;
   right: boolean;
   space: boolean;
@@ -48,7 +48,6 @@ export let controller: any = {
         touch = targetTouches[k];
 
         if (button.containsPoint((touch.clientX - display.boundingRectangle.left) * display.buffer_output_ratio, (touch.clientY - display.boundingRectangle.top) * display.buffer_output_ratio)) {
-          // display.message.innerHTML = 'touches:' + targetTouches.length + '<br>- ';
           button.active = true;
           controller[button.name] = true;
           break;
@@ -69,7 +68,7 @@ export let controller: any = {
       if (button.containsPoint((touch.clientX - display.boundingRectangle.left), (touch.clientY - display.boundingRectangle.top))) {
         button.active = true;
         controller[button.name] = true;
-      } 
+      }
     }
   },
 
@@ -125,8 +124,14 @@ export let controller: any = {
         controller.testButtonsClick(e);
         break;
       case 'mouseup':
-        // controller.mouse = false;
-        controller.testButtonsClick(e);
+        controller.restart = false;
+        controller.up = false;
+        controller.left = false;
+        controller.right = false;
+        controller.space = false;
+        controller.leftMousePressed = false;
+        controller.rihghtMousePressed = false;
+
         break;
     }
   }
