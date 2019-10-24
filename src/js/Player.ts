@@ -120,7 +120,7 @@ export class Player {
 
       for (let i = 0; i < mapPartsArr[map.mapParts[0]].length; i++) {
         if (mapPartsArr[map.mapParts[0]][i] === 99) {
-          let obj = {
+          let star = {
             x: (i % 10) * tileSize + map.globalShift + mapPartShiftX,
             y: Math.floor(i / 10) * tileSize,
             width: tileSize,
@@ -133,7 +133,7 @@ export class Player {
               y: this.y + this.collisionModel[p][1],
               width: this.collisionModel[p][2],
               height: this.collisionModel[p][3]
-            }, obj)) {
+            }, star)) {
 
               player.score += 300;
               mapPartsArr[map.mapParts[0]][i] = 0;
