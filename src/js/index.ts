@@ -125,6 +125,8 @@ let startNewGame = () => {
   player.startNewGame();
   map.startNewGame();
 
+  enemy.x = display.buffer.canvas.width + 200;
+
   controller.buttons[0].isShow = false;
   controller.buttons[1].isShow = true;
   if (controller.buttons[2]) controller.buttons[2].isShow = true;

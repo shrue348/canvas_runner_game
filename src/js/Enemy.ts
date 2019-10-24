@@ -10,6 +10,8 @@ export class Enemy {
   width: number;
   x: number;
   y: number;
+  xMultipler: number;
+  yMultipler: number;
   speed?: number;
   animation: Animator;
   collisionModel: any;
@@ -20,6 +22,8 @@ export class Enemy {
     this.x = display.buffer.canvas.width + 100;
     this.y = randomInt(50, 180);
     this.speed = speed ? speed : 1;
+    this.xMultipler = 1;
+    this.yMultipler = 3;
 
     // @ts-ignore
     this.animation = new Animator();
@@ -43,12 +47,14 @@ export class Enemy {
 
   draw (): void {
     this.x -= this.speed;
-    this.y += Math.sin(inRad(this.x))*3;
+    this.y += Math.sin(inRad(this.x * this.xMultipler))*this.yMultipler;
     this.animation.update();
 
     if (this.x < -this.width) {
       this.x = display.buffer.canvas.width + randomInt(1000, 2500);
       this.y = randomInt(50, 150);
+      this.xMultipler = randomInt(.6, 1.3);
+      this.yMultipler = randomInt(2, 6);
     }
 
     display.buffer.drawImage(

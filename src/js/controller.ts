@@ -22,7 +22,7 @@ export let controller: any = {
   rihghtMousePressed: false,
 
   buttons: [
-    new Button('restart', 128, 672, 384, 128, '/images/restart.png', false),
+    new Button('restart', 128, 272, 384, 128, '/images/restart.png', false),
     new Button('jump', 352, 672, 256, 128, '/images/jump.png', true),
     new Button('left', 32, 672, 128, 128, '/images/left.png', true),
     new Button('right', 192, 672, 128, 128, '/images/right.png', true)
