@@ -10,43 +10,6 @@ import { Snow } from './Snow';
 import { AssetManager } from './Assets';
 import { Animator } from './Animator';
 
-import '../images/dog.png';
-import '../images/0.png';
-import '../images/1.png';
-import '../images/2.png';
-import '../images/3.png';
-import '../images/4.png';
-import '../images/5.png';
-import '../images/6.png';
-import '../images/7.png';
-import '../images/8.png';
-import '../images/9.png';
-import '../images/10.png';
-import '../images/11.png';
-import '../images/12.png';
-import '../images/13.png';
-import '../images/14.png';
-import '../images/15.png';
-import '../images/16.png';
-import '../images/17.png';
-import '../images/18.png';
-import '../images/BG.png';
-import '../images/Sign_1.png';
-import '../images/Sign_2.png';
-import '../images/SnowMan.png';
-import '../images/Crystal.png';
-import '../images/Tree_1.png';
-import '../images/Tree_2.png';
-import '../images/Stone.png';
-import '../images/IceBox.png';
-import '../images/Igloo.png';
-import '../images/icon-petshop.png';
-import '../images/bird.png';
-
-import '../images/left.png';
-import '../images/right.png';
-import '../images/jump.png';
-import '../images/restart.png';
 
 // import '../audio/back.mp3';
 
@@ -257,16 +220,78 @@ let assetsSources = [
   '../images/15.png',
   '../images/16.png',
   '../images/17.png',
-  '../images/BG.png'
+  '../images/18.png',
+  '../images/BG.png',
+  '../images/Sign_1.png',
+  '../images/Sign_2.png',
+  '../images/SnowMan.png',
+  '../images/Crystal.png',
+  '../images/Tree_1.png',
+  '../images/Tree_2.png',
+  '../images/Stone.png',
+  '../images/IceBox.png',
+  '../images/Igloo.png',
+  '../images/icon-petshop.png',
+  '../images/bird.png',
+  '../images/left.png',
+  '../images/right.png',
+  '../images/jump.png',
+  '../images/restart.png'
 ];
-let assets = new AssetManager();
-for (let item in assetsSources) {
-  assets.add(item);
-}
-// assets.downloadAll(() => console.log('download assets complete!'));
+
+export let assets = new AssetManager();
+
+assetsSources.forEach(item => assets.add(item));
+assets.downloadAll(() => {
+  /**
+   * Старт
+   */
+  display.resize();
+  gameLoop();
+
+  // @ts-ignore
+  window.assets = assets
+});
+
+
+
 
 /**
- * Старт
+ * Для вебпака
  */
-display.resize();
-gameLoop();
+import '../images/dog.png';
+import '../images/0.png';
+import '../images/1.png';
+import '../images/2.png';
+import '../images/3.png';
+import '../images/4.png';
+import '../images/5.png';
+import '../images/6.png';
+import '../images/7.png';
+import '../images/8.png';
+import '../images/9.png';
+import '../images/10.png';
+import '../images/11.png';
+import '../images/12.png';
+import '../images/13.png';
+import '../images/14.png';
+import '../images/15.png';
+import '../images/16.png';
+import '../images/17.png';
+import '../images/18.png';
+import '../images/BG.png';
+import '../images/Sign_1.png';
+import '../images/Sign_2.png';
+import '../images/SnowMan.png';
+import '../images/Crystal.png';
+import '../images/Tree_1.png';
+import '../images/Tree_2.png';
+import '../images/Stone.png';
+import '../images/IceBox.png';
+import '../images/Igloo.png';
+import '../images/icon-petshop.png';
+import '../images/bird.png';
+import '../images/left.png';
+import '../images/right.png';
+import '../images/jump.png';
+import '../images/restart.png';
