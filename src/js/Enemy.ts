@@ -3,7 +3,7 @@
  */
 import { display } from './index';
 import { Animator } from './Animator';
-import { randomInt } from './helper';
+import { randomInt, inRad } from './helper';
 
 export class Enemy {
   height: number;
@@ -43,6 +43,7 @@ export class Enemy {
 
   draw (): void {
     this.x -= this.speed;
+    this.y += Math.sin(inRad(this.x))*3;
     this.animation.update();
 
     if (this.x < -this.width) {
