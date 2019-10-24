@@ -325,6 +325,15 @@ export class Map {
     }
   }
 
+  _removeStar = () => {
+    let index = this.mapParts[this.mapParts.length - 1],
+      arr = mapPartsArr[index];
+
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === 99) arr[i] = 0;
+    }
+  }
+
   drawMap = (): void => {
     /**
      * Рисуем небо
@@ -399,6 +408,7 @@ export class Map {
       this.mapParts.shift();
       this.mapParts.push(randomInt(0, mapPartsArr.length - 1));
 
+      this._removeStar();
       this._addStar();
     }
 

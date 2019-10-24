@@ -161,7 +161,6 @@ export class Player {
    * Старт новой игры
    */
   startNewGame = (): void => {
-    console.log('start new game');
     this.x = 50;
     this.y = 100;
     this.score = 0;
@@ -360,10 +359,10 @@ export class Player {
   /**
    * Рисуем модель коллизий
    */
-    // this.collisionModel.forEach((element: any[]): void => {
-    //   display.buffer.fillStyle = '#ff0000';
-    //   display.buffer.fillRect(this.x + element[0], this.y + element[1], element[2], element[3]);
-    // });
+    this.collisionModel.forEach((element: any[]): void => {
+      display.buffer.fillStyle = '#ff0000';
+      display.buffer.fillRect(this.x + element[0], this.y + element[1], element[2], element[3]);
+    });
 
   }
 }
