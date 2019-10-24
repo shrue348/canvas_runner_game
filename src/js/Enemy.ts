@@ -47,7 +47,7 @@ export class Enemy {
 
   draw (): void {
     this.x -= this.speed;
-    this.y += Math.sin(inRad(this.x * this.xMultipler))*this.yMultipler;
+    this.y += Math.sin(inRad(this.x * this.xMultipler)) * this.yMultipler;
     this.animation.update();
 
     if (this.x < -this.width) {

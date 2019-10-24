@@ -2,6 +2,7 @@ import { display, tileSize, labels } from './index';
 import { mapPartsArr } from './map';
 import { controller } from './controller';
 import { Animator } from './Animator';
+import { Enemy } from './Enemy';
 
 // класс игрока
 
@@ -102,12 +103,55 @@ export class Player {
     return true;
   }
 
-  _testStarsCollision (stars: Array<any>): boolean {
-    // console.log('collision');
+  _testRectanglesCollision (rectangle1: any, rectangle2: any): boolean {
+    if (rectangle1.x + rectangle1.width < rectangle2.x || rectangle1.x > rectangle2.x + rectangle2.width || rectangle1.y + rectangle1.height < rectangle2.y || rectangle1.y > rectangle2.y + rectangle2.height) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * mapPartsArr - карты экранов
+   * @param map- экземпляр карты
+   */
+  _testStarsCollision (map: any, player: Player): boolean {
+    for (let a = 0; a < 3; a ++) {
+      let mapPartShiftX = tileSize * 10 * a;
+
+      for (let i = 0; i < mapPartsArr[map.mapParts[0]].length; i++) {
+        if (mapPartsArr[map.mapParts[0]][i] === 99) {
+          let obj = {
+            x: (i % 10) * tileSize + map.globalShift + mapPartShiftX,
+            y: Math.floor(i / 10) * tileSize,
+            width: tileSize,
+            height: tileSize
+          };
+
+          for (let p = 0; p < this.collisionModel.length; p++) {
+            if (this._testRectanglesCollision({
+              x: this.x + this.collisionModel[p][0],
+              y: this.y + this.collisionModel[p][1],
+              width: this.collisionModel[p][2],
+              height: this.collisionModel[p][3]
+            }, obj)) {
+
+              player.score += 300;
+              mapPartsArr[map.mapParts[0]][i] = 0;
+            }
+          }
+        }
+      }
+    }
+
     return false;
   }
 
-  _testEnemyCollision (enemy: any, mapExample: any): void {
+  /**
+   * TODO: сделать тест с моделью коллизий врага
+   * @param enemy экземпляр Enemy
+   * @param mapExample
+   */
+  _testEnemyCollision (enemy: Enemy, mapExample: any): void {
     if (!this.isDead) {
       if (this._testPlatformCollision(enemy)) this.die(mapExample);
     }
@@ -120,6 +164,7 @@ export class Player {
     console.log('start new game');
     this.x = 50;
     this.y = 100;
+    this.score = 0;
     this.isDead = false;
     this.animation.change(this.spriteSheet.frame_sets[0], 5);
   }
@@ -250,9 +295,13 @@ export class Player {
       let map = mapPartsArr[mapExample.mapParts[mapIndex]];
       let valueAtIndex = map[bottomRow * 10 + leftColumn];
 
-      if (valueAtIndex > 0) valueAtIndex = 1;
-      if (valueAtIndex > 0 && valueAtIndex !== undefined) {
-        this.collision[valueAtIndex](this, bottomRow, leftColumn);
+      display.message2.innerHTML = '' + valueAtIndex;
+
+      if (valueAtIndex !== 99) {
+        if (valueAtIndex > 0) valueAtIndex = 1;
+        if (valueAtIndex > 0 && valueAtIndex !== undefined) {
+          this.collision[valueAtIndex](this, bottomRow, leftColumn);
+        }
       }
 
       if (rightColumn >= 10) {
@@ -262,9 +311,11 @@ export class Player {
       map = mapPartsArr[mapExample.mapParts[mapIndex]];
       valueAtIndex = map[bottomRow * 10 + rightColumn];
 
-      if (valueAtIndex > 0) valueAtIndex = 1;
-      if (valueAtIndex > 0) {
-        this.collision[valueAtIndex](this, bottomRow, rightColumn);
+      if (valueAtIndex !== 99) {
+        if (valueAtIndex > 0) valueAtIndex = 1;
+        if (valueAtIndex > 0) {
+          this.collision[valueAtIndex](this, bottomRow, rightColumn);
+        }
       }
 
       // display.message.innerHTML = 'currentScreen: ' + leftColumn + ' ' + rightColumn + ' ' + mapIndex;
@@ -299,7 +350,7 @@ export class Player {
 
     this.spriteSheet.image.src = '/images/dog.png';
 
-    labels[0].increment();
+    this.score ++;
 
     display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
 

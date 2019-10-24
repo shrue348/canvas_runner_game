@@ -61,9 +61,9 @@ export class AssetManager {
 
   _loadImage (path: string, callback: () => void) {
     let img = new Image();
-    let name:any = path.split('/')
+    let name: any = path.split('/');
 
-    name = name[name.length - 1]
+    name = name[name.length - 1];
 
     img.addEventListener('load', () => {
       this._successCount++;

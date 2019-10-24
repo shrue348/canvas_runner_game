@@ -74,6 +74,12 @@ let textureIgloo = new Image();
 textureIgloo.src = `/images/Igloo.png`;
 
 /**
+ * Текстура монетка
+ */
+let star = new Image();
+star.src = `/images/icon-petshop.png`;
+
+/**
  * Массив экранов для карты
  */
 export let mapPartsArr = [
@@ -96,7 +102,7 @@ export let mapPartsArr = [
     0, 0, 0, 0, 0, 0, 0, 18, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 99, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 14, 16,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     2, 2, 2, 2, 2, 3, 0, 1, 2, 2
@@ -104,7 +110,7 @@ export let mapPartsArr = [
   [ // 2
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 99, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 14, 15, 16, 0, 0, 0, 0, 0,
     0, 14, 16, 0, 0, 0, 0, 0, 0, 0,
@@ -127,7 +133,7 @@ export let mapPartsArr = [
   ],
   [ // 4
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 99, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 14, 15, 16,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -164,7 +170,7 @@ export let mapPartsArr = [
   [ // 7
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 14, 15, 16, 0, 0, 0, 0, 0, 0,
+    0, 14, 15, 16, 0, 0, 99, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 14, 16, 0, 0, 0, 0, 0, 0, 0,
     18, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -348,8 +354,12 @@ export class Map {
        * Заполняем тайлы текстурой
        */
       for (let i = 0; i < map.length; i++) {
-        if (map[i] > 0) {
+        if (map[i] > 0 && map[i] !== 99 /** не звезда */) {
           display.buffer.drawImage(textures[map[i]], (i % screenWidth) * tileSize + mapPartShiftX + this.globalShift, Math.floor(i / screenWidth) * tileSize, tileSize, tileSize);
+        }
+
+        if (map[i] === 99 /** звезда */) {
+          display.buffer.drawImage(star, (i % screenWidth) * tileSize + mapPartShiftX + this.globalShift, Math.floor(i / screenWidth) * tileSize, tileSize, tileSize);
         }
       }
     }

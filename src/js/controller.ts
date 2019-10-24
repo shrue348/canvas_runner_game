@@ -98,6 +98,9 @@ export let controller: any = {
       case 82: // R - reset
         controller.restart = keyState;
         break;
+      case 13: // Enter - reset
+        controller.restart = keyState;
+        break;
       case 37:
         controller.left = keyState;
         break;

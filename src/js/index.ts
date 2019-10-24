@@ -10,7 +10,6 @@ import { Snow } from './Snow';
 import { AssetManager } from './Assets';
 import { Animator } from './Animator';
 
-
 // import '../audio/back.mp3';
 
 /**
@@ -93,7 +92,7 @@ let enemy = new Enemy(6);
 export let labels: Array<Label> = [];
 let score = new Label(
 	'score',
-	'0',
+	player.score.toString(),
 	28,
 	'sans-serif',
 	'white',
@@ -156,11 +155,15 @@ let gameLoop = (): void => {
   enemy.draw();
 
   player._testEnemyCollision(enemy, map);
+  player._testStarsCollision(map, player);
 
   display.buffer.fillStyle = '#1f2529';
   display.buffer.fillRect(0, 640, 640, 256);
   controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
+
+  labels[0].text = player.score.toString();
   labels.forEach(item => item.draw());
+
   display.buffer.drawImage(pslogo, 20, 26, 28, 28);
 
   /**
@@ -252,11 +255,8 @@ assets.downloadAll(() => {
   gameLoop();
 
   // @ts-ignore
-  window.assets = assets
+  window.assets = assets;
 });
-
-
-
 
 /**
  * Для вебпака
