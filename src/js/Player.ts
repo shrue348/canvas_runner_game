@@ -119,39 +119,36 @@ export class Player {
     for (let a = 0; a < 3; a ++) {
       let mapPartShiftX = tileSize * 10 * a;
 
+      // display.message.innerHTML = ''
       display.message.innerHTML = ''
-      display.message2.innerHTML = ''
 
-      for (let i = 0; i < mapPartsArr[map.mapParts[0]].length; i++) {
-        if (mapPartsArr[map.mapParts[0]][i] === 99) {
-          if ((i % 10) * tileSize + map.globalShift + mapPartShiftX + tileSize < 0) {
-            mapPartsArr[map.mapParts[0]][i] = 0;
-            break;
-          }
+      for (let a = 0; a < map.mapPartsArr.length - 1; a++) {
+        for (let i = 0; i < map.mapPartsArr[a].length; i++) {
+          if (map.mapPartsArr[a][i] === 99) {
+            let star = {
+              x: (i % 10) * tileSize + map.globalShift + mapPartShiftX,
+              y: Math.floor(i / 10) * tileSize,
+              width: tileSize,
+              height: tileSize
+            };
 
-          let star = {
-            x: (i % 10) * tileSize + map.globalShift + mapPartShiftX,
-            y: Math.floor(i / 10) * tileSize,
-            width: tileSize,
-            height: tileSize
-          };
+            //display.message.innerHTML += 'x: ' + Math.floor(star.x - mapPartShiftX) + ',' + Math.floor(this.x);
+            display.message.innerHTML += 'map: ' + map.mapParts.toString();
 
-          display.message.innerHTML += 'x: ' + Math.floor(star.x - mapPartShiftX) + ',' + Math.floor(this.x);
-          display.message2.innerHTML += 'map: ' + map.mapParts.toString();
+            for (let p = 0; p < this.collisionModel.length; p++) {
+              if (this._testRectanglesCollision({
+                x: this.x + this.collisionModel[p][0],
+                y: this.y + this.collisionModel[p][1],
+                width: this.collisionModel[p][2],
+                height: this.collisionModel[p][3]
+              }, star)) {
 
-          for (let p = 0; p < this.collisionModel.length; p++) {
-            if (this._testRectanglesCollision({
-              x: this.x + this.collisionModel[p][0],
-              y: this.y + this.collisionModel[p][1],
-              width: this.collisionModel[p][2],
-              height: this.collisionModel[p][3]
-            }, star)) {
-
-              player.score += 300;
-              mapPartsArr[map.mapParts[0]][i] = 0;
+                player.score += 300;
+                map.mapPartsArr[a][i] = 0;
+              }
             }
           }
-        }
+        }    
       }
     }
 

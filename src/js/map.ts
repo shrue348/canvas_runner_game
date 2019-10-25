@@ -101,7 +101,7 @@ export let mapPartsArr = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 18, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 99, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 99,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 14, 16,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -133,7 +133,7 @@ export let mapPartsArr = [
   ],
   [ // 4
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    99, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 14, 15, 16,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -156,7 +156,7 @@ export let mapPartsArr = [
     2, 2, 3, 0, 0, 1, 3, 0, 1, 2
   ],
   [ // 6
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 99,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 14, 15, 15, 16, 0,
@@ -169,7 +169,7 @@ export let mapPartsArr = [
   ],
   [ // 7
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 99, 0,
     0, 14, 15, 16, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 14, 16, 0, 0, 0, 0, 0, 0, 0,
@@ -288,6 +288,7 @@ let mapPartsEffectsArr = [
 
 export class Map {
   mapParts: Array<number>; // ссылки на массив частей карты (при уезжании за экран влево первый элемент убирается и добавляется рандомно новый)
+  mapPartsArr: Array<any>; // массив экранов учавствующих в игре
   mapStartX: number; // левый край карты
   mapDifficultyMultipler: number; // кол-во тактов игры
   speed: number; // скорость сдвига слева
@@ -296,6 +297,7 @@ export class Map {
 
   constructor () {
     this.mapParts = [1, randomInt(2, mapPartsArr.length - 1), randomInt(2, mapPartsArr.length - 1)];
+    this.mapPartsArr = [[...mapPartsArr[1]],[...mapPartsArr[this.mapParts[1]]],[...mapPartsArr[this.mapParts[2]]]];
     this.mapStartX = 0;
     this.mapDifficultyMultipler = 0;
     this.speed = 3;
@@ -306,6 +308,7 @@ export class Map {
   startNewGame = () => {
   	mapPartsArr[1][58] = 99;
     this.mapParts = [1, randomInt(2, mapPartsArr.length - 1), randomInt(2, mapPartsArr.length - 1)];
+    this.mapPartsArr = [[...mapPartsArr[1]],[...mapPartsArr[this.mapParts[1]]],[...mapPartsArr[this.mapParts[2]]]];
     this.mapStartX = 0;
     this.mapDifficultyMultipler = 0;
     this.speed = 3;
@@ -329,36 +332,26 @@ export class Map {
   /**
    * Удаляем звезду с уходящего экрана чтоб в сл раз добавить ее на новом месте
    */
-  _removeStar = () => {
-    let index = this.mapParts[0],
-      arr = mapPartsArr[index];
+  // _removeStar = () => {
+  //   let index = this.mapParts[0],
+  //     arr = mapPartsArr[index];
 
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i] === 99) {
-      	console.log(`removeStar on index ${index}-${i}`)
-      	arr[i] = 0;
-      }
-    }
-  }
+  //   for (let i = 0; i < arr.length; i++) {
+  //     if (arr[i] === 99) {
+  //     	console.log(`removeStar on index ${index}-${i}`)
+  //     	arr[i] = 0;
+  //     }
+  //   }
+  // }
 
   _addScreen = () => { 	
-
-  	// генерим число которого нет в массиве индексов карт
-		let genNewRand = () => {
-			let n = Math.abs(randomInt(0, mapPartsArr.length - 1));
-			if (this.mapParts.some(el => el == n)) genNewRand();
-
-    	console.log('add screen', this.mapParts, n)
-
-			return n;
-		}
-
-
-	  this._removeStar();
+	  //this._removeStar();
     this.mapParts.shift();
+    this.mapPartsArr.shift();
   	this.globalShift = 0;
-    this.mapParts.push(genNewRand());
-    this._addStar();
+    this.mapParts.push(randomInt(0, mapPartsArr.length - 1));
+    this.mapPartsArr.push([...mapPartsArr[this.mapParts.length - 1]])
+    //this._addStar();
   }
 
   drawMap = (): void => {
@@ -377,8 +370,8 @@ export class Map {
     /**
      * Для каждой части карты
      */
-    for (let p = 0; p < this.mapParts.length; p++) {
-      let map = mapPartsArr[this.mapParts[p]],
+    for (let p = 0; p < this.mapPartsArr.length; p++) {
+      let map = this.mapPartsArr[p],
         mapEffects = mapPartsEffectsArr[this.mapParts[p]],
         mapPartShiftX = tileSize * 10 * p;
 

@@ -113,7 +113,7 @@ let map = new Map();
 /**
  * Создаем снег
  */
-//let snow = new Snow();
+let snow = new Snow();
 
 /**
  * Запускаем новую игру
@@ -148,7 +148,7 @@ let gameLoop = (): void => {
   display.clear();
 
   map.drawMap();
-  //snow.drawSnow();
+  snow.drawSnow();
 
   if (!player.isDead) player.draw(map);
   else player.draw_die();
