@@ -55,7 +55,8 @@ export class Player {
     this.collisionModel = [
       [4, 10, 38, 43], // для пола
       [35, 0, 25, 40], // + ниже для призов и врагов
-      [35, 10, 40, 16]
+      [35, 10, 40, 16],
+      [0, 0, 4, 40]
     ];
 
     // @ts-ignore
@@ -118,14 +119,25 @@ export class Player {
     for (let a = 0; a < 3; a ++) {
       let mapPartShiftX = tileSize * 10 * a;
 
+      display.message.innerHTML = ''
+      display.message2.innerHTML = ''
+
       for (let i = 0; i < mapPartsArr[map.mapParts[0]].length; i++) {
         if (mapPartsArr[map.mapParts[0]][i] === 99) {
+          if ((i % 10) * tileSize + map.globalShift + mapPartShiftX + tileSize < 0) {
+            mapPartsArr[map.mapParts[0]][i] = 0;
+            break;
+          }
+
           let star = {
             x: (i % 10) * tileSize + map.globalShift + mapPartShiftX,
             y: Math.floor(i / 10) * tileSize,
             width: tileSize,
             height: tileSize
           };
+
+          display.message.innerHTML += 'x: ' + Math.floor(star.x - mapPartShiftX) + ',' + Math.floor(this.x);
+          display.message2.innerHTML += 'map: ' + map.mapParts.toString();
 
           for (let p = 0; p < this.collisionModel.length; p++) {
             if (this._testRectanglesCollision({
@@ -356,13 +368,13 @@ export class Player {
     this.animation.update();
     if (!this.isDead) mapExample.mapDifficultyMultipler ++;
 
-  /**
-   * Рисуем модель коллизий
-   */
-    this.collisionModel.forEach((element: any[]): void => {
-      display.buffer.fillStyle = '#ff0000';
-      display.buffer.fillRect(this.x + element[0], this.y + element[1], element[2], element[3]);
-    });
+    /**
+     * Рисуем модель коллизий
+     */
+    // this.collisionModel.forEach((element: any[]): void => {
+    //   display.buffer.fillStyle = '#ff0000';
+    //   display.buffer.fillRect(this.x + element[0], this.y + element[1], element[2], element[3]);
+    // });
 
   }
 }

@@ -73,7 +73,7 @@ display.buffer.canvas.height = 832;
 let player = new Player(0 /* очков =) */);
 
 /**
- * TODO: Создаем врагов
+ * Создаем врагов
  */
 let enemy = new Enemy(6);
 
@@ -113,7 +113,7 @@ let map = new Map();
 /**
  * Создаем снег
  */
-let snow = new Snow();
+//let snow = new Snow();
 
 /**
  * Запускаем новую игру
@@ -141,13 +141,14 @@ window.start = startNewGame;
  */
 let gameLoop = (): void => {
   if (controller.restart && player.isDead) startNewGame();
+
 	/**
 	 * Обнуляем карту
 	 */
   display.clear();
 
   map.drawMap();
-  snow.drawSnow();
+  //snow.drawSnow();
 
   if (!player.isDead) player.draw(map);
   else player.draw_die();

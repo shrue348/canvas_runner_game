@@ -304,6 +304,7 @@ export class Map {
   }
 
   startNewGame = () => {
+  	mapPartsArr[1][58] = 99;
     this.mapParts = [1, randomInt(2, mapPartsArr.length - 1), randomInt(2, mapPartsArr.length - 1)];
     this.mapStartX = 0;
     this.mapDifficultyMultipler = 0;
@@ -325,13 +326,39 @@ export class Map {
     }
   }
 
+  /**
+   * Удаляем звезду с уходящего экрана чтоб в сл раз добавить ее на новом месте
+   */
   _removeStar = () => {
-    let index = this.mapParts[this.mapParts.length - 1],
+    let index = this.mapParts[0],
       arr = mapPartsArr[index];
 
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i] === 99) arr[i] = 0;
+      if (arr[i] === 99) {
+      	console.log(`removeStar on index ${index}-${i}`)
+      	arr[i] = 0;
+      }
     }
+  }
+
+  _addScreen = () => { 	
+
+  	// генерим число которого нет в массиве индексов карт
+		let genNewRand = () => {
+			let n = Math.abs(randomInt(0, mapPartsArr.length - 1));
+			if (this.mapParts.some(el => el == n)) genNewRand();
+
+    	console.log('add screen', this.mapParts, n)
+
+			return n;
+		}
+
+
+	  this._removeStar();
+    this.mapParts.shift();
+  	this.globalShift = 0;
+    this.mapParts.push(genNewRand());
+    this._addStar();
   }
 
   drawMap = (): void => {
@@ -402,22 +429,15 @@ export class Map {
      * сдвигаем на 0
      * первый экран из 3х в this.mapParts удаляем и добавляем в конец раномный экран из массива mapPartsArr от 1 до последнего (0 экран - финиш)
      */
-    if (this.globalShift <= -screenWidth * tileSize) {
-      this.globalShift = 0;
-
-      this.mapParts.shift();
-      this.mapParts.push(randomInt(0, mapPartsArr.length - 1));
-
-      this._removeStar();
-      this._addStar();
+    if (this.globalShift < -screenWidth * tileSize) {
+      this._addScreen();
     }
 
     /**
      * Повышаем скорость
      */
-
     if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 250) && this.speed < 9) {
-      this.speed += .4;
+      // this.speed += .4;
     }
 
     // display.message2.innerHTML = 'globalShift: ' + this.globalShift;
