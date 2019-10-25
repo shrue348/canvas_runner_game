@@ -306,7 +306,6 @@ export class Map {
   }
 
   startNewGame = () => {
-  	mapPartsArr[1][58] = 99;
     this.mapParts = [1, randomInt(2, mapPartsArr.length - 1), randomInt(2, mapPartsArr.length - 1)];
     this.mapPartsArr = [[...mapPartsArr[1]],[...mapPartsArr[this.mapParts[1]]],[...mapPartsArr[this.mapParts[2]]]];
     this.mapStartX = 0;
@@ -350,7 +349,7 @@ export class Map {
     this.mapPartsArr.shift();
   	this.globalShift = 0;
     this.mapParts.push(randomInt(0, mapPartsArr.length - 1));
-    this.mapPartsArr.push([...mapPartsArr[this.mapParts.length - 1]])
+    this.mapPartsArr.push([...mapPartsArr[this.mapParts[2]]])
     //this._addStar();
   }
 
@@ -385,7 +384,6 @@ export class Map {
       /**
        * Добавляем елочки-снеговики
        */
-
       for (let r = 0; r < mapEffects.length; r++) {
         let effect = mapEffects[r];
 

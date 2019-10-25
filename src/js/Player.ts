@@ -300,7 +300,7 @@ export class Player {
         leftColumn = Math.floor(leftColumn % 10);
       }
 
-      let map = mapExample.mapPartsArr[mapExample.mapParts[mapIndex]];
+      let map = mapPartsArr[mapExample.mapParts[mapIndex]];
       let valueAtIndex = map[bottomRow * 10 + leftColumn];
 
       display.message2.innerHTML = '' + valueAtIndex;
@@ -316,7 +316,7 @@ export class Player {
         mapIndex = Math.floor(rightColumn / 10);
         rightColumn = Math.floor(rightColumn % 10);
       }
-      map = mapExample.mapPartsArr[mapExample.mapParts[mapIndex]];
+      map = mapPartsArr[mapExample.mapParts[mapIndex]];
       valueAtIndex = map[bottomRow * 10 + rightColumn];
 
       if (valueAtIndex !== 99) {
