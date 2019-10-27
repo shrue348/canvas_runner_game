@@ -31,7 +31,9 @@ export class Enemy {
     this.spriteSheet.image.src = '/images/bird.png';
 
     this.collisionModel = [
-      [0, 25, this.width, 25]
+      [0, 29, this.width, 23],
+      [20, 15, 70, 23],
+      [25, 40, 60, 23]
     ];
   }
 
@@ -68,5 +70,14 @@ export class Enemy {
       this.width,
       this.height
     );
+
+    /**
+     * Рисуем модель коллизий
+     */
+    // this.collisionModel.forEach((element: any[]): void => {
+    //   display.buffer.fillStyle = '#ff0000';
+    //   display.buffer.fillRect(this.x + element[0], this.y + element[1], element[2], element[3]);
+    // });
+
   }
 }

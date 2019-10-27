@@ -22,22 +22,20 @@ export let controller: any = {
   rihghtMousePressed: false,
 
   buttons: [
-    new Button('restart', 128, 272, 384, 128, '/images/restart.png', false),
+    new Button('restart', 192, 272, 256, 128, '/images/restart.png', false),
     new Button('jump', 352, 672, 256, 128, '/images/jump.png', true),
     new Button('left', 32, 672, 128, 128, '/images/left.png', true),
-    new Button('right', 192, 672, 128, 128, '/images/right.png', true)
+    new Button('right', 192, 672, 128, 128, '/images/right.png', true),
+    new Button('start', 192, 382, 256, 128, '/images/start.png', false)
   ],
-
-  // buttons: [
-  //   new Button('restart', 128, 672, 384, 128, '/images/restart.png', false),
-  //   new Button('jump', 196, 672, 256, 128, '/images/jump.png', true)
-  // ],
 
   testButtons: (targetTouches: Array<EventTarget>) => {
     let button: any,
       i: number,
       k: number,
       touch: any;
+
+    let ratio = Math.max(display.buffer_output_ratio, 1);
 
     for (i = controller.buttons.length - 1; i > -1; --i) {
       button = controller.buttons[i];
@@ -47,7 +45,7 @@ export let controller: any = {
       for (k = targetTouches.length - 1; k > -1; --k) {
         touch = targetTouches[k];
 
-        if (button.containsPoint((touch.clientX - display.boundingRectangle.left) * display.buffer_output_ratio, (touch.clientY - display.boundingRectangle.top) * display.buffer_output_ratio)) {
+        if (button.containsPoint((touch.clientX - display.boundingRectangle.left) * ratio, (touch.clientY - display.boundingRectangle.top) * ratio)) {
           button.active = true;
           controller[button.name] = true;
           break;
@@ -57,17 +55,21 @@ export let controller: any = {
   },
 
   testButtonsClick: (e: any) => {
+    let ratio = Math.max(display.buffer_output_ratio, 1);
 
     for (let i = controller.buttons.length - 1; i > -1; --i) {
       let button = controller.buttons[i];
       button.active = false;
       controller[button.name] = false;
 
-      let touch = e;
-
-      if (button.containsPoint((touch.clientX - display.boundingRectangle.left), (touch.clientY - display.boundingRectangle.top))) {
-        button.active = true;
-        controller[button.name] = true;
+      if (button.containsPoint((e.clientX - display.boundingRectangle.left) * ratio, (e.clientY - display.boundingRectangle.top) * ratio)) {
+        if (e.type === 'mousedown') {
+          button.active = true;
+          controller[button.name] = true;
+        } else {
+          button.active = false;
+          controller[button.name] = false;
+        }
       }
     }
   },
@@ -123,18 +125,10 @@ export let controller: any = {
      */
     switch (e.type) {
       case 'mousedown':
-        // controller.mouse = true;
         controller.testButtonsClick(e);
         break;
       case 'mouseup':
-        controller.restart = false;
-        controller.up = false;
-        controller.left = false;
-        controller.right = false;
-        controller.space = false;
-        controller.leftMousePressed = false;
-        controller.rihghtMousePressed = false;
-
+        controller.testButtonsClick(e);
         break;
     }
   }

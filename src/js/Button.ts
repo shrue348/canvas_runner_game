@@ -34,6 +34,11 @@ export class Button {
   draw (): void {
     // display.buffer.fillStyle = this.color;
     // display.buffer.fillRect(this.x, this.y, this.width, this.height);
-    if (this.isShow) display.buffer.drawImage(this.texture, this.x, this.y, this.width, this.height);
+    if (this.isShow) {
+      if (this.active) display.buffer.globalAlpha = 0.67;
+
+      display.buffer.drawImage(this.texture, this.x, this.y, this.width, this.height);
+      display.buffer.globalAlpha = 1;
+    }
   }
 }

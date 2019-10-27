@@ -20,59 +20,22 @@ background.src = '/images/BG.png';
 textures.push(background);
 
 /**
- * Текстура табличка
- */
-let textureAlert = new Image();
-textureAlert.src = `/images/Sign_1.png`;
-
-/**
- * Текстура стрелка вправо
- */
-let textureArrow = new Image();
-textureArrow.src = `/images/Sign_2.png`;
-
-/**
- * Текстура снеговик
- */
-let textureSnowman = new Image();
-textureSnowman.src = `/images/SnowMan.png`;
-
-/**
- * Текстура ледяной куб
- */
-let textureCrystal = new Image();
-textureCrystal.src = `/images/Crystal.png`;
-
-/**
- * Текстура елки
- */
-let textureTrees = new Image();
-textureTrees.src = `/images/Tree_1.png`;
-
-/**
- * Текстура елки
+ * Текстура дерево
  */
 let textureTree = new Image();
-textureTree.src = `/images/Tree_2.png`;
+textureTree.src = `/images/Tree_1.png`;
 
 /**
- * Текстура камень
+ * Текстура дерево
  */
-let textureStone = new Image();
-textureStone.src = `/images/Stone.png`;
+let textureTree2 = new Image();
+textureTree2.src = `/images/Tree_2.png`;
 
 /**
- * Текстура ледяной куб
+ * Текстура дерево
  */
-let textureIcebox = new Image();
-textureIcebox.src = `/images/IceBox.png`;
-
-/**
- * Текстура иглу
- */
-let textureIgloo = new Image();
-textureIgloo.src = `/images/Igloo.png`;
-
+let textureTree3 = new Image();
+textureTree3.src = `/images/Tree_3.png`;
 /**
  * Текстура монетка
  */
@@ -99,11 +62,11 @@ export let mapPartsArr = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 18, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 99,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 18,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 14, 16,
+    0, 0, 0, 0, 0, 0, 0, 14, 16, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     2, 2, 2, 2, 2, 3, 0, 1, 2, 2
   ],
@@ -133,7 +96,7 @@ export let mapPartsArr = [
   ],
   [ // 4
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    99, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 14, 15, 16,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -156,7 +119,7 @@ export let mapPartsArr = [
     2, 2, 3, 0, 0, 1, 3, 0, 1, 2
   ],
   [ // 6
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 99,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 14, 15, 15, 16, 0,
@@ -169,7 +132,7 @@ export let mapPartsArr = [
   ],
   [ // 7
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 99, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 14, 15, 16, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 14, 16, 0, 0, 0, 0, 0, 0, 0,
@@ -178,6 +141,78 @@ export let mapPartsArr = [
     14, 16, 0, 0, 0, 14, 15, 15, 15, 16,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     2, 3, 0, 0, 1, 3, 0, 0, 0, 1
+  ],
+  [ // 8
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 14, 16,
+    0, 0, 0, 0, 0, 0, 18, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 18, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 18, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+  ],
+  [ // 9
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 18,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 18, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 14, 15, 15, 16, 0,
+    0, 14, 16, 0, 0, 0, 0, 0, 18, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    2, 2, 2, 3, 0, 1, 2, 2, 2, 2
+  ],
+  [ // 10
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 18, 0, 0, 0, 0,
+    0, 18, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 18, 0, 0, 18, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 14, 15, 15, 15, 16, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    2, 2, 2, 2, 2, 2, 3, 0, 0, 1
+  ],
+  [ // 11
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 14, 16, 0, 0, 14, 16, 0, 0, 18,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 14, 15, 16, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 18, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    2, 2, 3, 0, 0, 1, 2, 2, 2, 2
+  ],
+  [ // 12
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 99,
+    0, 0, 0, 0, 14, 15, 15, 15, 15, 16,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 18, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 18, 0, 0, 0, 0, 0, 0, 14, 16,
+    0, 0, 0, 0, 0, 0, 14, 16, 0, 0,
+    18, 0, 0, 0, 14, 16, 0, 0, 0, 0,
+    0, 0, 14, 16, 0, 0, 0, 0, 0, 0,
+    2, 3, 0, 0, 0, 0, 0, 0, 0, 1
+  ],
+  [ // 13
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 14, 16,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 14, 16, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    14, 16, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2
   ]
 ];
 
@@ -190,105 +225,95 @@ export let mapPartsArr = [
 let mapPartsEffectsArr = [
   [ // 0 (finish)
     {
-      texture: textureAlert,
-      coords: [220, 485],
-      size: [87, 94]
+      texture: textureTree,
+      coords: [100, 440],
+      size: [114, 140]
     },
     {
-      texture: textureIgloo,
-      coords: [340, 485],
-      size: [255, 100]
+      texture: textureTree3,
+      coords: [340, 440],
+      size: [114, 140]
     }
   ],
   [ // 1
-    {
-      texture: textureArrow,
-      coords: [160, 485],
-      size: [87, 93]
-    }
+
   ],
   [ // 2
     {
-      texture: textureSnowman,
-      coords: [140, 475],
-      size: [96, 105]
-    },
-    {
-      texture: textureCrystal,
-      coords: [390, 370],
-      size: [97, 78]
+      texture: textureTree,
+      coords: [200, 440],
+      size: [114, 140]
     }
   ],
   [ // 3
     {
-      texture: textureTree,
-      coords: [190, 438],
+      texture: textureTree2,
+      coords: [200, 440],
       size: [114, 140]
-    },
-    {
-      texture: textureStone,
-      coords: [10, 538],
-      size: [62, 39]
     }
   ],
   [ // 4
     {
-      texture: textureTrees,
-      coords: [205, 437],
-      size: [182, 140]
-    },
-    {
-      texture: textureCrystal,
-      coords: [500, 120],
-      size: [97, 78]
+      texture: textureTree3,
+      coords: [200, 440],
+      size: [114, 140]
     }
   ],
   [ // 5
-    {
-      texture: textureArrow,
-      coords: [345, 485],
-      size: [87, 93]
-    },
-    {
-      texture: textureStone,
-      coords: [10, 498],
-      size: [124, 78]
-    }
+
   ],
   [ // 6
-    {
-      texture: textureIcebox,
-      coords: [360, 498],
-      size: [78, 78]
-    },
-    {
-      texture: textureIcebox,
-      coords: [364, 461],
-      size: [39, 39]
-    },
-    {
-      texture: textureIcebox,
-      coords: [408, 461],
-      size: [39, 39]
-    },
-    {
-      texture: textureIcebox,
-      coords: [378, 422],
-      size: [39, 39]
-    }
+
   ],
   [ // 7
+
+  ],
+  [ // 8
     {
-      texture: textureTrees,
-      coords: [300, 170],
-      size: [364, 280]
+      texture: textureTree3,
+      coords: [10, 440],
+      size: [114, 140]
+    },
+    {
+      texture: textureTree2,
+      coords: [260, 440],
+      size: [114, 140]
+    },
+    {
+      texture: textureTree,
+      coords: [390, 440],
+      size: [114, 140]
     }
+  ],
+  [ // 9
+
+  ],
+  [ // 10
+
+  ],
+  [ // 11
+    {
+      texture: textureTree2,
+      coords: [290, 440],
+      size: [114, 140]
+    },
+    {
+      texture: textureTree,
+      coords: [490, 440],
+      size: [114, 140]
+    }
+  ],
+  [ // 12
+
+  ],
+  [ // 13
+
   ]
 ];
 
 export class Map {
   mapParts: Array<number>; // ссылки на массив частей карты (при уезжании за экран влево первый элемент убирается и добавляется рандомно новый)
-  mapPartsArr: Array<any>; // массив экранов учавствующих в игре
+  mapPartsArr: Array<number[]>; // массив экранов учавствующих в игре
   mapStartX: number; // левый край карты
   mapDifficultyMultipler: number; // кол-во тактов игры
   speed: number; // скорость сдвига слева
@@ -297,10 +322,10 @@ export class Map {
 
   constructor () {
     this.mapParts = [1, randomInt(2, mapPartsArr.length - 1), randomInt(2, mapPartsArr.length - 1)];
-    this.mapPartsArr = [[...mapPartsArr[1]],[...mapPartsArr[this.mapParts[1]]],[...mapPartsArr[this.mapParts[2]]]];
+    this.mapPartsArr = [[...mapPartsArr[this.mapParts[0]]],[...mapPartsArr[this.mapParts[1]]],[...mapPartsArr[this.mapParts[2]]]];
     this.mapStartX = 0;
     this.mapDifficultyMultipler = 0;
-    this.speed = 3;
+    this.speed = 0;
     this.globalShift = 0;
     this.globalBackShift = 0;
   }
@@ -316,41 +341,31 @@ export class Map {
   }
 
   /**
-   * Добавляем звезду в каждый четный индекс экрана если там ее нет
+   * Добавляем или нет звезду
    */
   _addStar = () => {
-    let index = this.mapParts[this.mapParts.length - 1],
-      arr = mapPartsArr[index];
+    let x = randomInt(1, 10);
 
-    if (index % 2 === 0 && !arr.some((el: number) => el === 99)) {
-      let i = randomInt(0, 20);
-      arr[i] = 99;
+    if (x < 6) {
+      let n = randomInt(0, 19);
+      if (this.mapPartsArr[2][n] === 0) this.mapPartsArr[2][n] = 99;
     }
   }
 
   /**
-   * Удаляем звезду с уходящего экрана чтоб в сл раз добавить ее на новом месте
+   * Добавляем кость
    */
-  // _removeStar = () => {
-  //   let index = this.mapParts[0],
-  //     arr = mapPartsArr[index];
+  _addBone = () => {
+    //
+  }
 
-  //   for (let i = 0; i < arr.length; i++) {
-  //     if (arr[i] === 99) {
-  //     	console.log(`removeStar on index ${index}-${i}`)
-  //     	arr[i] = 0;
-  //     }
-  //   }
-  // }
-
-  _addScreen = () => { 	
-	  //this._removeStar();
+  _addScreen = () => {
     this.mapParts.shift();
     this.mapPartsArr.shift();
-  	this.globalShift = 0;
+  	this.globalShift = -1; // -1 потому что меняем с 0 (иначе 2 одинаковых кадра кадра подряд)
     this.mapParts.push(randomInt(0, mapPartsArr.length - 1));
-    this.mapPartsArr.push([...mapPartsArr[this.mapParts[2]]])
-    //this._addStar();
+    this.mapPartsArr.push([...mapPartsArr[this.mapParts[2]]]);
+    this._addStar();
   }
 
   drawMap = (): void => {
@@ -363,13 +378,13 @@ export class Map {
     /**
      * Рисуем фон
      */
-    display.buffer.drawImage(textures[19], this.globalBackShift, 0, 1290, screenHeight * tileSize);
-    display.buffer.drawImage(textures[19], this.globalBackShift + 1290, 0, 1290, screenHeight * tileSize);
+    display.buffer.drawImage(textures[19], this.globalBackShift, 0, 1920, screenHeight * tileSize);
+    display.buffer.drawImage(textures[19], this.globalBackShift + 1920, 0, 1920, screenHeight * tileSize);
 
     /**
-     * Для каждой части карты
+     * Для первых двух частей карты (только они попадают во вьюпорт)
      */
-    for (let p = 0; p < this.mapPartsArr.length; p++) {
+    for (let p = 0; p < this.mapPartsArr.length - 1; p++) {
       let map = this.mapPartsArr[p],
         mapEffects = mapPartsEffectsArr[this.mapParts[p]],
         mapPartShiftX = tileSize * 10 * p;
@@ -386,7 +401,6 @@ export class Map {
        */
       for (let r = 0; r < mapEffects.length; r++) {
         let effect = mapEffects[r];
-
         display.buffer.drawImage(effect.texture, effect.coords[0] + mapPartShiftX + this.globalShift, effect.coords[1], effect.size[0], effect.size[1]);
       }
 
@@ -411,13 +425,13 @@ export class Map {
      * Фон уезжает за экран
      * сбрасываем сдвиг на 0
      */
-    if (this.globalBackShift <= -1290) {
+    if (this.globalBackShift <= -1920) {
       this.globalBackShift = 0;
     }
 
     /**
      * Карта уехала на экран вправо
-     * сдвигаем на 0
+     * сдвигаем на -1
      * первый экран из 3х в this.mapParts удаляем и добавляем в конец раномный экран из массива mapPartsArr от 1 до последнего (0 экран - финиш)
      */
     if (this.globalShift < -screenWidth * tileSize) {
@@ -426,11 +440,9 @@ export class Map {
 
     /**
      * Повышаем скорость
-     */
-    if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 250) && this.speed < 9) {
-      // this.speed += .4;
+     */// эталон 0.1 /  if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 250) && this.speed < 9) {
+    if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 280) && this.speed < 9) {
+      this.speed += .4;
     }
-
-    // display.message2.innerHTML = 'globalShift: ' + this.globalShift;
   }
 }

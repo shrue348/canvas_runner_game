@@ -1,4 +1,4 @@
-import { display, tileSize, labels } from './index';
+import { display, tileSize } from './index';
 import { mapPartsArr } from './map';
 import { controller } from './controller';
 import { Animator } from './Animator';
@@ -29,7 +29,7 @@ export class Player {
   map: any;
 
   constructor (core: number) {
-    this.width = 76;
+    this.width = 79;
     this.height = 53;
     this.x = 50;
     this.y = 100;
@@ -39,7 +39,7 @@ export class Player {
     this.yVelocity = 0;
     this.jumping = true;
     this.isRun = true; // TODO: додлать анимацию
-    this.isDead = false;
+    this.isDead = true;
     this.score = 0;
     this.controller = controller;
     this.texture = new Image();
@@ -53,10 +53,10 @@ export class Player {
      * [x, y, width, height]
      */
     this.collisionModel = [
-      [4, 10, 38, 43], // для пола
-      [35, 0, 25, 40], // + ниже для призов и врагов
-      [35, 10, 40, 16],
-      [0, 0, 4, 40]
+      [7, 10, 38, 43], // для пола
+      [38, 0, 25, 40], // + ниже для призов и врагов
+      [38, 10, 40, 16],
+      [3, 0, 4, 40]
     ];
 
     // @ts-ignore
@@ -82,7 +82,7 @@ export class Player {
   }
 
   spriteSheet = {
-    frame_sets: [[0, 1], [2, 2, 2]],
+    frame_sets: [[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 2, 1, 2, 1], [5, 5, 5, 5, 3, 5, 4, 5]],
     image: new Image()
   };
 
@@ -111,6 +111,21 @@ export class Player {
     return true;
   }
 
+  _testRectCircleCollision (circle: any, rect: any): boolean {
+    let distX = Math.abs(circle.x - rect.x - rect.w / 2);
+    let distY = Math.abs(circle.y - rect.y - rect.h / 2);
+
+    if (distX > (rect.w / 2 + circle.r)) { return false; }
+    if (distY > (rect.h / 2 + circle.r)) { return false; }
+
+    if (distX <= (rect.w / 2)) { return true; }
+    if (distY <= (rect.h / 2)) { return true; }
+
+    let dx = distX - rect.w / 2;
+    let dy = distY - rect.h / 2;
+    return (dx * dx + dy * dy <= (circle.r * circle.r));
+  }
+
   /**
    * mapPartsArr - карты экранов
    * @param map- экземпляр карты
@@ -118,9 +133,6 @@ export class Player {
   _testStarsCollision (map: any, player: Player): boolean {
     for (let a = 0; a < 3; a ++) {
       let mapPartShiftX = tileSize * 10 * a;
-
-      // display.message.innerHTML = ''
-      display.message.innerHTML = ''
 
       for (let a = 0; a < map.mapPartsArr.length - 1; a++) {
         for (let i = 0; i < map.mapPartsArr[a].length; i++) {
@@ -131,9 +143,6 @@ export class Player {
               width: tileSize,
               height: tileSize
             };
-
-            //display.message.innerHTML += 'x: ' + Math.floor(star.x - mapPartShiftX) + ',' + Math.floor(this.x);
-            display.message.innerHTML += 'map: ' + map.mapParts.toString();
 
             for (let p = 0; p < this.collisionModel.length; p++) {
               if (this._testRectanglesCollision({
@@ -148,7 +157,7 @@ export class Player {
               }
             }
           }
-        }    
+        }
       }
     }
 
@@ -162,7 +171,24 @@ export class Player {
    */
   _testEnemyCollision (enemy: Enemy, mapExample: any): void {
     if (!this.isDead) {
-      if (this._testPlatformCollision(enemy)) this.die(mapExample);
+      for (let a = 0; a < this.collisionModel.length; a++) {
+        for (let i = 0; i < enemy.collisionModel.length; i++) {
+          let me = {
+            x: this.x + this.collisionModel[a][0],
+            y: this.y + this.collisionModel[a][1],
+            width: this.collisionModel[a][2],
+            height: this.collisionModel[a][3]
+          };
+          let him = {
+            x: enemy.x + enemy.collisionModel[i][0],
+            y: enemy.y + enemy.collisionModel[i][1],
+            width: enemy.collisionModel[i][2],
+            height: enemy.collisionModel[i][3]
+          };
+          if (this._testRectanglesCollision(me, him)) this.die(mapExample);
+        }
+      }
+      // this.die(mapExample);
     }
   }
 
@@ -175,33 +201,38 @@ export class Player {
     this.score = 0;
     this.isDead = false;
     this.animation.change(this.spriteSheet.frame_sets[0], 5);
+
+    this.controller.buttons[0].isShow = false;
+    this.controller.buttons[1].isShow = true;
+    if (this.controller.buttons[2]) this.controller.buttons[2].isShow = true;
+    if (this.controller.buttons[3]) this.controller.buttons[3].isShow = true;
   }
 
-  die (mapExample?: any) {
+  /**
+   * Конец игры
+   * @param map -  экземпляр Map
+   */
+  die (map?: any) {
     this.isDead = true;
     this.xVelocity = 0;
     this.yVelocity = 0;
-    this.animation.change(this.spriteSheet.frame_sets[1], 15);
+    this.animation.change(this.spriteSheet.frame_sets[1], 0);
 
     this.controller.buttons[0].isShow = true;
     this.controller.buttons[1].isShow = false;
     if (this.controller.buttons[2]) this.controller.buttons[2].isShow = false;
     if (this.controller.buttons[3]) this.controller.buttons[3].isShow = false;
 
-    if (mapExample) {
-      mapExample.mapDifficultyMultipler = 0;
-      mapExample.speed = 0;
+    if (map) {
+      map.mapDifficultyMultipler = 0;
+      map.speed = 0;
     }
   }
 
   /**
    * Анимация концовки игры
    */
-  draw_die (): void {
-    if (this.controller.reset) {
-      this.startNewGame();
-    }
-
+  drawDie (): void {
     this.xVelocity = 0;
     if (!this.jumping) {
       this.yVelocity -= 15;
@@ -301,14 +332,12 @@ export class Player {
       }
 
       let map = mapPartsArr[mapExample.mapParts[mapIndex]];
-      let valueAtIndex = map[bottomRow * 10 + leftColumn];
+      let tileTextureIndex = map[bottomRow * 10 + leftColumn];
 
-      display.message2.innerHTML = '' + valueAtIndex;
-
-      if (valueAtIndex !== 99) {
-        if (valueAtIndex > 0) valueAtIndex = 1;
-        if (valueAtIndex > 0 && valueAtIndex !== undefined) {
-          this.collision[valueAtIndex](this, bottomRow, leftColumn);
+      if (tileTextureIndex !== 99) {
+        if (tileTextureIndex > 0) tileTextureIndex = 1;
+        if (tileTextureIndex > 0 && tileTextureIndex !== undefined) {
+          this.collision[tileTextureIndex](this, bottomRow, leftColumn);
         }
       }
 
@@ -317,16 +346,14 @@ export class Player {
         rightColumn = Math.floor(rightColumn % 10);
       }
       map = mapPartsArr[mapExample.mapParts[mapIndex]];
-      valueAtIndex = map[bottomRow * 10 + rightColumn];
+      tileTextureIndex = map[bottomRow * 10 + rightColumn];
 
-      if (valueAtIndex !== 99) {
-        if (valueAtIndex > 0) valueAtIndex = 1;
-        if (valueAtIndex > 0) {
-          this.collision[valueAtIndex](this, bottomRow, rightColumn);
+      if (tileTextureIndex !== 99) {
+        if (tileTextureIndex > 0) tileTextureIndex = 1;
+        if (tileTextureIndex > 0) {
+          this.collision[tileTextureIndex](this, bottomRow, rightColumn);
         }
       }
-
-      // display.message.innerHTML = 'currentScreen: ' + leftColumn + ' ' + rightColumn + ' ' + mapIndex;
     }
 
     // телеметрия
@@ -357,12 +384,11 @@ export class Player {
     }
 
     this.spriteSheet.image.src = '/images/dog.png';
-
     this.score ++;
+    this.animation.update();
 
     display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
 
-    this.animation.update();
     if (!this.isDead) mapExample.mapDifficultyMultipler ++;
 
     /**

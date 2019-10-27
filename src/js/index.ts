@@ -3,12 +3,12 @@ import './../sass/styles.scss';
 
 import { controller } from './controller';
 import { Label } from './Label';
+import { Button } from './Button';
 import { Player } from './Player';
 import { Enemy } from './Enemy';
 import { Map } from './map';
 import { Snow } from './Snow';
 import { AssetManager } from './Assets';
-import { Animator } from './Animator';
 
 // import '../audio/back.mp3';
 
@@ -56,7 +56,7 @@ export let display: IDisplay = {
   render: () => {
     display.output.drawImage(display.buffer.canvas, 0, 0, display.buffer.canvas.width, display.buffer.canvas.height, 0, 0, display.output.canvas.width, display.output.canvas.height);
   },
-  resize: (event) => {
+  resize: () => {
     display.output.canvas.width = Math.floor(document.documentElement.clientWidth);
     display.output.canvas.height = Math.floor(display.output.canvas.width * 1.3);
     display.boundingRectangle = display.output.canvas.getBoundingClientRect();
@@ -71,6 +71,7 @@ display.buffer.canvas.height = 832;
  * Создаем игрока
  */
 let player = new Player(0 /* очков =) */);
+player.die();
 
 /**
  * Создаем врагов
@@ -78,24 +79,15 @@ let player = new Player(0 /* очков =) */);
 let enemy = new Enemy(6);
 
 /**
- * TODO: Создаем монетки
- */
-// let stars: Array<Star> = [];
-// let star = new Star(9);
-// stars.push(star);
-// let star = new Image();
-// star.src = './images/icon-petshop.png';
-
-/**
  * Создаем очки и лейблы на кнопки
  */
-export let labels: Array<Label> = [];
+let labels: Array<Label> = [];
 let score = new Label(
 	'score',
 	player.score.toString(),
 	28,
 	'sans-serif',
-	'white',
+	'#002a09',
 	60,
 	50,
 	false
@@ -105,6 +97,9 @@ labels.push(score);
 let pslogo = new Image();
 pslogo.src = '../images/icon-petshop.png';
 
+let logo = new Image();
+logo.src = '../images/logo.png';
+
 /**
  * Создаем карту
  */
@@ -113,7 +108,7 @@ let map = new Map();
 /**
  * Создаем снег
  */
-let snow = new Snow();
+// let snow = new Snow();
 
 /**
  * Запускаем новую игру
@@ -121,43 +116,45 @@ let snow = new Snow();
  * в карте сбрасываем координаты и экраны
  */
 let startNewGame = () => {
+  scene = 1;
+  controller.buttons[4].isShow = false;
   player.startNewGame();
   map.startNewGame();
-
   enemy.x = display.buffer.canvas.width + 200;
-
-  controller.buttons[0].isShow = false;
-  controller.buttons[1].isShow = true;
-  if (controller.buttons[2]) controller.buttons[2].isShow = true;
-  if (controller.buttons[3]) controller.buttons[3].isShow = true;
-
-  labels[0].text = '0';
 };
-// @ts-ignore
-window.start = startNewGame;
+
+let scene = 0;
+controller.buttons.forEach((el: Button) => el.isShow = false);
+controller.buttons[4].isShow = true;
 
 /**
  * Такт игры
  */
 let gameLoop = (): void => {
-  if (controller.restart && player.isDead) startNewGame();
+  if ((controller.restart || controller.start) && player.isDead) startNewGame();
 
 	/**
 	 * Обнуляем карту
 	 */
   display.clear();
-
   map.drawMap();
-  snow.drawSnow();
+  // snow.drawSnow();
 
-  if (!player.isDead) player.draw(map);
-  else player.draw_die();
   enemy.speed = map.speed + 2;
   enemy.draw();
 
-  player._testEnemyCollision(enemy, map);
-  player._testStarsCollision(map, player);
+  if (scene === 0) {
+    display.buffer.drawImage(logo, 165, 108, 316, 248);
+  } else {
+    if (!player.isDead) player.draw(map);
+    else player.drawDie();
+    player._testEnemyCollision(enemy, map);
+    player._testStarsCollision(map, player);
+  }
 
+  /**
+   * Кнопки
+   */
   display.buffer.fillStyle = '#1f2529';
   display.buffer.fillRect(0, 640, 640, 256);
   controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
@@ -228,21 +225,17 @@ let assetsSources = [
   '../images/17.png',
   '../images/18.png',
   '../images/BG.png',
-  '../images/Sign_1.png',
-  '../images/Sign_2.png',
-  '../images/SnowMan.png',
-  '../images/Crystal.png',
   '../images/Tree_1.png',
   '../images/Tree_2.png',
-  '../images/Stone.png',
-  '../images/IceBox.png',
-  '../images/Igloo.png',
+  '../images/Tree_3.png',
   '../images/icon-petshop.png',
   '../images/bird.png',
   '../images/left.png',
   '../images/right.png',
   '../images/jump.png',
-  '../images/restart.png'
+  '../images/restart.png',
+  '../images/start.png',
+  '../images/logo.png'
 ];
 
 export let assets = new AssetManager();
@@ -283,18 +276,14 @@ import '../images/16.png';
 import '../images/17.png';
 import '../images/18.png';
 import '../images/BG.png';
-import '../images/Sign_1.png';
-import '../images/Sign_2.png';
-import '../images/SnowMan.png';
-import '../images/Crystal.png';
 import '../images/Tree_1.png';
 import '../images/Tree_2.png';
-import '../images/Stone.png';
-import '../images/IceBox.png';
-import '../images/Igloo.png';
+import '../images/Tree_3.png';
 import '../images/icon-petshop.png';
 import '../images/bird.png';
 import '../images/left.png';
 import '../images/right.png';
 import '../images/jump.png';
 import '../images/restart.png';
+import '../images/start.png';
+import '../images/logo.png';
