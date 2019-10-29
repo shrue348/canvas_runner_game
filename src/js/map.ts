@@ -419,7 +419,7 @@ export class Map {
     }
 
     this.globalShift -= this.speed;
-    this.globalBackShift -= this.speed * 1.22;
+    this.globalBackShift -= this.speed * 1.2 + .5;
 
     /**
      * Фон уезжает за экран

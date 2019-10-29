@@ -32,14 +32,14 @@ export class Player {
     this.width = 79;
     this.height = 53;
     this.x = 50;
-    this.y = 100;
+    this.y = 522;
     this.oldY = this.y;
     this.speed = 1;
     this.xVelocity = 0;
     this.yVelocity = 0;
     this.jumping = true;
     this.isRun = true; // TODO: додлать анимацию
-    this.isDead = true;
+    this.isDead = false;
     this.score = 0;
     this.controller = controller;
     this.texture = new Image();
@@ -82,7 +82,11 @@ export class Player {
   }
 
   spriteSheet = {
-    frame_sets: [[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 2, 1, 2, 1], [5, 5, 5, 5, 3, 5, 4, 5]],
+    frame_sets: [
+      [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 2, 1, 2, 1], // run
+      [5, 5, 5, 5, 3, 4, 3, 4, 3, 4, 3, 4], // jump
+      [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 3, 4, 3, 4, 3, 4, 5, 5 ]
+     ],
     image: new Image()
   };
 
@@ -216,7 +220,7 @@ export class Player {
     this.isDead = true;
     this.xVelocity = 0;
     this.yVelocity = 0;
-    this.animation.change(this.spriteSheet.frame_sets[1], 0);
+    this.animation.change(this.spriteSheet.frame_sets[1], 1);
 
     this.controller.buttons[0].isShow = true;
     this.controller.buttons[1].isShow = false;
@@ -243,6 +247,12 @@ export class Player {
     this.oldY = this.y;
     this.y += this.yVelocity;
 
+    display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
+  }
+
+  drawStart (mapExample: any): void {
+    this.spriteSheet.image.src = '/images/dog.png';
+    this.animation.update();
     display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
   }
 

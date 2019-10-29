@@ -71,7 +71,9 @@ display.buffer.canvas.height = 832;
  * Создаем игрока
  */
 let player = new Player(0 /* очков =) */);
-player.die();
+// player.die();
+player.animation.change(player.spriteSheet.frame_sets[2], 5);
+
 
 /**
  * Создаем врагов
@@ -131,7 +133,7 @@ controller.buttons[4].isShow = true;
  * Такт игры
  */
 let gameLoop = (): void => {
-  if ((controller.restart || controller.start) && player.isDead) startNewGame();
+  if ((controller.restart || controller.start)) startNewGame();
 
 	/**
 	 * Обнуляем карту
@@ -145,6 +147,7 @@ let gameLoop = (): void => {
 
   if (scene === 0) {
     display.buffer.drawImage(logo, 165, 108, 316, 248);
+    player.drawStart(map);
   } else {
     if (!player.isDead) player.draw(map);
     else player.drawDie();
