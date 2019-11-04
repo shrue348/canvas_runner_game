@@ -312,10 +312,10 @@ let mapPartsEffectsArr = [
 ];
 
 export class Map {
-  mapParts: Array<number>; // ссылки на массив частей карты (при уезжании за экран влево первый элемент убирается и добавляется рандомно новый)
-  mapPartsArr: Array<number[]>; // массив экранов учавствующих в игре
+  mapParts: Array<number>; // индексы экранов (при уезжании за экран влево первый элемент убирается и добавляется рандомно новый)
+  mapPartsArr: Array<number[]>; // массив самих экранов учавствующих в игре
   mapStartX: number; // левый край карты
-  mapDifficultyMultipler: number; // кол-во тактов игры
+  mapDifficultyMultipler: number; // кол-во тактов игры для увеличения сложности
   speed: number; // скорость сдвига слева
   globalShift: number; // глобальный сдвиг мира (влево)
   globalBackShift: number; // глобальный сдвиг фона (влево)
@@ -344,9 +344,7 @@ export class Map {
    * Добавляем или нет звезду
    */
   _addStar = () => {
-    let x = randomInt(1, 10);
-
-    if (x < 6) {
+    if (randomInt(1, 10) < 6) {
       let n = randomInt(0, 19);
       if (this.mapPartsArr[2][n] === 0) this.mapPartsArr[2][n] = 99;
     }
@@ -380,6 +378,7 @@ export class Map {
      */
     display.buffer.drawImage(textures[19], this.globalBackShift, 0, 1920, screenHeight * tileSize);
     display.buffer.drawImage(textures[19], this.globalBackShift + 1920, 0, 1920, screenHeight * tileSize);
+    if (this.globalBackShift <= -1920) this.globalBackShift = 0;
 
     /**
      * Для первых двух частей карты (только они попадают во вьюпорт)
@@ -421,13 +420,6 @@ export class Map {
     this.globalShift -= this.speed;
     this.globalBackShift -= this.speed * 1.2 + .5;
 
-    /**
-     * Фон уезжает за экран
-     * сбрасываем сдвиг на 0
-     */
-    if (this.globalBackShift <= -1920) {
-      this.globalBackShift = 0;
-    }
 
     /**
      * Карта уехала на экран вправо
