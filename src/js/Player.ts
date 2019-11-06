@@ -3,6 +3,8 @@ import { mapPartsArr } from './map';
 import { controller } from './controller';
 import { Animator } from './Animator';
 import { Enemy } from './Enemy';
+import { network } from './Ai'
+
 
 // класс игрока
 

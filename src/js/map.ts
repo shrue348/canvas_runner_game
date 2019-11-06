@@ -407,19 +407,22 @@ export class Map {
        * Заполняем тайлы текстурой
        */
       for (let i = 0; i < map.length; i++) {
-        if (map[i] > 0 && map[i] !== 99 /** не звезда */) {
-          display.buffer.drawImage(textures[map[i]], (i % screenWidth) * tileSize + mapPartShiftX + this.globalShift, Math.floor(i / screenWidth) * tileSize, tileSize, tileSize);
-        }
+        let screenX = (i % screenWidth) * tileSize + mapPartShiftX + this.globalShift;
 
-        if (map[i] === 99 /** звезда */) {
-          display.buffer.drawImage(star, (i % screenWidth) * tileSize + mapPartShiftX + this.globalShift, Math.floor(i / screenWidth) * tileSize, tileSize, tileSize);
+        if (screenX > -tileSize && screenX < screenWidth * tileSize) {
+          if (map[i] > 0 && map[i] !== 99 /** не звезда */) {
+            display.buffer.drawImage(textures[map[i]], screenX, Math.floor(i / screenWidth) * tileSize, tileSize, tileSize);
+          }
+
+          if (map[i] === 99 /** звезда */) {
+            display.buffer.drawImage(star, screenX, Math.floor(i / screenWidth) * tileSize, tileSize, tileSize);
+          }
         }
       }
     }
 
     this.globalShift -= this.speed;
     this.globalBackShift -= this.speed * 1.2 + .5;
-
 
     /**
      * Карта уехала на экран вправо
