@@ -59,18 +59,20 @@ export class Enemy {
       this.yMultipler = randomInt(2, 6);
     }
 
-    display.buffer.drawImage(
-      this.spriteSheet.image,
-      this.animation.frame * this.width,
-      0,
-      this.width,
-      this.height,
-      Math.floor(this.x),
-      Math.floor(this.y),
-      this.width,
-      this.height
-    );
-
+    if (this.x > - this.width && this.x < display.buffer.canvas.width) {
+      display.buffer.drawImage(
+        this.spriteSheet.image,
+        this.animation.frame * this.width,
+        0,
+        this.width,
+        this.height,
+        Math.floor(this.x),
+        Math.floor(this.y),
+        this.width,
+        this.height
+      );
+    }
+      
     /**
      * Рисуем модель коллизий
      */

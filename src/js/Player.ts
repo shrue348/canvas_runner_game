@@ -58,7 +58,7 @@ export class Player {
       [7, 10, 38, 43], // для пола
       [38, 0, 25, 40], // + ниже для призов и врагов
       [38, 10, 40, 16],
-      [3, 0, 4, 40]
+      [3, 0, 4, 40], // хвост
     ];
 
     // @ts-ignore
@@ -150,7 +150,7 @@ export class Player {
               height: tileSize
             };
 
-            for (let p = 0; p < this.collisionModel.length; p++) {
+            for (let p = 0; p < this.collisionModel.length - 1; p++) {
               if (this._testRectanglesCollision({
                 x: this.x + this.collisionModel[p][0],
                 y: this.y + this.collisionModel[p][1],
@@ -158,8 +158,10 @@ export class Player {
                 height: this.collisionModel[p][3]
               }, star)) {
 
-                player.score += 300;
                 map.mapPartsArr[a][i] = 0;
+                console.log('collision!!!')
+                player.score += 300;
+
               }
             }
           }

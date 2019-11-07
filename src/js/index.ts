@@ -9,6 +9,8 @@ import { Enemy } from './Enemy';
 import { Map } from './map';
 import { Snow } from './Snow';
 import { AssetManager } from './Assets';
+import { timeStamp } from './helper';
+
 
 // import '../audio/back.mp3';
 
@@ -129,31 +131,51 @@ let scene = 0;
 controller.buttons.forEach((el: Button) => el.isShow = false);
 controller.buttons[4].isShow = true;
 
+
+
+
 /**
  * Такт игры
  */
+let last = performance.now(),
+  step = 1 / 60,
+  dt = 0,
+  now,
+  counter = 0;
+
 let gameLoop = (): void => {
+  now = performance.now();
+  dt = dt + Math.min(1, (now - last) / 1000);
+
   if ((controller.restart || controller.start)) startNewGame();
 
-	/**
-	 * Обнуляем карту
-	 */
-  display.clear();
-  map.drawMap();
-  // snow.drawSnow();
+  while (dt > step) {
+    dt = dt - step;
+    // counter++;
+    // if (counter > 3000) break
 
-  enemy.speed = map.speed + 2;
-  enemy.draw();
+    /**
+     * Обнуляем карту
+     */
+    display.clear();
+    map.drawMap();
+    // snow.drawSnow();
 
-  if (scene === 0) {
-    display.buffer.drawImage(logo, 165, 108, 316, 248);
-    player.drawStart(map);
-  } else {
-    if (!player.isDead) player.draw(map);
-    else player.drawDie();
-    player._testEnemyCollision(enemy, map);
-    player._testStarsCollision(map, player);
+    enemy.speed = map.speed + 2;
+    enemy.draw();
+
+    if (scene === 0) {
+      display.buffer.drawImage(logo, 165, 108, 316, 248);
+      player.drawStart(map);
+    } else {
+      if (!player.isDead) player.draw(map);
+      else player.drawDie();
+      player._testEnemyCollision(enemy, map);
+      player._testStarsCollision(map, player);
+    }
   }
+  	
+  last = now;
 
   /**
    * Кнопки
@@ -171,8 +193,10 @@ let gameLoop = (): void => {
    * Рендерим буфер в канву
    */
   display.render();
+
   window.requestAnimationFrame(gameLoop);
 };
+
 
 /**
  * Слушатели событий
@@ -249,11 +273,32 @@ assets.downloadAll(() => {
    * Старт
    */
   display.resize();
-  gameLoop();
+  window.requestAnimationFrame(gameLoop);
+  // setInterval(gameLoop, (1000/30));
 
   // @ts-ignore
   window.assets = assets;
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * Для вебпака
