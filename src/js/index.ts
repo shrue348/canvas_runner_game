@@ -56,9 +56,7 @@ export const tileSize = 64;
 export let soundBack = new Audio();
 soundBack.src = '../audio/back.mp3';
 // soundBack.volume = .7;
-// soundBack.addEventListener('onload', e => setTimeout(() => {
-soundBack.play();
-// }, 2000));
+soundBack.addEventListener('onload', e => soundBack.play());
 
 /**
  * Настройки экрана и буфера для него

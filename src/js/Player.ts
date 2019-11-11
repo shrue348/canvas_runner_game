@@ -152,8 +152,7 @@ export class Player {
             }, star)) {
 
               let din = new Audio('../audio/din.mp3');
-              din.volume = .7;
-
+              din.volume = .1;
               din.addEventListener('canplay', e => din.play());
 
               map.mapPartsArr[a][i] = 0;
