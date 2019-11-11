@@ -3,8 +3,6 @@ import { mapPartsArr } from './map';
 import { controller } from './controller';
 import { Animator } from './Animator';
 import { Enemy } from './Enemy';
-import { network } from './Ai'
-
 
 // класс игрока
 
@@ -22,7 +20,7 @@ export class Player {
   jumping: boolean;
   isRun: boolean; // игра началась
   isDead: boolean; // игра закончилась
-  controller: any;
+  controller: any; // ссылка на управление
   score: number;
   texture: any;
   collisionModel: any;
@@ -58,7 +56,7 @@ export class Player {
       [7, 10, 38, 43], // для пола
       [38, 0, 25, 40], // + ниже для призов и врагов
       [38, 10, 40, 16],
-      [3, 0, 4, 40], // хвост
+      [3, 0, 4, 40] // хвост
     ];
 
     // @ts-ignore
@@ -159,8 +157,8 @@ export class Player {
               }, star)) {
 
                 map.mapPartsArr[a][i] = 0;
-                console.log('collision!!!')
                 player.score += 300;
+                break;
 
               }
             }
@@ -173,6 +171,7 @@ export class Player {
   }
 
   /**
+   * TODO: сделать тест с моделью коллизий врага
    * @param enemy экземпляр Enemy
    * @param mapExample
    */
@@ -195,6 +194,7 @@ export class Player {
           if (this._testRectanglesCollision(me, him)) this.die(mapExample);
         }
       }
+      // this.die(mapExample);
     }
   }
 

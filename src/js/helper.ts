@@ -18,7 +18,7 @@ export function inRad (num: number) {
 /**
  *
  */
-export function timeStamp() {
+export function timeStamp () {
   return window.performance && window.performance.now ? window.performance.now() : new Date().getTime();
 }
 /*

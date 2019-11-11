@@ -1,13 +1,25 @@
 // AI
+import { controller } from './controller';
+// import { player } from './index';
 
-const brain = require("brain.js")
-export const network: any = new brain.recurrent.LSTMTimeStep({
-  inputSize: 2,
-  hiddenLayers: [10],
-  outputSize: 2,
-})
+const brain = require('brain.js');
 
-// network.train([[1, 3], [2, 2], [3, 1]])
+export const net = new brain.NeuralNetwork({
+	 hiddenLayers: [128, 64]
+});
+
+export const foo = 10;
+
+// net.train([
+// { input: [0, 0], output: [0] },
+// { input: [0, 1], output: [1] },
+// { input: [1, 0], output: [1] },
+// { input: [1, 1], output: [0] }
+// ]);
+
+// net.train([
+//   { input: [0, 0], output: [0] }
+// ]);
 
 // network.train([
 // 	{ input: { r: 0.62, g: 0.72, b: 0.88 }, output: { light: 1 } },
@@ -19,48 +31,14 @@ export const network: any = new brain.recurrent.LSTMTimeStep({
 //   { input: { r: 1, g: 0.42, b: 0.52 }, output: { dark: 1 } },
 // ])
 
-// const result = network.run({ r: 0, g: 1, b: 1 })
-// console.log(result)
+net.train([
+	{ input: { x: 50 }, output: { up: 0 } },
+	{ input: { x: 600 }, output: { up: 1 } }
+]);
+console.log('train');
+// let output = net.run([1, 0]);  // [0.987]
 
-
-// const trainingData = [
-//   'Jane saw Doug.',
-//   'Doug saw Jane.',
-//   'Spot saw Doug and Jane looking at each other.',
-//   'It was love at first sight, and Spot had a frontrow seat. It was a very special moment for all.'
-// ];
-
-// const lstm = new brain.recurrent.LSTM();
-// const result = lstm.train(trainingData, {
-//   iterations: 1500,
-//   log: (details: any) => console.log(details),
-//   errorThresh: 0.011
-// });
-
-// const run1 = lstm.run('Jane');
-// const run2 = lstm.run('Doug');
-// const run3 = lstm.run('Spot');
-// const run4 = lstm.run('It');
-
-// console.log('run 1: Jane' + run1);
-// console.log('run 2: Doug' + run2);
-// console.log('run 3: Spot' + run3);
-// console.log('run 4: It' + run4);
-
-
-// let input = document.querySelector('input'),
-//     res = document.querySelector('.res');
-
-// input.addEventListener('keyup', function(e){
-//   if (e.key == 'Enter') {
-//     let obj = {
-//       r: Number(e.target.value.split(',')[0]),
-//       g: Number(e.target.value.split(',')[1]),
-//       b: Number(e.target.value.split(',')[2])
-//     }
-//     let init = network.run(obj)
-
-//     console.log(obj)
-//     res.innerText = 'light: ' + init.light + ', dark: ' + init.dark 
-//   }
-// })
+// @ts-ignore
+window.net = net;
+// @ts-ignore
+window.controller = controller;

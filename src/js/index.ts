@@ -9,9 +9,9 @@ import { Enemy } from './Enemy';
 import { Map } from './map';
 import { Snow } from './Snow';
 import { AssetManager } from './Assets';
-import { timeStamp } from './helper';
+import { net, foo } from './Ai';
 
-
+console.log('FOO', foo);
 // import '../audio/back.mp3';
 
 /**
@@ -33,18 +33,18 @@ export const tileSize = 64;
  * Настройки экрана и буфера для него
  */
 interface IDisplay {
-  buffer: any;
-  output: any;
+  buffer: CanvasRenderingContext2D;
+  output: CanvasRenderingContext2D;
   message: HTMLElement;
   message2: HTMLElement;
   buffer_output_ratio: number;
-  boundingRectangle: any;
+  boundingRectangle: ClientRect | undefined;
   clear: () => void;
   render: () => void;
-  resize: (event?: any) => void;
+  resize: (event?: Event) => void;
 }
 
-export let display: IDisplay = {
+export const display: IDisplay = {
   buffer:   document.createElement('canvas').getContext('2d'),
   output:   document.querySelector('canvas').getContext('2d'),
   message:  document.querySelector('p'),
@@ -72,10 +72,8 @@ display.buffer.canvas.height = 832;
 /**
  * Создаем игрока
  */
-let player = new Player(0 /* очков =) */);
-// player.die();
+export let player = new Player(0 /* очков =) */);
 player.animation.change(player.spriteSheet.frame_sets[2], 5);
-
 
 /**
  * Создаем врагов
@@ -131,51 +129,36 @@ let scene = 0;
 controller.buttons.forEach((el: Button) => el.isShow = false);
 controller.buttons[4].isShow = true;
 
-
-
-
 /**
  * Такт игры
  */
-let last = performance.now(),
-  step = 1 / 60,
-  dt = 0,
-  now,
-  counter = 0;
-
 let gameLoop = (): void => {
-  now = performance.now();
-  dt = dt + Math.min(1, (now - last) / 1000);
-
   if ((controller.restart || controller.start)) startNewGame();
 
-  while (dt > step) {
-    dt = dt - step;
-    // counter++;
-    // if (counter > 3000) break
+	/**
+	 * Обнуляем карту
+	 */
+  display.clear();
+  map.drawMap();
+  // snow.drawSnow();
 
-    /**
-     * Обнуляем карту
-     */
-    display.clear();
-    map.drawMap();
-    // snow.drawSnow();
+  enemy.speed = map.speed + 2;
+  enemy.draw();
 
-    enemy.speed = map.speed + 2;
-    enemy.draw();
+  if (scene === 0) {
+    display.buffer.drawImage(logo, 165, 108, 316, 248);
+    player.drawStart(map);
+  } else {
+    if (!player.isDead) player.draw(map);
+    else player.drawDie();
+    player._testEnemyCollision(enemy, map);
+    player._testStarsCollision(map, player);
 
-    if (scene === 0) {
-      display.buffer.drawImage(logo, 165, 108, 316, 248);
-      player.drawStart(map);
-    } else {
-      if (!player.isDead) player.draw(map);
-      else player.drawDie();
-      player._testEnemyCollision(enemy, map);
-      player._testStarsCollision(map, player);
-    }
+    let ss = net.run({ x: player.x });
+    controller.up = !!Math.round(ss.up);
+
+    console.log(controller.up);
   }
-  	
-  last = now;
 
   /**
    * Кнопки
@@ -193,10 +176,8 @@ let gameLoop = (): void => {
    * Рендерим буфер в канву
    */
   display.render();
-
   window.requestAnimationFrame(gameLoop);
 };
-
 
 /**
  * Слушатели событий
@@ -273,32 +254,11 @@ assets.downloadAll(() => {
    * Старт
    */
   display.resize();
-  window.requestAnimationFrame(gameLoop);
-  // setInterval(gameLoop, (1000/30));
+  gameLoop();
 
   // @ts-ignore
   window.assets = assets;
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * Для вебпака
