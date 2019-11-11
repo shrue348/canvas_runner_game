@@ -1,10 +1,8 @@
 import { display, tileSize } from './index';
-import { Star } from './Star';
 import { randomInt } from './helper';
 
-let screenSizeArr: Array<number> = [10, 10],
-  screenWidth = screenSizeArr[0],
-  screenHeight = screenSizeArr[1];
+let screenWidth = 10,
+  screenHeight = 10;
 
 /**
  * Подгружаем текстуры тайлов и фона в массив textures
@@ -45,7 +43,7 @@ star.src = `/images/icon-petshop.png`;
 /**
  * Массив экранов для карты
  */
-export let mapPartsArr = [
+export const mapPartsArr = [
   [ // 0 (finish) TODO: запилить финиш
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -340,14 +338,25 @@ export class Map {
     this.globalBackShift = 0;
   }
 
+  _addScreen = () => {
+    this.mapParts.shift();
+    this.mapPartsArr.shift();
+    this.globalShift = -1; // -1 потому что меняем с 0 (иначе 2 одинаковых кадра кадра подряд)
+    this.mapParts.push(randomInt(0, mapPartsArr.length - 1));
+    this.mapPartsArr.push([...mapPartsArr[this.mapParts[2]]]);
+    this._addStar();
+  }
+
   /**
    * Добавляем или нет звезду
    */
   _addStar = () => {
-    if (randomInt(1, 10) < 6) {
-      let n = randomInt(0, 19);
-      if (this.mapPartsArr[2][n] === 0) this.mapPartsArr[2][n] = 99;
-    }
+    let n = randomInt(0, 19);
+    if (
+      (this.mapPartsArr[this.mapPartsArr.length - 1][n] === 0) &&
+      (this.mapPartsArr[2].some(el => el !== 99)) &&
+      (randomInt(1, 10) < 6)
+    ) this.mapPartsArr[this.mapPartsArr.length - 1][n] = 99;
   }
 
   /**
@@ -355,15 +364,6 @@ export class Map {
    */
   _addBone = () => {
     //
-  }
-
-  _addScreen = () => {
-    this.mapParts.shift();
-    this.mapPartsArr.shift();
-  	this.globalShift = -1; // -1 потому что меняем с 0 (иначе 2 одинаковых кадра кадра подряд)
-    this.mapParts.push(randomInt(0, mapPartsArr.length - 1));
-    this.mapPartsArr.push([...mapPartsArr[this.mapParts[2]]]);
-    this._addStar();
   }
 
   drawMap = (): void => {

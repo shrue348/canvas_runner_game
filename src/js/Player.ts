@@ -26,8 +26,6 @@ export class Player {
   collisionModel: any;
   collision: any;
 
-  map: any;
-
   constructor (core: number) {
     this.width = 79;
     this.height = 53;
@@ -44,8 +42,6 @@ export class Player {
     this.controller = controller;
     this.texture = new Image();
     this.texture.src = '/images/dog.png';
-
-    this.map = mapPartsArr[0];
 
     /**
      * Модель коллизий персонажа
@@ -135,33 +131,35 @@ export class Player {
    * @param map- экземпляр карты
    */
   _testStarsCollision (map: any, player: Player): boolean {
-    for (let a = 0; a < 3; a ++) {
+    for (let a = 0; a < map.mapPartsArr.length - 1; a++) {
       let mapPartShiftX = tileSize * 10 * a;
 
-      for (let a = 0; a < map.mapPartsArr.length - 1; a++) {
-        for (let i = 0; i < map.mapPartsArr[a].length; i++) {
-          if (map.mapPartsArr[a][i] === 99) {
-            let star = {
-              x: (i % 10) * tileSize + map.globalShift,
-              y: Math.floor(i / 10) * tileSize,
-              width: tileSize,
-              height: tileSize
-            };
+      for (let i = 0; i < map.mapPartsArr[a].length; i++) {
+        if (map.mapPartsArr[a][i] === 99) {
+          let star = {
+            x: (i % 10) * tileSize + map.globalShift + mapPartShiftX,
+            y: Math.floor(i / 10) * tileSize,
+            width: tileSize,
+            height: tileSize
+          };
 
-            for (let p = 0; p < this.collisionModel.length - 1; p++) {
-              if (this._testRectanglesCollision({
-                x: this.x + this.collisionModel[p][0],
-                y: this.y + this.collisionModel[p][1],
-                width: this.collisionModel[p][2],
-                height: this.collisionModel[p][3]
-              }, star)) {
+          for (let p = 0; p < this.collisionModel.length - 1; p++) {
+            if (this._testRectanglesCollision({
+              x: this.x + this.collisionModel[p][0],
+              y: this.y + this.collisionModel[p][1],
+              width: this.collisionModel[p][2],
+              height: this.collisionModel[p][3]
+            }, star)) {
 
-                map.mapPartsArr[a][i] = 0;
-                console.log(map.mapPartsArr[a]);
-                player.score += 300;
-                break;
+              let din = new Audio('../audio/din.mp3');
+              din.volume = .7;
 
-              }
+              din.addEventListener('canplay', e => din.play());
+
+              map.mapPartsArr[a][i] = 0;
+              player.score += 300;
+              break;
+
             }
           }
         }
@@ -195,7 +193,6 @@ export class Player {
           if (this._testRectanglesCollision(me, him)) this.die(mapExample);
         }
       }
-      // this.die(mapExample);
     }
   }
 
@@ -293,8 +290,10 @@ export class Player {
       this.jumping = true;
       this.isRun = true;
 
-      // let soundJump = new Audio('../audio/jump.mp3');
-      // soundJump.addEventListener('canplay', e => soundJump.play());
+      let soundJump = new Audio('../audio/jump.mp3');
+      soundJump.volume = .7;
+
+      soundJump.addEventListener('canplay', e => soundJump.play());
     }
 
     /**
