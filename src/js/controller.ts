@@ -1,4 +1,4 @@
-import { display, tileSize } from './index';
+import { display } from './index';
 import { Button } from './Button';
 
 interface Controller {

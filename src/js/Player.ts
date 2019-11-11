@@ -142,7 +142,7 @@ export class Player {
         for (let i = 0; i < map.mapPartsArr[a].length; i++) {
           if (map.mapPartsArr[a][i] === 99) {
             let star = {
-              x: (i % 10) * tileSize + map.globalShift + mapPartShiftX,
+              x: (i % 10) * tileSize + map.globalShift,
               y: Math.floor(i / 10) * tileSize,
               width: tileSize,
               height: tileSize
@@ -157,6 +157,7 @@ export class Player {
               }, star)) {
 
                 map.mapPartsArr[a][i] = 0;
+                console.log(map.mapPartsArr[a]);
                 player.score += 300;
                 break;
 

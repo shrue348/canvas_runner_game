@@ -1,3 +1,36 @@
+import '../images/dog.png';
+import '../images/0.png';
+import '../images/1.png';
+import '../images/2.png';
+import '../images/3.png';
+import '../images/4.png';
+import '../images/5.png';
+import '../images/6.png';
+import '../images/7.png';
+import '../images/8.png';
+import '../images/9.png';
+import '../images/10.png';
+import '../images/11.png';
+import '../images/12.png';
+import '../images/13.png';
+import '../images/14.png';
+import '../images/15.png';
+import '../images/16.png';
+import '../images/17.png';
+import '../images/18.png';
+import '../images/BG.png';
+import '../images/Tree_1.png';
+import '../images/Tree_2.png';
+import '../images/Tree_3.png';
+import '../images/icon-petshop.png';
+import '../images/bird.png';
+import '../images/left.png';
+import '../images/right.png';
+import '../images/jump.png';
+import '../images/restart.png';
+import '../images/start.png';
+import '../images/logo.png';
+
 import 'babel-polyfill';
 import './../sass/styles.scss';
 
@@ -11,9 +44,6 @@ import { Snow } from './Snow';
 import { AssetManager } from './Assets';
 import { net, foo } from './Ai';
 
-console.log('FOO', foo);
-// import '../audio/back.mp3';
-
 /**
  * Размер тайла
  */
@@ -22,12 +52,13 @@ export const tileSize = 64;
 /**
  * Аудио
  */
-// export let soundBack = new Audio();
-// soundBack.src = '../audio/back.mp3';
-// soundBack.volume = .7;
-// soundBack.addEventListener('canplay', e => setTimeout(() => {
-//   soundBack.play();
-// }, 2000));
+export let soundBack = new Audio();
+soundBack.src = '../audio/back.mp3';
+soundBack.volume = .7;
+soundBack.addEventListener('onload', e => setTimeout(() => {
+  console.log(1);
+  soundBack.play();
+}, 2000));
 
 /**
  * Настройки экрана и буфера для него
@@ -154,10 +185,10 @@ let gameLoop = (): void => {
     player._testEnemyCollision(enemy, map);
     player._testStarsCollision(map, player);
 
-    let ss = net.run({ x: player.x });
-    controller.up = !!Math.round(ss.up);
+    // let ss = net.run({ x: player.x });
+    // controller.up = !!Math.round(ss.up);
 
-    console.log(controller.up);
+    // console.log(controller.up);
   }
 
   /**
@@ -259,39 +290,3 @@ assets.downloadAll(() => {
   // @ts-ignore
   window.assets = assets;
 });
-
-/**
- * Для вебпака
- */
-import '../images/dog.png';
-import '../images/0.png';
-import '../images/1.png';
-import '../images/2.png';
-import '../images/3.png';
-import '../images/4.png';
-import '../images/5.png';
-import '../images/6.png';
-import '../images/7.png';
-import '../images/8.png';
-import '../images/9.png';
-import '../images/10.png';
-import '../images/11.png';
-import '../images/12.png';
-import '../images/13.png';
-import '../images/14.png';
-import '../images/15.png';
-import '../images/16.png';
-import '../images/17.png';
-import '../images/18.png';
-import '../images/BG.png';
-import '../images/Tree_1.png';
-import '../images/Tree_2.png';
-import '../images/Tree_3.png';
-import '../images/icon-petshop.png';
-import '../images/bird.png';
-import '../images/left.png';
-import '../images/right.png';
-import '../images/jump.png';
-import '../images/restart.png';
-import '../images/start.png';
-import '../images/logo.png';
