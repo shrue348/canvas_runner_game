@@ -43,7 +43,7 @@ import { Enemy } from './Enemy';
 import { Map } from './map';
 import { Snow } from './Snow';
 import { AssetManager } from './Assets';
-import { net, foo } from './Ai';
+import { net } from './Ai';
 
 /**
  * Размер тайла
@@ -56,7 +56,7 @@ export const tileSize = 64;
 export let soundBack = new Audio();
 soundBack.src = '../audio/back.mp3';
 // soundBack.volume = .7;
-soundBack.addEventListener('onload', e => soundBack.play());
+soundBack.addEventListener('canplay', e => soundBack.play());
 
 /**
  * Настройки экрана и буфера для него
@@ -139,7 +139,11 @@ let map = new Map();
 /**
  * Создаем снег
  */
-// let snow = new Snow();
+let snow = new Snow();
+
+let scene = 0;
+controller.buttons.forEach((el: Button) => el.isShow = false);
+controller.buttons[4].isShow = true;
 
 /**
  * Запускаем новую игру
@@ -154,20 +158,15 @@ let startNewGame = () => {
   enemy.x = display.buffer.canvas.width + 200;
 };
 
-let scene = 0;
-controller.buttons.forEach((el: Button) => el.isShow = false);
-controller.buttons[4].isShow = true;
-
 /**
  * Такт игры
  */
 let gameLoop = (): void => {
   if ((controller.restart || controller.start)) startNewGame();
 
-	/**
-	 * Обнуляем карту
-	 */
+
   display.clear();
+
   map.drawMap();
   // snow.drawSnow();
 
@@ -183,8 +182,40 @@ let gameLoop = (): void => {
     player._testEnemyCollision(enemy, map);
     player._testStarsCollision(map, player);
 
-    // let ss = net.run({ x: player.x });
-    // controller.up = !!Math.round(ss.up);
+    // net.train([
+    //   { 
+    //     input: { 
+    //       x: player.x, 
+    //       y: player.y, 
+    //       oldY: player.oldY,
+    //       xVelocity: player.xVelocity,
+    //       yVelocity: player.yVelocity,
+    //       jumping: player.jumping,
+    //       isDead: player.isDead,
+    //       score: player.score
+    //     }, 
+    //     output: { 
+    //       left: controller.left, 
+    //       right: controller.right, 
+    //       up: controller.up 
+    //     } 
+    //   },
+    // ])
+
+    let ss = net.run({ 
+      x: player.x, 
+      y: player.y, 
+      oldY: player.oldY,
+      xVelocity: player.xVelocity,
+      yVelocity: player.yVelocity,
+      jumping: player.jumping,
+      isDead: player.isDead,
+      score: player.score
+    });
+    console.log(ss)
+    controller.up = !!Math.round(ss.up);
+    controller.left = !!Math.round(ss.left);
+    controller.right = !!Math.round(ss.right);
 
     // console.log(controller.up);
   }
@@ -220,22 +251,6 @@ document.querySelector('canvas').addEventListener('touchend', controller.touchEn
 document.querySelector('canvas').addEventListener('touchmove', controller.touchMove, { passive: false });
 document.querySelector('canvas').addEventListener('touchstart', controller.touchStart, { passive: false });
 
-/**
- * Колбек animationframe
- */
-window.requestAnimationFrame = (() => {
-  return window.requestAnimationFrame ||
-		window.webkitRequestAnimationFrame ||
-		// @ts-ignore
-		window.mozRequestAnimationFrame ||
-		// @ts-ignore
-		window.oRequestAnimationFrame ||
-		// @ts-ignore
-		window.msRequestAnimationFrame ||
-		function (callback: TimerHandler): void {
-  window.setTimeout(callback, 1000 / 30);
-};
-})();
 
 /**
  * Загрузка ассетов

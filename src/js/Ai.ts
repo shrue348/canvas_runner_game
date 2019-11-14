@@ -8,7 +8,6 @@ export const net = new brain.NeuralNetwork({
 	 hiddenLayers: [128, 64]
 });
 
-export const foo = 10;
 
 // net.train([
 // { input: [0, 0], output: [0] },
@@ -31,10 +30,10 @@ export const foo = 10;
 //   { input: { r: 1, g: 0.42, b: 0.52 }, output: { dark: 1 } },
 // ])
 
-net.train([
-	{ input: { x: 50 }, output: { up: 0 } },
-	{ input: { x: 600 }, output: { up: 1 } }
-]);
+// net.train([
+// 	{ input: { x: 50 }, output: { up: 0 } },
+// 	{ input: { x: 600 }, output: { up: 1 } }
+// ]);
 console.log('train');
 // let output = net.run([1, 0]);  // [0.987]
 
