@@ -25,6 +25,8 @@ export class Player {
   texture: any;
   collisionModel: any;
   collision: any;
+  soundDin: any;
+  soundJump: any;
 
   constructor (core: number) {
     this.width = 79;
@@ -42,6 +44,12 @@ export class Player {
     this.controller = controller;
     this.texture = new Image();
     this.texture.src = '/images/dog.png';
+
+    this.soundDin = new Audio('../audio/din.mp3');
+    this.soundDin.volume = .1;
+
+    this.soundJump = new Audio('../audio/jump.mp3');
+    this.soundJump.volume = .7;
 
     /**
      * Модель коллизий персонажа
@@ -151,9 +159,7 @@ export class Player {
               height: this.collisionModel[p][3]
             }, star)) {
 
-              let din = new Audio('../audio/din.mp3');
-              din.volume = .1;
-              din.addEventListener('canplay', e => din.play());
+              this.soundDin.play();
 
               map.mapPartsArr[a][i] = 0;
               player.score += 300;
@@ -289,10 +295,7 @@ export class Player {
       this.jumping = true;
       this.isRun = true;
 
-      let soundJump = new Audio('../audio/jump.mp3');
-      soundJump.volume = .7;
-
-      soundJump.addEventListener('canplay', e => soundJump.play());
+      this.soundJump.play();
     }
 
     /**

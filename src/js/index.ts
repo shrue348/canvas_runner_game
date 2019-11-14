@@ -18,7 +18,6 @@ import '../images/15.png';
 import '../images/16.png';
 import '../images/17.png';
 import '../images/18.png';
-import '../images/19.png';
 import '../images/BG.png';
 import '../images/Tree_1.png';
 import '../images/Tree_2.png';
@@ -55,7 +54,7 @@ export const tileSize = 64;
  */
 export let soundBack = new Audio();
 soundBack.src = '../audio/back.mp3';
-// soundBack.volume = .7;
+soundBack.volume = 1;
 soundBack.addEventListener('canplay', e => soundBack.play());
 
 /**
@@ -276,7 +275,6 @@ let assetsSources = [
   '../images/16.png',
   '../images/17.png',
   '../images/18.png',
-  '../images/19.png',
   '../images/BG.png',
   '../images/Tree_1.png',
   '../images/Tree_2.png',
