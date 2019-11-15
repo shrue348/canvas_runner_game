@@ -3,7 +3,7 @@ import { mapPartsArr } from './map';
 import { controller } from './controller';
 import { Animator } from './Animator';
 import { Enemy } from './Enemy';
-import { net } from './Ai';
+// import { net } from './Ai';
 
 // класс игрока
 
@@ -204,48 +204,48 @@ export class Player {
   /**
    * 
    */
-  _netTrain = (map: any) => {
-    console.log(map.globalShift);
-    let tiles = []
+  // _netTrain = (map: any) => {
+  //   console.log(map.globalShift);
+  //   let tiles = []
 
-    net.train([
-      { 
-        input: { 
-          x: this.x, 
-          y: this.y, 
-          oldY: this.oldY,
-          xVelocity: this.xVelocity,
-          yVelocity: this.yVelocity,
-          jumping: this.jumping,
-          isDead: this.isDead,
-          score: this.score,
-          // tiles:
-        }, 
-        output: { 
-          left: controller.left, 
-          right: controller.right, 
-          up: controller.up 
-        } 
-      },
-    ])
-  }
+  //   net.train([
+  //     { 
+  //       input: { 
+  //         x: this.x, 
+  //         y: this.y, 
+  //         oldY: this.oldY,
+  //         xVelocity: this.xVelocity,
+  //         yVelocity: this.yVelocity,
+  //         jumping: this.jumping,
+  //         isDead: this.isDead,
+  //         score: this.score,
+  //         // tiles:
+  //       }, 
+  //       output: { 
+  //         left: controller.left, 
+  //         right: controller.right, 
+  //         up: controller.up 
+  //       } 
+  //     },
+  //   ])
+  // }
 
-  _netUse = () => {
-    let ss = net.run({ 
-      x: this.x, 
-      y: this.y, 
-      oldY: this.oldY,
-      xVelocity: this.xVelocity,
-      yVelocity: this.yVelocity,
-      jumping: this.jumping,
-      isDead: this.isDead,
-      score: this.score
-    });
-    console.log(ss)
-    controller.up = !!Math.round(ss.up);
-    controller.left = !!Math.round(ss.left);
-    controller.right = !!Math.round(ss.right);
-  }
+  // _netUse = () => {
+  //   let ss = net.run({ 
+  //     x: this.x, 
+  //     y: this.y, 
+  //     oldY: this.oldY,
+  //     xVelocity: this.xVelocity,
+  //     yVelocity: this.yVelocity,
+  //     jumping: this.jumping,
+  //     isDead: this.isDead,
+  //     score: this.score
+  //   });
+  //   console.log(ss)
+  //   controller.up = !!Math.round(ss.up);
+  //   controller.left = !!Math.round(ss.left);
+  //   controller.right = !!Math.round(ss.right);
+  // }
 
   /**
    * Старт новой игры
