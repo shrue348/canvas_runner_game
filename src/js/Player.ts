@@ -3,6 +3,7 @@ import { mapPartsArr } from './map';
 import { controller } from './controller';
 import { Animator } from './Animator';
 import { Enemy } from './Enemy';
+import { net } from './Ai';
 
 // класс игрока
 
@@ -175,7 +176,6 @@ export class Player {
   }
 
   /**
-   * TODO: сделать тест с моделью коллизий врага
    * @param enemy экземпляр Enemy
    * @param mapExample
    */
@@ -199,6 +199,52 @@ export class Player {
         }
       }
     }
+  }
+
+  /**
+   * 
+   */
+  _netTrain = (map: any) => {
+    console.log(map.globalShift);
+    let tiles = []
+
+    net.train([
+      { 
+        input: { 
+          x: this.x, 
+          y: this.y, 
+          oldY: this.oldY,
+          xVelocity: this.xVelocity,
+          yVelocity: this.yVelocity,
+          jumping: this.jumping,
+          isDead: this.isDead,
+          score: this.score,
+          // tiles:
+        }, 
+        output: { 
+          left: controller.left, 
+          right: controller.right, 
+          up: controller.up 
+        } 
+      },
+    ])
+  }
+
+  _netUse = () => {
+    let ss = net.run({ 
+      x: this.x, 
+      y: this.y, 
+      oldY: this.oldY,
+      xVelocity: this.xVelocity,
+      yVelocity: this.yVelocity,
+      jumping: this.jumping,
+      isDead: this.isDead,
+      score: this.score
+    });
+    console.log(ss)
+    controller.up = !!Math.round(ss.up);
+    controller.left = !!Math.round(ss.left);
+    controller.right = !!Math.round(ss.right);
   }
 
   /**
@@ -265,6 +311,8 @@ export class Player {
    * @param mapExample - экземпляр карты
    */
   draw (mapExample?: any): void {
+    // this._netTrain(mapExample);
+
     /**
      * если мертв return из функции
      */
@@ -309,6 +357,13 @@ export class Player {
      */
     if (this.isRun) this.x += this.xVelocity;
     this.y += this.yVelocity;
+
+    /**
+     * трение / торможение
+     */ 
+    this.xVelocity *= .55;
+    if (Math.abs(this.xVelocity) < .01) this.xVelocity = 0;
+    // this.xVelocity *= .9;
 
     /**
      * Коллизии с краем экрана
@@ -374,11 +429,6 @@ export class Player {
     // let tileX = Math.floor((this.x + this.width * 0.5) / tileSize);
     // let tileY = Math.floor((this.y + this.height) / tileSize);
     // display.message.innerHTML = '<br>xVelocity: ' + this.xVelocity + '<br>yVelocity: ' + this.yVelocity + '<br>X' + this.x + '<br>isRun: ' + this.isRun;
-
-    // трение / торможение
-    this.xVelocity *= .55;
-    if (Math.abs(this.xVelocity) < .01) this.xVelocity = 0;
-    // this.xVelocity *= .9;
 
     /**
      * Анимашки

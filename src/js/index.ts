@@ -42,7 +42,7 @@ import { Enemy } from './Enemy';
 import { Map } from './map';
 import { Snow } from './Snow';
 import { AssetManager } from './Assets';
-import { net } from './Ai';
+import { timeStamp } from './helper'
 
 /**
  * Размер тайла
@@ -55,7 +55,7 @@ export const tileSize = 64;
 export let soundBack = new Audio();
 soundBack.src = '../audio/back.mp3';
 soundBack.volume = 1;
-soundBack.addEventListener('canplay', e => soundBack.play());
+soundBack.addEventListener('onload', e => soundBack.play());
 
 /**
  * Настройки экрана и буфера для него
@@ -160,82 +160,56 @@ let startNewGame = () => {
 /**
  * Такт игры
  */
+let now,
+  dt = 0,
+  last = timeStamp(),
+  step = 1 / 60;
+
 let gameLoop = (): void => {
   if ((controller.restart || controller.start)) startNewGame();
 
+  now = timeStamp();
+  dt = dt + Math.min(1, (now - last) / 1000);
 
-  display.clear();
+  while (dt > step) {
+    dt = dt - step;
 
-  map.drawMap();
-  // snow.drawSnow();
+    display.clear();
+    map.drawMap();
+    // snow.drawSnow();
 
-  enemy.speed = map.speed + 2;
-  enemy.draw();
+    enemy.speed = map.speed + 2;
+    enemy.draw();
 
-  if (scene === 0) {
-    display.buffer.drawImage(logo, 165, 108, 316, 248);
-    player.drawStart(map);
-  } else {
-    if (!player.isDead) player.draw(map);
-    else player.drawDie();
-    player._testEnemyCollision(enemy, map);
-    player._testStarsCollision(map, player);
+    if (scene === 0) {
+      display.buffer.drawImage(logo, 165, 108, 316, 248);
+      player.drawStart(map);
+    } else {
+      if (!player.isDead) player.draw(map);
+      else player.drawDie();
+      player._testEnemyCollision(enemy, map);
+      player._testStarsCollision(map, player);
+    }
 
-    // net.train([
-    //   { 
-    //     input: { 
-    //       x: player.x, 
-    //       y: player.y, 
-    //       oldY: player.oldY,
-    //       xVelocity: player.xVelocity,
-    //       yVelocity: player.yVelocity,
-    //       jumping: player.jumping,
-    //       isDead: player.isDead,
-    //       score: player.score
-    //     }, 
-    //     output: { 
-    //       left: controller.left, 
-    //       right: controller.right, 
-    //       up: controller.up 
-    //     } 
-    //   },
-    // ])
+    /**
+     * Кнопки
+     */
+    display.buffer.fillStyle = '#1f2529';
+    display.buffer.fillRect(0, 640, 640, 256);
+    controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
 
-    let ss = net.run({ 
-      x: player.x, 
-      y: player.y, 
-      oldY: player.oldY,
-      xVelocity: player.xVelocity,
-      yVelocity: player.yVelocity,
-      jumping: player.jumping,
-      isDead: player.isDead,
-      score: player.score
-    });
-    console.log(ss)
-    controller.up = !!Math.round(ss.up);
-    controller.left = !!Math.round(ss.left);
-    controller.right = !!Math.round(ss.right);
-
-    // console.log(controller.up);
+    labels[0].text = player.score.toString();
+    labels.forEach(item => item.draw());
+    display.buffer.drawImage(pslogo, 20, 26, 28, 28);
   }
-
-  /**
-   * Кнопки
-   */
-  display.buffer.fillStyle = '#1f2529';
-  display.buffer.fillRect(0, 640, 640, 256);
-  controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
-
-  labels[0].text = player.score.toString();
-  labels.forEach(item => item.draw());
-
-  display.buffer.drawImage(pslogo, 20, 26, 28, 28);
-
+  
+  last = now;
+  
   /**
    * Рендерим буфер в канву
    */
   display.render();
-  window.requestAnimationFrame(gameLoop);
+  window.requestAnimationFrame(gameLoop); 
 };
 
 /**
