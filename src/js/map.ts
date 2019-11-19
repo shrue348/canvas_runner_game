@@ -366,6 +366,15 @@ export class Map {
     //
   }
 
+  centerTile (partIndex: number, tileIndex: number): Array<number> {
+    let shift = partIndex * tileSize * screenWidth;
+    let x = Math.floor((tileIndex % screenWidth) * tileSize + shift + (tileSize / 2) + this.globalShift);
+    let y = Math.floor(tileIndex / screenWidth) * tileSize + tileSize / 2;
+    let arr: Array<number> = [x, y];
+    
+    return arr;
+  }
+
   drawMap = (): void => {
     /**
      * Рисуем небо
@@ -431,7 +440,8 @@ export class Map {
 
     /**
      * Повышаем скорость
-     */// эталон 0.1 /  if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 250) && this.speed < 9) {
+     */
+    // эталон 0.1 /  if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 250) && this.speed < 9) {
     if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 280) && this.speed <= 10) {
       this.speed += .4;
     }

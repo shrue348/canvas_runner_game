@@ -3,7 +3,7 @@ import { mapPartsArr } from './map';
 import { controller } from './controller';
 import { Animator } from './Animator';
 import { Enemy } from './Enemy';
-// import { net } from './Ai';
+import { net } from './Ai';
 
 // класс игрока
 
@@ -46,11 +46,11 @@ export class Player {
     this.texture = new Image();
     this.texture.src = '/images/dog.png';
 
-    this.soundDin = new Audio('../audio/din.mp3');
-    this.soundDin.volume = .1;
+    // this.soundDin = new Audio('../audio/din.mp3');
+    // this.soundDin.volume = .1;
 
-    this.soundJump = new Audio('../audio/jump.mp3');
-    this.soundJump.volume = .7;
+    // this.soundJump = new Audio('../audio/jump.mp3');
+    // this.soundJump.volume = .7;
 
     /**
      * Модель коллизий персонажа
@@ -102,6 +102,7 @@ export class Player {
   get left (): number { return this.x + this.collisionModel[0][0]; }
   get top (): number { return this.y + this.collisionModel[0][1]; }
   get right (): number { return this.x + this.collisionModel[0][0] + this.collisionModel[0][3]; }
+  get center (): Array<number> { return [this.x + this.width/2, this.y + this.height/2] }
 
   /**
    * Коллизия героя с любым прямоугольником
@@ -160,7 +161,7 @@ export class Player {
               height: this.collisionModel[p][3]
             }, star)) {
 
-              this.soundDin.play();
+              // this.soundDin.play();
 
               map.mapPartsArr[a][i] = 0;
               player.score += 300;
@@ -202,33 +203,60 @@ export class Player {
   }
 
   /**
-   * 
+   * Получаем массивы x,y 2х тайлов
+   * Возвращаем расстояние межу центрами
    */
-  // _netTrain = (map: any) => {
-  //   console.log(map.globalShift);
-  //   let tiles = []
+  _width = (arr1: Array<number>, arr2: Array<number>): number => {
+    let cat1 = Math.abs(arr1[0] - arr2[0]);
+    let cat2 = Math.abs(arr1[1] - arr2[1]);
+    return Math.floor(Math.sqrt(cat1^2 + cat2^2));
+  }
 
-  //   net.train([
-  //     { 
-  //       input: { 
-  //         x: this.x, 
-  //         y: this.y, 
-  //         oldY: this.oldY,
-  //         xVelocity: this.xVelocity,
-  //         yVelocity: this.yVelocity,
-  //         jumping: this.jumping,
-  //         isDead: this.isDead,
-  //         score: this.score,
-  //         // tiles:
-  //       }, 
-  //       output: { 
-  //         left: controller.left, 
-  //         right: controller.right, 
-  //         up: controller.up 
-  //       } 
-  //     },
-  //   ])
-  // }
+  /**
+   * netInputTileValues - значения тайлов
+   * netInputWidths - расстояния от тайла до игрока по диагонали
+   * netInputHeightMultiples - множители текущий тайлов (зависит от высоты)
+   */
+  _netTrain = (map: any) => {
+    let netInputTileValues = [],
+      netInputWidths = [],
+      netInputHeightMultiples = [];
+
+    for (let i = 0; i < 2; i++){
+      for (let ii = 0; ii < map.mapPartsArr[i].length; ii++) {
+        let tileValue = map.mapPartsArr[i][ii];
+        let coords = map.centerTile(i, ii);
+
+        if (coords[0] >= 0 && coords[0] < 640) {
+          netInputTileValues.push(tileValue);
+          netInputWidths.push(this._width(this.center, coords));
+        }
+      }
+    }
+
+    console.log(netInputWidths[0]);
+
+    // net.train([
+    //   { 
+    //     input: { 
+    //       x: this.x, 
+    //       y: this.y, 
+    //       oldY: this.oldY,
+    //       xVelocity: this.xVelocity,
+    //       yVelocity: this.yVelocity,
+    //       jumping: this.jumping,
+    //       isDead: this.isDead,
+    //       score: this.score,
+    //       // tiles:
+    //     }, 
+    //     output: { 
+    //       left: controller.left, 
+    //       right: controller.right, 
+    //       up: controller.up 
+    //     } 
+    //   },
+    // ])
+  }
 
   // _netUse = () => {
   //   let ss = net.run({ 
@@ -311,7 +339,7 @@ export class Player {
    * @param mapExample - экземпляр карты
    */
   draw (mapExample?: any): void {
-    // this._netTrain(mapExample);
+    this._netTrain(mapExample);
 
     /**
      * если мертв return из функции
@@ -343,7 +371,7 @@ export class Player {
       this.jumping = true;
       this.isRun = true;
 
-      this.soundJump.play();
+      // this.soundJump.play();
     }
 
     /**

@@ -48,14 +48,15 @@ import { timeStamp } from './helper'
  * Размер тайла
  */
 export const tileSize = 64;
+export const screenDiag = 905;
 
 /**
  * Аудио
  */
 export let soundBack = new Audio();
-soundBack.src = '../audio/back.mp3';
-soundBack.volume = 1;
-soundBack.addEventListener('canplay', e => soundBack.play());
+// soundBack.src = '../audio/back.mp3';
+// soundBack.volume = 1;
+// soundBack.addEventListener('canplay', e => soundBack.play());
 
 /**
  * Настройки экрана и буфера для него
@@ -106,7 +107,7 @@ player.animation.change(player.spriteSheet.frame_sets[2], 5);
 /**
  * Создаем врагов
  */
-let enemy = new Enemy(6);
+export let enemy = new Enemy(6);
 
 /**
  * Создаем очки и лейблы на кнопки
@@ -190,6 +191,8 @@ let gameLoop = (): void => {
       player._testEnemyCollision(enemy, map);
       player._testStarsCollision(map, player);
     }
+
+    // console.log(map.centerTile(0,45));
 
     /**
      * Кнопки

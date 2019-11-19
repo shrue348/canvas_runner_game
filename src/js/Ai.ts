@@ -1,10 +1,11 @@
 // AI
-// const brain  = require('brain.js');
+// @ts-ignore
+const brain = require('brain.js');
 
-// export const net = new brain.NeuralNetwork({
-// 	 hiddenLayers: [256, 128, 64, 32, 16]
-// });
+export const net = new brain.NeuralNetwork({
+  hiddenLayers: [256, 128, 64, 32, 16]
+});
 
-// // @ts-ignore
-// window.net = net;
+// @ts-ignore
+window.net = net;
 

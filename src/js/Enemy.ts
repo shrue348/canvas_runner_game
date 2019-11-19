@@ -41,6 +41,7 @@ export class Enemy {
   get left (): number { return this.x; }
   get top (): number { return this.y; }
   get right (): number { return this.x + this.width; }
+  get center (): Array<number> { return [this.x + this.width/2, this.y + this.height/2] }
 
   spriteSheet = {
     frame_sets: [[0, 1, 2, 3, 2, 1]],

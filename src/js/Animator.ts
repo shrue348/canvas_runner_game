@@ -7,9 +7,9 @@ export class Animator {
   frame: number;
   frameHeight: number;
   frameIndex: number;
-  frameSet: any;
+  frameSet: Array<number>;
 
-  constructor (frameSet: any, delay: number) {
+  constructor (frameSet: Array<number>, delay: number) {
     this.count = 0;
     this.delay = delay; // такты игры до сл кадра
     this.frame = 0;
@@ -17,7 +17,7 @@ export class Animator {
     this.frameSet = frameSet;
   }
 
-  change = function (frameSet: any, delay: number = 15) {
+  change = function (frameSet: Array<number>, delay: number = 15) {
     if (this.frameSet !== frameSet) {
       this.count = 0;
       this.delay = delay;

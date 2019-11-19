@@ -54,7 +54,7 @@ export let controller: any = {
     }
   },
 
-  testButtonsClick: (e: any) => {
+  testButtonsClick: (e: MouseEvent) => {
     let ratio = Math.max(display.buffer_output_ratio, 1);
 
     for (let i = controller.buttons.length - 1; i > -1; --i) {
