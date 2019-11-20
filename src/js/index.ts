@@ -169,10 +169,10 @@ let now,
 let gameLoop = (): void => {
   if ((controller.restart || controller.start)) startNewGame();
 
-  // now = timeStamp();
-  // dt = dt + Math.min(1, (now - last) / 1000);
+  now = timeStamp();
+  dt = dt + Math.min(1, (now - last) / 1000);
 
-  // while (dt > step) {
+  while (dt > step) {
     dt = dt - step;
 
     display.clear();
@@ -204,18 +204,18 @@ let gameLoop = (): void => {
     labels[0].text = player.score.toString();
     labels.forEach(item => item.draw());
     display.buffer.drawImage(pslogo, 20, 26, 28, 28);
-  // }
+  }
   
-  // last = now;
+  last = now;
   
   /**
    * Рендерим буфер в канву
    */
-  // display.render();
-  window.requestAnimationFrame(display.render); 
+  display.render();
+  window.requestAnimationFrame(gameLoop); 
 };
 
-setInterval(gameLoop, 1000/60)
+// setInterval(gameLoop, 1000/60)
 
 
 /**
