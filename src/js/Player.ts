@@ -219,8 +219,8 @@ export class Player {
    */
   _netTrain = (map: any) => {
     let netInputTileValues = [],
-      netInputWidths = [],
-      netInputHeightMultiples = [];
+      netInputWidths: Array<number> = [],
+      netInputHeightMultiples: Array<number> = [];
 
     for (let i = 0; i < 2; i++){
       for (let ii = 0; ii < map.mapPartsArr[i].length; ii++) {
@@ -234,7 +234,18 @@ export class Player {
       }
     }
 
-    console.log(netInputWidths[0]);
+    netInputHeightMultiples = netInputWidths.map((el, i, arr) => {
+      return el;
+    })
+
+    // @ts-ignore
+    window.netInputTileValues = netInputTileValues;
+    // @ts-ignore
+    window.netInputWidths = netInputWidths;
+    // @ts-ignore
+    window.netInputHeightMultiples = netInputHeightMultiples;
+
+    // console.log(netInputWidths[0]);
 
     // net.train([
     //   { 
@@ -431,12 +442,21 @@ export class Player {
       let map = mapPartsArr[mapExample.mapParts[mapIndex]];
       let tileTextureIndex = map[bottomRow * 10 + leftColumn];
 
-      if (tileTextureIndex !== 99) {
-        if (tileTextureIndex > 0) tileTextureIndex = 1;
-        if (tileTextureIndex > 0 && tileTextureIndex !== undefined) {
+      // if (tileTextureIndex !== 99) {
+      //   if (tileTextureIndex > 0) tileTextureIndex = 1;
+      //   if (tileTextureIndex > 0 && tileTextureIndex !== undefined) {
+      //     this.collision[tileTextureIndex](this, bottomRow, leftColumn);
+      //   }
+      // }
+
+      if (tileTextureIndex !== undefined && tileTextureIndex !== 99) {
+        if ((tileTextureIndex > 0 && tileTextureIndex < 4) || (tileTextureIndex > 13 && tileTextureIndex < 19)) {
+          tileTextureIndex = 1;
           this.collision[tileTextureIndex](this, bottomRow, leftColumn);
         }
       }
+
+
 
       if (rightColumn >= 10) {
         mapIndex = Math.floor(rightColumn / 10);
@@ -445,9 +465,16 @@ export class Player {
       map = mapPartsArr[mapExample.mapParts[mapIndex]];
       tileTextureIndex = map[bottomRow * 10 + rightColumn];
 
-      if (tileTextureIndex !== 99) {
-        if (tileTextureIndex > 0) tileTextureIndex = 1;
-        if (tileTextureIndex > 0) {
+      // if (tileTextureIndex !== 99) {
+      //   if (tileTextureIndex > 0) tileTextureIndex = 1;
+      //   if (tileTextureIndex > 0) {
+      //     this.collision[tileTextureIndex](this, bottomRow, rightColumn);
+      //   }
+      // }
+
+      if (tileTextureIndex !== undefined && tileTextureIndex !== 99) {
+        if ((tileTextureIndex > 0 && tileTextureIndex < 4) || (tileTextureIndex > 13 && tileTextureIndex < 19)) {
+          tileTextureIndex = 1;
           this.collision[tileTextureIndex](this, bottomRow, rightColumn);
         }
       }

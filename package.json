@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prebuild": "rimraf public",
-    "build": "webpack --mode production --colors --progress",
+    "build": "GENERATE_SOURCEMAP=false && webpack --mode production --colors --progress",
     "prestart": "rimraf public && npm install",
     "start": "webpack-dev-server --mode development --hot --colors --progress",
     "dev": "webpack-dev-server --mode development --hot --colors --progress"
@@ -70,7 +70,10 @@
     "request": "^2.88.0"
   },
   "browserslist": [
-    "last 2 versions",
-    "ios >= 8"
+    "last 2 version",
+    "> 1%",
+    "maintained node versions",
+    "ios >= 8",
+    "not dead"
   ]
 }

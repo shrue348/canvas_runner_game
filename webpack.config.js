@@ -47,7 +47,7 @@ const config = {
 						plugins: [
 							isProduction ? require('cssnano') : () => {},
 							require('autoprefixer')({
-								browsers: ['last 2 versions']
+								overrideBrowserslist: ['last 2 versions']
 							})
 						]
 					}
