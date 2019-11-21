@@ -180,24 +180,14 @@ let gameLoop = (): void => {
     dt = dt - step;
 
     display.clear();
+    display.buffer.fillStyle = '#1f2529';
+
     map.drawMap();
     // snow.drawSnow();
 
     enemy.speed = map.speed + 2;
     enemy.draw();
-
-    /**
-     * Кнопки
-     */
-    display.buffer.fillStyle = '#1f2529';
-    display.buffer.fillRect(0, 640, 640, 256);
-    controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
-
-    labels[0].text = player.score.toString();
-    labels.forEach(item => item.draw());
-    display.buffer.drawImage(pslogo, 20, 26, 28, 28);
-
-
+    
     if (scene === 0) {
       display.buffer.drawImage(logo, 165, 108, 316, 248);
       player.drawStart(map);
@@ -219,6 +209,16 @@ let gameLoop = (): void => {
       player._testEnemyCollision(enemy, map);
       player._testStarsCollision(map, player);
     }
+
+		/**
+     * Кнопки
+     */
+    display.buffer.fillRect(0, 640, 640, 256);
+    controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
+
+    labels[0].text = player.score.toString();
+    labels.forEach(item => item.draw());
+    display.buffer.drawImage(pslogo, 20, 26, 28, 28);
 
     // console.log(map.centerTile(0,45));
 
