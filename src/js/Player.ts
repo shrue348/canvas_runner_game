@@ -463,7 +463,7 @@ export class Player {
       tileTextureIndex = map[bottomRow * 10 + rightColumn];
 
       if (tileTextureIndex !== undefined && tileTextureIndex !== 99) {
-        if ((tileTextureIndex > 0 && tileTextureIndex < 4) || (tileTextureIndex > 13 && tileTextureIndex < 19)) {
+        if ((tileTextureIndex > 0 && tileTextureIndex < 4) || (tileTextureIndex > 10 && tileTextureIndex < 19)) {
           tileTextureIndex = 1;
           this.collision[tileTextureIndex](this, bottomRow, rightColumn);
         }

@@ -180,7 +180,6 @@ let gameLoop = (): void => {
     dt = dt - step;
 
     display.clear();
-    display.buffer.fillStyle = '#1f2529';
 
     map.drawMap();
     // snow.drawSnow();
@@ -191,18 +190,6 @@ let gameLoop = (): void => {
     if (scene === 0) {
       display.buffer.drawImage(logo, 165, 108, 316, 248);
       player.drawStart(map);
-
-      display.buffer.font = '27px Arial';
-      display.buffer.fillStyle = '#ddd';
-      display.buffer.textAlign = 'center';
-      // display.buffer.fillText(desc, 320, 680, 500);
-      wrapText(display.buffer, desc, 320, 690, 480, 30);
-
-      display.buffer.font = '15px Arial';
-      display.buffer.fillStyle = '#aaa';
-      wrapText(display.buffer, copy, 320, 820, 580, 26);
-
-
     } else {
       if (!player.isDead) player.draw(map);
       else player.drawDie();
@@ -210,21 +197,33 @@ let gameLoop = (): void => {
       player._testStarsCollision(map, player);
     }
 
+
 		/**
      * Кнопки
      */
+    display.buffer.fillStyle = '#1f2529';
     display.buffer.fillRect(0, 640, 640, 256);
     controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
 
     labels[0].text = player.score.toString();
     labels.forEach(item => item.draw());
     display.buffer.drawImage(pslogo, 20, 26, 28, 28);
-
-    // console.log(map.centerTile(0,45));
-
   }
   
   last = now;
+
+
+  if (scene === 0) {
+    display.buffer.font = '27px Arial';
+    display.buffer.fillStyle = '#869b98';
+    display.buffer.textAlign = 'center';
+    // display.buffer.fillText(desc, 320, 680, 500);
+    wrapText(display.buffer, desc, 320, 690, 480, 30);
+
+    display.buffer.font = '15px Arial';
+    display.buffer.fillStyle = '#465855';
+    wrapText(display.buffer, copy, 320, 820, 580, 26);
+  }
   
   /**
    * Рендерим буфер в канву

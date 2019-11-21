@@ -430,7 +430,7 @@ export class Map {
     }
 
     this.globalShift -= this.speed;
-    this.globalBackShift -= this.speed * 1.2 + .5;
+    this.globalBackShift -= this.speed * 1.1 + .5;
 
     /**
      * Карта уехала на экран вправо
@@ -446,7 +446,7 @@ export class Map {
      */
     // эталон 0.1 /  if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 250) && this.speed < 9) {
     if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 280) && this.speed <= 10) {
-      this.speed += .4;
+      this.speed += .5;
     }
   }
 }
