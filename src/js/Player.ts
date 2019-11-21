@@ -218,18 +218,24 @@ export class Player {
    * netInputHeightMultiples - множители текущий тайлов (зависит от высоты)
    */
   _netTrain = (map: any) => {
-    let netInputTileValues = [],
+    let netInputTileValues: Array<number> = [],
       netInputWidths: Array<number> = [],
       netInputHeightMultiples: Array<number> = [];
 
     for (let i = 0; i < 2; i++){
       for (let ii = 0; ii < map.mapPartsArr[i].length; ii++) {
         let tileValue = map.mapPartsArr[i][ii];
-        let coords = map.centerTile(i, ii);
+        let coords = map.tileCoords(i, ii);
 
         if (coords[0] >= 0 && coords[0] < 640) {
           netInputTileValues.push(tileValue);
           netInputWidths.push(this._width(this.center, coords));
+
+          // визуализация
+          // display.buffer.beginPath();
+          // display.buffer.moveTo(this.center[0], this.center[1]);
+          // display.buffer.lineTo(coords[0] + tileSize / 2, coords[1] + tileSize / 2);
+          // display.buffer.stroke();
         }
       }
     }
@@ -429,9 +435,9 @@ export class Player {
      * mapIndex - индекс в массиве экрана - нужен чтобы знать в каком экране искать значение тайла
      */
     if (this.y - this.oldY > 0) { // bottom collision
-      let leftColumn = Math.floor((this.left - mapExample.globalShift) / tileSize);
-      let rightColumn = Math.floor((this.right - mapExample.globalShift) / tileSize);
-      let bottomRow = Math.floor(this.bottom / tileSize);
+      let leftColumn = Math.floor((this.left - mapExample.globalShift) / tileSize),
+       rightColumn = Math.floor((this.right - mapExample.globalShift) / tileSize),
+       bottomRow = Math.floor(this.bottom / tileSize);
 
       let mapIndex = 0;
       if (leftColumn >= 10) {
@@ -442,13 +448,6 @@ export class Player {
       let map = mapPartsArr[mapExample.mapParts[mapIndex]];
       let tileTextureIndex = map[bottomRow * 10 + leftColumn];
 
-      // if (tileTextureIndex !== 99) {
-      //   if (tileTextureIndex > 0) tileTextureIndex = 1;
-      //   if (tileTextureIndex > 0 && tileTextureIndex !== undefined) {
-      //     this.collision[tileTextureIndex](this, bottomRow, leftColumn);
-      //   }
-      // }
-
       if (tileTextureIndex !== undefined && tileTextureIndex !== 99) {
         if ((tileTextureIndex > 0 && tileTextureIndex < 4) || (tileTextureIndex > 13 && tileTextureIndex < 19)) {
           tileTextureIndex = 1;
@@ -456,21 +455,12 @@ export class Player {
         }
       }
 
-
-
       if (rightColumn >= 10) {
         mapIndex = Math.floor(rightColumn / 10);
         rightColumn = Math.floor(rightColumn % 10);
       }
       map = mapPartsArr[mapExample.mapParts[mapIndex]];
       tileTextureIndex = map[bottomRow * 10 + rightColumn];
-
-      // if (tileTextureIndex !== 99) {
-      //   if (tileTextureIndex > 0) tileTextureIndex = 1;
-      //   if (tileTextureIndex > 0) {
-      //     this.collision[tileTextureIndex](this, bottomRow, rightColumn);
-      //   }
-      // }
 
       if (tileTextureIndex !== undefined && tileTextureIndex !== 99) {
         if ((tileTextureIndex > 0 && tileTextureIndex < 4) || (tileTextureIndex > 13 && tileTextureIndex < 19)) {

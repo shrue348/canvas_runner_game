@@ -366,10 +366,10 @@ export class Map {
     //
   }
 
-  centerTile (partIndex: number, tileIndex: number): Array<number> {
+  tileCoords (partIndex: number, tileIndex: number): Array<number> {
     let shift = partIndex * tileSize * screenWidth;
-    let x = Math.floor((tileIndex % screenWidth) * tileSize + shift + (tileSize / 2) + this.globalShift);
-    let y = Math.floor(tileIndex / screenWidth) * tileSize + tileSize / 2;
+    let x = Math.floor((tileIndex % screenWidth) * tileSize + shift + this.globalShift);
+    let y = Math.floor(tileIndex / screenWidth) * tileSize;
     let arr: Array<number> = [x, y];
     
     return arr;
@@ -392,36 +392,39 @@ export class Map {
     /**
      * Для первых двух частей карты (только они попадают во вьюпорт)
      */
-    for (let p = 0; p < this.mapPartsArr.length - 1; p++) {
-      let map = this.mapPartsArr[p],
-        mapEffects = mapPartsEffectsArr[this.mapParts[p]],
-        mapPartShiftX = tileSize * 10 * p;
+    for (let i = 0; i < this.mapPartsArr.length - 1; i++) {
+      let map = this.mapPartsArr[i],
+        mapEffects = mapPartsEffectsArr[this.mapParts[i]],
+        mapPartShiftX = tileSize * 10 * i;
 
       /**
        * Рисуем речку
        */
-      for (let r = 0; r < screenWidth; r++) {
-        display.buffer.drawImage(textures[17], (r % screenWidth) * tileSize + mapPartShiftX + this.globalShift, 9.5 * tileSize, tileSize, tileSize);
+      for (let ii = 0; ii < screenWidth; ii++) {
+        let coords = this.tileCoords(i, ii);
+        display.buffer.drawImage(textures[17], coords[0], coords[1] + tileSize * 9.5);
       }
 
       /**
        * Добавляем елочки-снеговики
        */
-      for (let r = 0; r < mapEffects.length; r++) {
-        let effect = mapEffects[r];
+      for (let ii = 0; ii < mapEffects.length; ii++) {
+        let effect = mapEffects[ii];
         display.buffer.drawImage(effect.texture, effect.coords[0] + mapPartShiftX + this.globalShift, effect.coords[1], effect.size[0], effect.size[1]);
       }
 
       /**
        * Заполняем тайлы текстурой
        */
-      for (let i = 0; i < map.length; i++) {
-        if (map[i] > 0 && map[i] !== 99 /** не звезда */) {
-          display.buffer.drawImage(textures[map[i]], (i % screenWidth) * tileSize + mapPartShiftX + this.globalShift, Math.floor(i / screenWidth) * tileSize, tileSize, tileSize);
+      for (let ii = 0; ii < map.length; ii++) {
+        let coords = this.tileCoords(i, ii);
+
+        if (map[ii] > 0 && map[ii] !== 99 /** не звезда */) {
+          display.buffer.drawImage(textures[map[ii]], coords[0], coords[1]);
         }
 
-        if (map[i] === 99 /** звезда */) {
-          display.buffer.drawImage(star, (i % screenWidth) * tileSize + mapPartShiftX + this.globalShift, Math.floor(i / screenWidth) * tileSize, tileSize, tileSize);
+        if (map[ii] === 99 /** звезда */) {
+          display.buffer.drawImage(star, coords[0], coords[1]);
         }
       }
     }

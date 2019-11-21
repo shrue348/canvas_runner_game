@@ -42,7 +42,7 @@ import { Enemy } from './Enemy';
 import { Map } from './map';
 import { Snow } from './Snow';
 import { AssetManager } from './Assets';
-import { timeStamp } from './helper'
+import { timeStamp, wrapText } from './helper'
 
 /**
  * Размер тайла
@@ -125,6 +125,10 @@ let score = new Label(
 );
 labels.push(score);
 
+let desc = 'Помоги весёлому пёселю пробежать как можно дальше! Cобирай бонусы и берегись злых птиц!';
+let copy = '© shure348 2019';
+
+
 let pslogo = new Image();
 pslogo.src = '../images/icon-petshop.png';
 
@@ -139,7 +143,7 @@ let map = new Map();
 /**
  * Создаем снег
  */
-let snow = new Snow();
+// let snow = new Snow();
 
 let scene = 0;
 controller.buttons.forEach((el: Button) => el.isShow = false);
@@ -182,18 +186,6 @@ let gameLoop = (): void => {
     enemy.speed = map.speed + 2;
     enemy.draw();
 
-    if (scene === 0) {
-      display.buffer.drawImage(logo, 165, 108, 316, 248);
-      player.drawStart(map);
-    } else {
-      if (!player.isDead) player.draw(map);
-      else player.drawDie();
-      player._testEnemyCollision(enemy, map);
-      player._testStarsCollision(map, player);
-    }
-
-    // console.log(map.centerTile(0,45));
-
     /**
      * Кнопки
      */
@@ -204,6 +196,32 @@ let gameLoop = (): void => {
     labels[0].text = player.score.toString();
     labels.forEach(item => item.draw());
     display.buffer.drawImage(pslogo, 20, 26, 28, 28);
+
+
+    if (scene === 0) {
+      display.buffer.drawImage(logo, 165, 108, 316, 248);
+      player.drawStart(map);
+
+      display.buffer.font = '27px Arial';
+      display.buffer.fillStyle = '#ddd';
+      display.buffer.textAlign = 'center';
+      // display.buffer.fillText(desc, 320, 680, 500);
+      wrapText(display.buffer, desc, 320, 690, 480, 30);
+
+      display.buffer.font = '15px Arial';
+      display.buffer.fillStyle = '#aaa';
+      wrapText(display.buffer, copy, 320, 820, 580, 26);
+
+
+    } else {
+      if (!player.isDead) player.draw(map);
+      else player.drawDie();
+      player._testEnemyCollision(enemy, map);
+      player._testStarsCollision(map, player);
+    }
+
+    // console.log(map.centerTile(0,45));
+
   }
   
   last = now;

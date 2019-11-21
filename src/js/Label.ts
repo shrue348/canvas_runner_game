@@ -41,6 +41,7 @@ export class Label {
   draw (): void {
     display.buffer.font = `${this.textSize}px ${this.font}`;
     display.buffer.fillStyle = this.color;
+    display.buffer.textAlign = 'left';
     display.buffer.fillText(this.text, this.positionX, this.positionY);
   }
 }
