@@ -470,11 +470,6 @@ export class Player {
       }
     }
 
-    // телеметрия
-    // let tileX = Math.floor((this.x + this.width * 0.5) / tileSize);
-    // let tileY = Math.floor((this.y + this.height) / tileSize);
-    // display.message.innerHTML = '<br>xVelocity: ' + this.xVelocity + '<br>yVelocity: ' + this.yVelocity + '<br>X' + this.x + '<br>isRun: ' + this.isRun;
-
     /**
      * Анимашки
      */
@@ -499,6 +494,12 @@ export class Player {
     display.buffer.drawImage(this.spriteSheet.image, this.animation.frame * this.width, 0, this.width, this.height, Math.floor(this.x), Math.floor(this.y), this.width, this.height);
 
     if (!this.isDead) mapExample.mapDifficultyMultipler ++;
+
+
+    // телеметрия
+    // let tileX = Math.floor((this.x + this.width * 0.5) / tileSize);
+    // let tileY = Math.floor((this.y + this.height) / tileSize);
+    // display.message.innerHTML = '<br>xVelocity: ' + this.xVelocity + '<br>yVelocity: ' + this.yVelocity + '<br>X' + this.x + '<br>isRun: ' + this.isRun;
 
     /**
      * Рисуем модель коллизий
