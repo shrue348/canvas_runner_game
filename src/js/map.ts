@@ -446,7 +446,7 @@ export class Map {
      */
     // эталон 0.1 /  if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 250) && this.speed < 9) {
     if (Math.random() < 1 - Math.pow(.993, (this.mapDifficultyMultipler) % 200 / 280) && this.speed <= 10) {
-      this.speed += .5;
+      this.speed += .49999;
     }
   }
 }

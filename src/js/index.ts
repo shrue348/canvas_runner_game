@@ -203,7 +203,7 @@ let gameLoop = (): void => {
      */
     display.buffer.fillStyle = '#1f2529';
     display.buffer.fillRect(0, 640, 640, 256);
-    controller.buttons.forEach((item: { draw: () => void; }) => item.draw());
+    controller.buttons.forEach((item: { draw: () => void }) => item.draw());
 
     labels[0].text = player.score.toString();
     labels.forEach(item => item.draw());
@@ -295,7 +295,4 @@ assets.downloadAll(() => {
    */
   display.resize();
   gameLoop();
-
-  // @ts-ignore
-  window.assets = assets;
 });
