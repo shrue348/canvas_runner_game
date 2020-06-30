@@ -1,8 +1,8 @@
-# webpack-starter-config
+# Funny puppy - simple canvas game
 
-Simple webpack configuration with babel, sass and webpack-dev-server.
+demo:  http://jumper.aalexepf.beget.tech
 
-Js and css will minify in production mode.
+![Image alt](https://github.com/shrue348/canvas_runner_game/raw/master/screenshot.png)
 
 ## Development mode
 
